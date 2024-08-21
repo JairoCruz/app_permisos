@@ -7,8 +7,6 @@
 </head>
 <body>
     <h1>Bienvenido Registro</h1>
-    @foreach($empleados as $empleado) 
-        {{ $empleado->empleado }}
-    @endforeach
+    
 </body>
 </html>
