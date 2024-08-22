@@ -4,9 +4,9 @@
 
         <!-- Name -->
         <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
-            <x-input-error :messages="$errors->get('name')" class="mt-2" />
+            <x-input-label for="dui" :value="__('dui')" />
+            <x-text-input id="dui" class="block mt-1 w-full" type="text" name="dui" :value="old('dui')" required autofocus autocomplete="dui" />
+            <x-input-error :messages="$errors->get('dui')" class="mt-2" />
         </div>
 
         <!-- Email Address -->
@@ -14,6 +14,20 @@
             <x-input-label for="email" :value="__('Email')" />
             <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
+        </div>
+
+         <!-- Empleado -->
+         <div class="mt-4">
+            <x-input-label for="empleado" :value="__('empleado')" />
+            <x-text-input id="empleado" class="block mt-1 w-full"  name="empleado" :value="old('empleado')" required autocomplete="empleado" />
+            <x-input-error :messages="$errors->get('empleado')" class="mt-2" />
+        </div>
+
+         <!-- COD_EMPLEADO -->
+         <div class="mt-4">
+            <x-input-label for="cod_empleado" :value="__('cod_empleado')" />
+            <x-text-input id="cod_empleado" class="block mt-1 w-full" name="cod_empleado" :value="old('cod_empleado')" required autocomplete="cod_empleado" />
+            <x-input-error :messages="$errors->get('cod_empleado')" class="mt-2" />
         </div>
 
         <!-- Password -->
