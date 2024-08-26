@@ -9,7 +9,9 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6">
+                    <!-- Form -->
                     <form class="w-full">
+                        @csrf
                         <div class="flex flex-wrap -mx-3 mb-2">
 
                             <div class="w-full md:w-1/4 px-3 mb-6 md:mb-0">
@@ -28,7 +30,8 @@
                                 </label>
                                 <input
                                     class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                    id="grid-digitador" type="text" placeholder="juan juan perez quintanilla">
+                                    id="grid-digitador" type="text" placeholder="juan juan perez quintanilla"
+                                    value="{{ $d_empleado->empleado }}">
                             </div>
 
                         </div>
@@ -54,7 +57,8 @@
                                 </label>
                                 <input
                                     class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                    id="grid-nombre-empleado" type="text" placeholder="juan juan perez quintanilla">
+                                    id="grid-nombre-empleado" type="text" placeholder="juan juan perez quintanilla"
+                                    value="{{ $d_empleado->empleado }}">
                             </div>
 
 
@@ -80,7 +84,8 @@
                                 </label>
                                 <input
                                     class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                    id="grid-pertenece" type="text" placeholder="Unidad de talento humano">
+                                    id="grid-pertenece" type="text" placeholder="Unidad de talento humano"
+                                    value="{{ $d_empleado->unidad }}">
                             </div>
 
                         </div>
@@ -98,9 +103,12 @@
                                     <select
                                         class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                         id="grid-tipo-permiso">
-                                        <option>Personales</option>
-                                        <option>Estudio</option>
-                                        <option>Olvido de marcacion</option>
+                                        <option selected hidden>seleccione una opcion</option>
+                                        @foreach ($tipo_permisos as $t_permiso)
+                                            <option value="{{ $t_permiso->cod_permiso }}" {{ old('$t_permiso->cod_permiso') == $t_permiso->cod_permiso ? 'selected' : ''}}>
+                                                {{ $t_permiso->descripcion }}
+                                            </option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
@@ -201,7 +209,8 @@
                                     </label>
                                     <textarea
                                         class="appearance-none resize-none block w-full h-36 bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                        id="grid-fecha-inicio" type="date" value=""></textarea>
+                                        id="grid-fecha-inicio" type="date" value="">
+                                        </textarea>
                                 </div>
 
                             </div>

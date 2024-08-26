@@ -18,11 +18,16 @@ class PermisoController extends Controller
     public function create(Request $request)
     {
 
-        // $cod_empleado = $request->user()->cod_empleado;
-        // $data_empleado = DB::TABLE('PLANTMP_VISTA_EMPLEADOS')->where('codigo_empleado', $cod_empleado)->get();
+        $cod_empleado = $request->user()->cod_empleado;
+
+        // Get data from one "EMPLEADO"
+        $data_empleado = DB::TABLE('PLANTMP_VISTA_EMPLEADOS')->where('codigo_empleado', $cod_empleado)->first();
+
+        // Get data from "TIPO PERMISOS"
+        $data_tipo_permiso = DB::TABLE('PLANTMP_C_TIPOSPERMISOS')->select('cod_permiso','descripcion')->whereIn('cod_permiso', [15,6,18,36])->get();
         
-        //return view('permiso.create', ['user'=>$data_empleado]);
-        return view('permiso.create');
+        return view('permiso.create', ['d_empleado'=> $data_empleado, 'tipo_permisos' => $data_tipo_permiso]);
+        //return view('permiso.create');
     }
 
 }
