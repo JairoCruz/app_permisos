@@ -14,8 +14,7 @@ class PermisoController extends Controller
 {
     public function index()
     {
-        //$empleados = DB::TABLE('PLANTMP_VISTA_EMPLEADOS')->get();
-       // dd(Permiso::all());
+        
         $permisos = Permiso::all()->transform(function ($permiso, int $key){
             return [
                 'correlativo' => $permiso->correlativo,
@@ -27,8 +26,7 @@ class PermisoController extends Controller
                 'total_tiempo' => $this->total_tiempo_solicitado($permiso->total_tiempo) 
             ];
         });
-        //error_log($this->total_tiempo_solicitado(0.13));
-        //dd($this->total_tiempo_solicitado(0.13));
+        
         return view('permiso.index', ['permisos' => $permisos]);
     }
 
@@ -63,6 +61,7 @@ class PermisoController extends Controller
             'motivo' => ['required']
         ]);
 
+        // Get data from Session
         $cod_empleado = $request->user()->cod_empleado;
 
         // Get data from one "EMPLEADO"
@@ -100,7 +99,29 @@ class PermisoController extends Controller
 
         // Obtengo una referencia a la secuencia, luego la llamo por medio del nombre definido en la db
         $secuencia = DB::getSequence();
-        DB::table('PLANTMP_PERMISOS_EN_LINEA')->insert([
+
+        $p = new Permiso;
+        $p->cod_empleado = $cod_empleado;
+        $p->fecha_inicial = $fecha_inicial;
+        $p->fecha_final = $fecha_final;
+        $p->hora_inicial = $hora_inicial;
+        $p->hora_final = $hora_final;
+        $p->cod_permiso = $cod_permiso;
+        $p->ano = $ano;
+        $p->motivo = $motivo;
+        $p->goce_sueldo = $goce_sueldo;
+        $p->constancia = $constancia;
+        $p->fecha_solic = $fecha_solicitud;
+        $p->num_plaza = $num_plaza;
+        $p->mes = $mes;
+        $p->total_tiempo = $dato;
+        $p->correlativo = $secuencia->nextValue('SEQ_CORRELATIVO');
+
+        $p->save();
+
+        return redirect()->route('permiso.view', $p);
+
+       /*  DB::table('PLANTMP_PERMISOS_EN_LINEA')->insert([
             'cod_empleado' => $cod_empleado,
             'fecha_inicial' => $fecha_inicial,
             'fecha_final' => $fecha_final,
@@ -116,52 +137,16 @@ class PermisoController extends Controller
             'mes' => $mes,
             'total_tiempo' => $dato,
             'correlativo' => $secuencia->nextValue('SEQ_CORRELATIVO')
-        ]);
-
-        
-       /* 
-        if ($fecha_inicial_p->equalTo($fecha_final_p))
-        { 
-            error_log('fechas son iguales y es de vereficar si es permiso de ocho horas o fraccion de 8');
-            if ($hora_inicial_p->floatDiffInHours($hora_final_p) < 8)
-            { 
-                $horas_minutos = $hora_inicial_p->floatDiffInHours($hora_final_p);
-                error_log($horas_minutos);
-            }
-            else
-            { 
-                if ($hora_inicial_p->floatDiffInHours($hora_final_p) != 8)
-                {
-                    error_log('lo sentimos pero el tiempo es mayor a las horas laborables');
-                }
-                else {
-                    error_log('ok es un dia entero osea 8 horas');
-                }
-                
-            }
-        } else 
-        {
-            error_log('fechas no son iguales');
-            if ($fecha_inicial_p->diffInDays($fecha_final_p) && ($hora_inicial_p->floatDiffInHours($hora_final_p) == 8))
-            {
-            $diasT = ($fecha_inicial_p->diffInDays($fecha_final_p)) + 1;
-            $total_horas_solicitadas = $diasT * 8;
-            error_log($diasT);
-            error_log($total_horas_solicitadas);
-            }
-            else {
-                error_log('varios dias pero horas son distintas');
-                $diasT = (($fecha_inicial_p->diffInDays($fecha_final_p)) + 1) * 8;
-                error_log($diasT);
-                $horas_minitus = $hora_inicial_p->floatDiffInHours($hora_final_p);
-                $total_dias_horas = $diasT + $horas_minitus;
-                error_log($total_dias_horas);
-            }
-            
-        }
-         */
+        ]); */
 
     }
+
+    public function view(Permiso $permiso)
+    {
+        return view('permiso.view', ['permiso' => $permiso]);
+    }
+
+    // Metodos
 
     public function total_tiempo_solicitado($t_tiempo)
     {

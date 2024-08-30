@@ -10,4 +10,6 @@ class Permiso extends Model {
     public $sequencia = 'SEQ_CORRELATIVO';
     protected $primaryKey = 'correlativo';
 
+    public $timestamps = false;
+
 }

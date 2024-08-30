@@ -18,6 +18,7 @@ Route::middleware('auth')->group(function() {
     Route::get('/permisos', [PermisoController::class, 'index'])->name('permiso.index');
     Route::get('/registrar-permiso',[PermisoController::class, 'create'])->name('permiso.create');
     Route::post('/guardar-permiso', [PermisoController::class, 'store'])->name('permiso.store');
+    Route::get('/ver-permiso/{permiso}', [PermisoController::class, 'view'])->name('permiso.view');
 });
 
 Route::middleware('auth')->group(function () {
