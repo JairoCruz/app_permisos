@@ -12,8 +12,12 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+
+
 Route::middleware('auth')->group(function() {
+    Route::get('/permisos', [PermisoController::class, 'index'])->name('permiso.index');
     Route::get('/registrar-permiso',[PermisoController::class, 'create'])->name('permiso.create');
+    Route::post('/guardar-permiso', [PermisoController::class, 'store'])->name('permiso.store');
 });
 
 Route::middleware('auth')->group(function () {

@@ -10,7 +10,7 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6">
                     <!-- Form -->
-                    <form class="w-full">
+                    <form action="{{ route('permiso.store') }}" method="POST" class="w-full">
                         @csrf
                         <div class="flex flex-wrap -mx-3 mb-2">
 
@@ -30,8 +30,8 @@
                                 </label>
                                 <input
                                     class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                    id="grid-digitador" type="text" placeholder="juan juan perez quintanilla"
-                                    value="{{ $d_empleado->empleado }}">
+                                    id="grid-digitador" name="digitador" type="text" placeholder="juan juan perez quintanilla"
+                                    value="{{ $d_empleado->empleado }}" readonly="true">
                             </div>
 
                         </div>
@@ -46,7 +46,8 @@
                                 <input
                                     class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                     id="grid-fecha-registro" type="date" value="{{ date('Y-m-d', time()) }}"
-                                    disabled>
+                                    name="fecha_registro"
+                                    readonly="true">
                             </div>
 
 
@@ -58,7 +59,7 @@
                                 <input
                                     class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                     id="grid-nombre-empleado" type="text" placeholder="juan juan perez quintanilla"
-                                    value="{{ $d_empleado->empleado }}">
+                                    value="{{ $d_empleado->empleado }}" readonly="true">
                             </div>
 
 
@@ -73,7 +74,8 @@
                                 </label>
                                 <input
                                     class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                    id="grid-fecha-presentacion" type="date">
+                                    id="grid-fecha-presentacion" type="date" name="fecha_presentacion" value="{{ old('fecha_presentacion') }}" required>
+                                    <x-input-error :messages="$errors->get('fecha_presentacion')" class="mt-2" />
                             </div>
 
 
@@ -102,14 +104,15 @@
                                 <div class="relative">
                                     <select
                                         class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                        id="grid-tipo-permiso">
-                                        <option selected hidden>seleccione una opcion</option>
+                                        id="grid-tipo-permiso" name="tipo_permiso" value="{{ old('tipo_permiso') }}" required>
+                                        <option selected value hidden>seleccione una opcion</option>
                                         @foreach ($tipo_permisos as $t_permiso)
                                             <option value="{{ $t_permiso->cod_permiso }}" {{ old('$t_permiso->cod_permiso') == $t_permiso->cod_permiso ? 'selected' : ''}}>
                                                 {{ $t_permiso->descripcion }}
                                             </option>
                                         @endforeach
                                     </select>
+                                    <x-input-error :messages="$errors->get('tipo_permiso')" />
                                 </div>
                             </div>
 
@@ -123,11 +126,12 @@
                                 <div class="relative">
                                     <select
                                         class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                        id="grid-goce-sueldo">
-                                        <option selected hidden>seleccione una opcion</option>
-                                        <option>si</option>
-                                        <option>no</option>
+                                        id="grid-goce-sueldo" name="goce_sueldo" value="old('goce_sueldo')" required>
+                                        <option selected value hidden>seleccione una opcion</option>
+                                        <option value="V">si</option>
+                                        <option value="F">no</option>
                                     </select>
+                                    <x-input-error :messages="$errors->get('goce_sueldo')" />
                                 </div>
                             </div>
 
@@ -140,11 +144,12 @@
                                 <div class="relative">
                                     <select
                                         class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                        id="grid-constancia" value="no">
-                                        <option selected hidden>seleccione una opcion</option>
-                                        <option value="si">si</option>
-                                        <option value="no">no</option>
+                                        id="grid-constancia" name="constancia" value="old('constancia')" required>
+                                        <option selected value hidden>seleccione una opcion</option>
+                                        <option value="V">si</option>
+                                        <option value="F">no</option>
                                     </select>
+                                    <x-input-error :messages="$errors->get('constancia')" />
                                 </div>
                             </div>
 
@@ -162,7 +167,8 @@
                                         </label>
                                         <input
                                             class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                            id="grid-fecha-inicio" type="date" value="">
+                                            id="grid-fecha-inicio" type="date" name="fecha_inicial">
+                                            <x-input-error :messages="$errors->get('fecha_inicial')" />
                                     </div>
 
                                     <div class="w-full md:w-1/2 px-3 mb-6">
@@ -173,7 +179,8 @@
                                         </label>
                                         <input
                                             class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                            id="grid-fecha-inicio" type="time" value="">
+                                            id="grid-fecha-inicio" type="time" min="08:00" max="16:00" name="hora_inicial" required>
+                                            <x-input-error :messages="$errors->get('hora_inicial')" />
                                     </div>
 
                                     <div class="w-full md:w-1/2 px-3 mb-6">
@@ -184,7 +191,8 @@
                                         </label>
                                         <input
                                             class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                            id="grid-fecha-fin" type="date" value="">
+                                            id="grid-fecha-fin" type="date" name="fecha_final">
+                                            <x-input-error :messages="$errors->get('fecha_final')" />
                                     </div>
 
                                     <div class="w-full md:w-1/2 px-3 mb-6">
@@ -195,7 +203,8 @@
                                         </label>
                                         <input
                                             class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                            id="grid-hora-fin" type="time" value="">
+                                            id="grid-hora-fin" type="time" name="hora_final" min="08:00" max="16:00" required>
+                                            <x-input-error :messages="$errors->get('hora_final')" />
                                     </div>
                                 </div>
                             </div>
@@ -208,9 +217,9 @@
                                         motivo
                                     </label>
                                     <textarea
-                                        class="appearance-none resize-none block w-full h-36 bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                        id="grid-fecha-inicio" type="date" value="">
-                                        </textarea>
+                                        class="appearance-none uppercase resize-none block w-full h-36 bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                        id="grid-fecha-inicio" name="motivo"></textarea>
+                                        <x-input-error :messages="$errors->get('motivo')" />
                                 </div>
 
                             </div>
