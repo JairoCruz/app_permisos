@@ -19,27 +19,50 @@ class PermisoController extends Controller
 {
     public function index(Request $request)
     {
+        $tipo_permisos = array("personal" => 15, "enf. personal" => 6, "familiar/duelo" => 36, "matrimonio" => 18);
+        $estado_permisos = array("aprobado" => 'A', "pendiente" => 'P', "denegado" => 'D');
         $cod_empleado = $request->user()->cod_empleado;
 
-        $permisos = Permiso::where('cod_empleado', $cod_empleado)->get()->transform(function ($permiso, int $key) {
-            return [
-                'correlativo' => $permiso->correlativo,
-                'cod_permiso' => $this->tipo_permiso($permiso->cod_permiso),
-                'fecha_solic' => $permiso->fecha_solic,
-                'fecha_inicial' => $permiso->fecha_inicial,
-                'hora_inicial' => $permiso->hora_inicial,
-                'fecha_final' => $permiso->fecha_final,
-                'hora_final' => $permiso->hora_final,
-                'total_tiempo' => $this->total_tiempo_solicitado($permiso->total_tiempo),
-                'estado' => $permiso->estado
-            ];
-        });
+        
+        
+        $permisos = Permiso::where('cod_empleado', $cod_empleado)->orderByDesc('fecha_solic')->get()
+            ->transform(function ($permiso, int $key) {
+                return [
+                    'correlativo' => $permiso->correlativo,
+                    'cod_permiso' => $this->tipo_permiso($permiso->cod_permiso),
+                    'fecha_solic' => $permiso->fecha_solic,
+                    'fecha_inicial' => $permiso->fecha_inicial,
+                    'hora_inicial' => $permiso->hora_inicial,
+                    'fecha_final' => $permiso->fecha_final,
+                    'hora_final' => $permiso->hora_final,
+                    'total_tiempo' => $this->total_tiempo_solicitado($permiso->total_tiempo),
+                    'estado' => $permiso->estado
+                ];
+            });
 
-        //dd($this->paginate($permisos));
+        
+        // Verificar si el empleado ya ha registrado algun permiso
+        $i_permisos = $permisos->count();
+        
+        if(!empty($request->input('fecha_solicitud'))) {
+           $permisos = $permisos->where('fecha_solic', $request->date('fecha_solicitud')); 
+        }
+
+        if(!empty($request->query('tipo_permiso'))) {
+            $permisos = $permisos->where('cod_permiso', $request->input('tipo_permiso')); 
+        }
+
+        if(!empty($request->query('estado_permiso'))) {
+            $permisos = $permisos->where('estado', $request->input('estado_permiso')); 
+        }
+    
+
         $permisos = $this->paginate($permisos);
         $permisos->withPath(url('/permisos'));
-        //dd($permisos);
-        return view('permiso.index', ['permisos' => $permisos]);
+        $request->flash();
+        
+        //dd($permisos->total());
+        return view('permiso.index', ['i_permisos' => $i_permisos, 'permisos' => $permisos, 't_permisos' => $tipo_permisos, 'e_permisos' => $estado_permisos]);
     }
 
     public function paginate($items, $perPage = 15, $page = null, $options = [])
@@ -229,7 +252,7 @@ class PermisoController extends Controller
 
     public function tipo_permiso($cod_permiso)
     {
-        
+
 
         switch ($cod_permiso) {
             case 6:
