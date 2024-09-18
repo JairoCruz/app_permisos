@@ -20,6 +20,7 @@ Route::middleware(['auth', 'verified'])->group(function() {
     Route::post('/guardar-permiso', [PermisoController::class, 'store'])->name('permiso.store');
     Route::get('/ver-permiso/{permiso}', [PermisoController::class, 'view'])->name('permiso.view');
     Route::get('/imprimir-permiso/{permiso}', [PermisoController::class, 'imprimir'])->name('permiso.imprimir');
+    Route::get('/disponibilidad', action: [PermisoController::class, 'disponibilidad'])->name('permiso.disponibilidad');
 });
 
 Route::middleware('auth')->group(function () {

@@ -197,7 +197,13 @@
                         <!-- @foreach ($tipo_permiso as $tp => $tp1)
 -->
                         <div class="flex flex-row text-center  uppercase text-sm">
-                            <div class="w-1/6 text-start text-gray-700 text-xs pl-6 pt-1 pb-1">{{ $tipo_permiso[0]->descripcion }}
+                            <div class="w-1/6 text-start text-gray-700 text-xs pl-6 pt-1 pb-1">
+                                @if ($tipo_permiso[0]->cod_permiso != 16)
+                                {{ $tipo_permiso[0]->descripcion }}
+                                @else
+                                {{ substr($tipo_permiso[0]->descripcion, 0 , 10) }}
+                                @endif
+                            
                             </div>
                             <div class="flex w-5/6">
 
@@ -208,13 +214,13 @@
                                     </div>
 
                                     <div class="w-12 border border-gray-300 rounded pt-1 pb-1 mr-3">
-                                        @if ($permiso->goce_sueldo)
+                                        @if ($permiso->goce_sueldo == 'V')
                                             x
                                         @endif
                                     </div>
 
                                     <div class="w-12 border border-gray-300 rounded pt-1 pb-1 mr-3">
-                                        @if (!$permiso->goce_sueldo)
+                                        @if ($permiso->goce_sueldo == 'F')
                                             x
                                         @endif
                                     </div>
@@ -223,13 +229,13 @@
                                 <!-- row group inner 2 -->
                                 <div class="flex mr-4">
                                     <div class="w-12 border border-gray-300 rounded pt-1 pb-1 mr-3">
-                                        @if ($permiso->constancia)
+                                        @if ($permiso->constancia == 'V')
                                             x
                                         @endif
                                     </div>
 
                                     <div class="w-12 border border-gray-300 rounded pt-1 pb-1 mr-2">
-                                        @if (!$permiso->constancia)
+                                        @if ($permiso->constancia == 'F')
                                             x
                                         @endif
                                     </div>

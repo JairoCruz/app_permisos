@@ -5,19 +5,49 @@
         </h2>
     </x-slot>
 
-    <div class="py-12">
+    <div class="py-4">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    
-                
+            <div class="flex flex-row gap-4">
+                <div class="w-1/3">
+                    <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                        <div class="p-6 text-gray-900">
+                            <div class="border">
+                                <a href="{{ route('permiso.index') }}">Listar permisos</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="w-1/3">
+                    <div class="flex flex-col gap-2">
 
-                <a href="{{ route('permiso.create') }}" class="bg-green-800 hover:bg-green-700 text-white font-bold py-3 px-6 rounded">
-                    Crear permiso
-                </a>
+                    <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                        <div class="p-6 text-gray-900">
+                            <div class="border">
+                                <a href="{{ route('permiso.create') }}">Registrar permiso (propio)</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                        <div class="p-6 text-gray-900">
+                            <div class="border">
+                                <a href="">Registrar permiso (compañero)</a>
+                            </div>
+                        </div>
+                    </div>
 
+                    </div>
+                </div>
+                <div class="w-1/3">
+                    <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                        <div class="p-6 text-gray-900">
+                        <div class="border">
+                                <a href="{{ route('permiso.disponibilidad') }}">Disponibilidad de permisos</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
+
         </div>
     </div>
 </x-app-layout>

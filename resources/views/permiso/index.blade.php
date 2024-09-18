@@ -244,7 +244,7 @@
         @else
             <div class="flex w-96 place-content-center mx-auto mt-10">
                 <span class="text-gray-600 text-center text-base">
-                    Aun no tienes permisos registrados, para registrar haz click <a
+                    Aun no tienes permisos registrados. Para registrar haz click <a
                         class="underline  text-gray-600 hover:text-gray-900 rounded-md focus:outline-none"
                         href="{{ route('permiso.create') }}">aqui</a>
                 </span>

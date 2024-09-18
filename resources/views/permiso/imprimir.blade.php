@@ -241,7 +241,7 @@
                     <!-- sueldo_si -->
                     <td class="tg-0lax" colspan="1">
                         <div class="text-header-1">
-                            @if ($permiso->cod_permiso == $tp1 && $permiso->goce_sueldo == true)
+                            @if ($permiso->cod_permiso == $tp1 && $permiso->goce_sueldo == 'V')
                                 x
                             @endif
                         </div>
@@ -249,7 +249,7 @@
                     <!-- sueldo_no -->
                     <td class="tg-0lax" colspan="1">
                         <div class="text-header-1">
-                            @if ($permiso->cod_permiso == $tp1 && $permiso->goce_sueldo != true)
+                            @if ($permiso->cod_permiso == $tp1 && $permiso->goce_sueldo == 'F')
                                 x
                             @endif
                         </div>
@@ -257,7 +257,7 @@
                     <!-- constancia_si -->
                     <td class="tg-0lax" colspan="1">
                         <div class="text-header-1">
-                            @if ($permiso->cod_permiso == $tp1 && $permiso->constancia == true)
+                            @if ($permiso->cod_permiso == $tp1 && $permiso->constancia == 'V')
                                 x
                             @endif
                         </div>
@@ -265,7 +265,7 @@
                     <!-- constancia_no -->
                     <td class="tg-0lax" colspan="1">
                         <div class="text-header-1">
-                            @if ($permiso->cod_permiso == $tp1 && $permiso->constancia != true)
+                            @if ($permiso->cod_permiso == $tp1 && $permiso->constancia == 'F')
                                 x
                             @endif
                         </div>
