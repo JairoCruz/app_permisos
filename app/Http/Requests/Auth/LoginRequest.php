@@ -48,10 +48,11 @@ class LoginRequest extends FormRequest
 
             throw ValidationException::withMessages([
                 'dui' => trans('auth.failed'),
+                'password' => trans('auth.password'),
             ]);
         }
 
-        RateLimiter::clear($this->throttleKey());
+       // RateLimiter::clear($this->throttleKey());
     }
 
     /**
