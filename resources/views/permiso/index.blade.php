@@ -112,7 +112,7 @@
 
                         <div class="m-4">
                             <table class="table-auto w-full">
-                                <thead class="text-xs font-semibold uppercase text-gray-400 bg-gray-50">
+                                <thead class="text-xs font-semibold uppercase text-gray-500 bg-gray-50">
                                     <tr>
                                         <th class="p-2 whitespace-nowrap">
                                             <div class="font-semibold text-left">Correlativo</div>
@@ -149,7 +149,7 @@
                                     @if (!empty($permisos->items()))
 
                                     @foreach ($permisos as $permiso)
-                                        <tr>
+                                        <tr class="hover:bg-gray-100">
                                             <td class="p-2 whitespace-nowrap">
                                                 <div class="text-left">
                                                     <a href="{{ route('permiso.view', $permiso['correlativo']) }}">

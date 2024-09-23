@@ -47,8 +47,8 @@ class LoginRequest extends FormRequest
             // RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
-                'dui' => trans('auth.failed'),
-                'password' => trans('auth.password'),
+                'err_dui_pass' => trans('auth.dui_pass_invalid'),
+                
             ]);
         }
 

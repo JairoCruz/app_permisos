@@ -20,7 +20,7 @@ class PermisoController extends Controller
 {
     public function index(Request $request)
     {
-        $tipo_permisos = ["personal" => 15, "enf. personal" => 6, "familiar/duelo" => 36, "matrimonio" => 18, 'personal sin goce de sueldo' => 16, 'alumbramiento' => 8, 'paternidad' => 23];
+        $tipo_permisos = ["personal" => 15, "enfermedad personal" => 6, "familiar/duelo" => 36, "matrimonio" => 18, 'personal sin goce de sueldo' => 16, 'alumbramiento' => 8, 'paternidad' => 23];
         $estado_permisos = ["aprobado" => 'A', "pendiente" => 'P', "denegado" => 'D'];
 
         // Obtener codigo del empleado
@@ -62,6 +62,7 @@ class PermisoController extends Controller
             $permisos = $permisos->where('estado', $request->input('estado_permiso'));
         }
 
+        //dd($permisos);
         // Paginacion
         $permisos = Paginate::paginate($permisos);
         $permisos->withPath(url('/permisos'));
@@ -85,7 +86,9 @@ class PermisoController extends Controller
         // Get data from "TIPO PERMISOS"
         $data_tipo_permiso = DB::TABLE('PLANTMP_C_TIPOSPERMISOS')->select('cod_permiso', 'descripcion')->whereIn('cod_permiso', [15, 6, 18, 36, 8, 23])->get();
 
-        return view('permiso.create', ['d_empleado' => $data_empleado, 'tipo_permisos' => $data_tipo_permiso]);
+        $opciones = ['V' => 'si', 'F' => 'no'];
+
+        return view('permiso.create', ['d_empleado' => $data_empleado, 'tipo_permisos' => $data_tipo_permiso, 'opciones' => $opciones]);
         //return view('permiso.create');
     }
 
@@ -121,7 +124,7 @@ class PermisoController extends Controller
 
 
         // Save data
-        $cod_empleado = $request->user()->cod_empleado;
+        $cod_empleado = $data_empleado->codigo_empleado;
         $fecha_inicial = $fecha_inicial_p->format('Y-m-d');
         $fecha_final = $fecha_final_p->format('Y-m-d');
         $hora_inicial = $hora_inicial_p->format('H:i');
@@ -161,7 +164,7 @@ class PermisoController extends Controller
 
         $p->save();
 
-        return redirect()->route('permiso.view', $p->correlativo);
+        return redirect()->route('permiso.view', $p->correlativo)->with('message', 'Permiso registrado');
 
     }
 
@@ -190,6 +193,9 @@ class PermisoController extends Controller
 
         $tipo_permiso = match ($permiso1->cod_permiso) {
             '15' => ["personal" => 15, "enf. personal" => 6, "familiar/duelo" => 36, "matrimonio" => 18],
+            '36' => ["personal" => 15, "enf. personal" => 6, "familiar/duelo" => 36, "matrimonio" => 18],
+            '18' => ["personal" => 15, "enf. personal" => 6, "familiar/duelo" => 36, "matrimonio" => 18],
+            '6' => ["personal" => 15, "enf. personal" => 6, "familiar/duelo" => 36, "matrimonio" => 18],
             '16' => ["s/personal" => 16, "enf. personal" => 6, "familiar/duelo" => 36, "matrimonio" => 18],
             '8'  => ["alumbramiento" => 8, "enf. personal" => 6, "familiar/duelo" => 36, "matrimonio" => 18],
             '23'=>  ["paternidad" => 23, "enf. personal" => 6, "familiar/duelo" => 36, "matrimonio" => 18]

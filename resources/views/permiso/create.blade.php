@@ -5,7 +5,7 @@
         </h2>
     </x-slot>
 
-    <div class="py-2">
+    <div class="py-4">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6">
@@ -36,56 +36,55 @@
 
                         </div> -->
 
-                        <div class="flex flex-wrap -mx-3 mb-2">
+                        <div class="flex flex-wrap -mx-3 mb-4">
 
-                            <div class="w-full md:w-1/4 px-3 mb-6">
-                                <label class="block font-medium text-sm text-gray-700"
+                            <div class="w-full md:w-1/4 px-3">
+                                <label class="block font-medium text-xs text-gray-700"
                                     for="grid-fecha-registro">
                                     Fecha de registro
                                 </label>
                                 <input
-                                    class="w-full border-gray-300 mt-1 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm leading-tight"
+                                    class="w-full border-gray-400 h-8 mt-1 text-xs focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm leading-tight"
                                     id="grid-fecha-registro" type="date" value="{{ date('Y-m-d', time()) }}"
                                     name="fecha_registro"
                                     readonly="true">
                             </div>
 
-
-                            <div class="w-full md:w-3/4 px-3 mb-6">
-                                <label class="block font-medium text-sm text-gray-700"
+                            <div class="w-full md:w-3/4 px-3">
+                                <label class="block font-medium text-xs text-gray-700"
                                     for="grid-nombre-empleado">
                                     Nombre del empleado solicitante
                                 </label>
                                 <input
-                                    class="w-full border-gray-300 mt-1 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm leading-tight"
-                                    id="grid-nombre-empleado" type="text" placeholder="juan juan perez quintanilla"
+                                    class="w-full lowercase border-gray-400 h-8 mt-1 text-xs focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm leading-tight"
+                                    id="grid-nombre-empleado" type="text"
                                     value="{{ $d_empleado->empleado }}" readonly="true">
                             </div>
 
 
                         </div>
 
-                        <div class="flex flex-wrap -mx-3 mb-2">
+                        <div class="flex flex-wrap -mx-3 mb-4">
 
-                            <div class="w-full md:w-1/4 px-3 mb-6">
-                                <label class="block font-medium text-sm text-gray-700"
+                            <div class="w-full md:w-1/4 px-3">
+                                <label class="block font-medium text-xs text-gray-700"
                                     for="grid-fecha-presentacion">
                                     Fecha de presentacion
                                 </label>
                                 <input
-                                    class="w-full border-gray-300 mt-1 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm leading-tight"
+                                    class="w-full border-gray-400 text-xs h-8 mt-1 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm leading-tight"
                                     id="grid-fecha-presentacion" type="date" name="fecha_presentacion" value="{{ old('fecha_presentacion') }}" required>
                                     <x-input-error :messages="$errors->get('fecha_presentacion')" class="mt-2" />
                             </div>
 
 
-                            <div class="w-full md:w-3/4 px-3 mb-6">
-                                <label class="block font-medium text-sm text-gray-700"
+                            <div class="w-full md:w-3/4 px-3">
+                                <label class="block font-medium text-xs text-gray-700"
                                     for="grid-pertenece">
                                     Unidad
                                 </label>
                                 <input
-                                    class="w-full border-gray-300 mt-1 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm leading-tight"
+                                    class="w-full lowercase border-gray-400 h-8 text-xs mt-1 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm leading-tight"
                                     id="grid-pertenece" type="text" placeholder="Unidad de talento humano"
                                     value="{{ $d_empleado->unidad }}" readonly="true">
                             </div>
@@ -93,63 +92,74 @@
                         </div>
 
 
-                        <div class="flex flex-wrap -mx-3 mb-2">
+                        <div class="flex flex-wrap -mx-3 mb-4">
 
-                            <div class="w-full md:w-1/4 px-3 mb-6">
-                                <label class="block font-medium text-sm text-gray-700"
+                            <div class="w-full md:w-1/4 px-3">
+                                <label class="block font-medium text-xs text-gray-700"
                                     for="grid-tipo-permiso">
                                     Tipo de permiso
                                 </label>
 
                                 <div class="relative">
                                     <select
-                                        class="w-full border-gray-300 mt-1 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm leading-tight"
-                                        id="grid-tipo-permiso" name="tipo_permiso" value="{{ old('tipo_permiso') }}" required>
-                                        <option selected value hidden>seleccione una opcion</option>
+                                        class="w-full border-gray-400 h-8 text-xs mt-1 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm leading-tight"
+                                        id="grid-tipo-permiso" name="tipo_permiso" required>
+                                        <option value="" hidden>seleccione una opcion</option>
                                         @foreach ($tipo_permisos as $t_permiso)
-                                            <option value="{{ $t_permiso->cod_permiso }}" {{ old('$t_permiso->cod_permiso') == $t_permiso->cod_permiso ? 'selected' : ''}}>
+                                            <option value="{{ $t_permiso->cod_permiso }}" 
+                                            {{ old('tipo_permiso') == $t_permiso->cod_permiso ? 'selected' : ''}}>
                                                 {{ $t_permiso->descripcion }}
                                             </option>
                                         @endforeach
                                     </select>
-                                    <x-input-error :messages="$errors->get('tipo_permiso')" />
+                                    <x-input-error :messages="$errors->get('tipo_permiso')" class="text-xs" />
                                 </div>
                             </div>
 
 
-                            <div class="w-full md:w-1/4 px-3 mb-6">
-                                <label class="block font-medium text-sm text-gray-700"
+                            <div class="w-full md:w-1/4 px-3">
+                                <label class="block font-medium text-xs text-gray-700"
                                     for="grid-goce-sueldo">
                                     Goce de sueldo
                                 </label>
 
                                 <div class="relative">
                                     <select
-                                        class="w-full border-gray-300 mt-1 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm leading-tight"
-                                        id="grid-goce-sueldo" name="goce_sueldo" value="old('goce_sueldo')" required>
-                                        <option selected value hidden>seleccione una opcion</option>
-                                        <option value="V">si</option>
-                                        <option value="F">no</option>
+                                        class="w-full border-gray-400 h-8 text-xs mt-1 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm leading-tight"
+                                        id="grid-goce-sueldo" name="goce_sueldo" required>
+                                        <option value="" hidden>seleccione una opcion</option>
+                                        @foreach ($opciones as $opcion => $op )
+                                        <option value="{{ $opcion }}"
+                                        {{ old('goce_sueldo') == $opcion ? 'selected' : ''}}
+                                        >
+                                            {{ $op }}
+                                        </option>
+                                        @endforeach
                                     </select>
-                                    <x-input-error :messages="$errors->get('goce_sueldo')" />
+                                    <x-input-error :messages="$errors->get('goce_sueldo')" class="text-xs" />
                                 </div>
                             </div>
 
-                            <div class="w-full md:w-1/4 px-3 mb-6">
-                                <label class="block font-medium text-sm text-gray-700"
+                            <div class="w-full md:w-1/4 px-3">
+                                <label class="block font-medium text-xs text-gray-700"
                                     for="grid-constancia">
                                     Constancia
                                 </label>
 
                                 <div class="relative">
                                     <select
-                                        class="w-full border-gray-300 mt-1 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm leading-tight"
-                                        id="grid-constancia" name="constancia" value="old('constancia')" required>
+                                        class="w-full border-gray-400 h-8 text-xs mt-1 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm leading-tight"
+                                        id="grid-constancia" name="constancia" required>
                                         <option selected value hidden>seleccione una opcion</option>
-                                        <option value="V">si</option>
-                                        <option value="F">no</option>
+                                        @foreach ($opciones as $opcion => $op )
+                                        <option value="{{ $opcion }}"
+                                        {{ old('constancia') == $opcion ? 'selected' : '' }}
+                                        >
+                                            {{ $op }}
+                                        </option>
+                                        @endforeach
                                     </select>
-                                    <x-input-error :messages="$errors->get('constancia')" />
+                                    <x-input-error :messages="$errors->get('constancia')" class="text-xs" />
                                 </div>
                             </div>
 
@@ -159,52 +169,52 @@
                         <!-- 1 -->
                             <div class="w-full md:w-1/2">
                                 <div class="flex flex-wrap">
-                                    <div class="w-full md:w-1/2 px-3 mb-6">
+                                    <div class="w-full md:w-1/2 px-3 mb-4">
                                         <label
-                                            class="block font-medium text-sm text-gray-700"
+                                            class="block font-medium text-xs text-gray-700"
                                             for="grid-fecha-inicio">
                                             Fecha de inicio
                                         </label>
                                         <input
-                                            class="w-full border-gray-300 mt-1 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm leading-tight"
-                                            id="grid-fecha-inicio" type="date" name="fecha_inicial">
-                                            <x-input-error :messages="$errors->get('fecha_inicial')" />
+                                            class="w-full border-gray-400 h-8 text-xs mt-1 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm leading-tight"
+                                            id="grid-fecha-inicio" type="date" name="fecha_inicial" value="{{ old('fecha_inicial') }}" required>
+                                            <x-input-error :messages="$errors->get('fecha_inicial')" class="text-xs"/>
                                     </div>
 
-                                    <div class="w-full md:w-1/2 px-3 mb-6">
+                                    <div class="w-full md:w-1/2 px-3 mb-4">
                                         <label
-                                            class="block font-medium text-sm text-gray-700"
+                                            class="block font-medium text-xs text-gray-700"
                                             for="grid-hora-inicio">
                                             Hora de inicio
                                         </label>
                                         <input
-                                            class="w-full h-3/5 border-gray-300 mt-1 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm leading-tight"
-                                            id="grid-hora-inicio" type="time" min="08:00" max="16:00" name="hora_inicial" required>
-                                            <x-input-error :messages="$errors->get('hora_inicial')" />
+                                            class="w-full h-3/5 border-gray-400 h-8 text-xs mt-1 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm leading-tight"
+                                            id="grid-hora-inicio" type="time" min="08:00" max="16:00" name="hora_inicial" value="{{ old('hora_inicial') }}" required>
+                                            <x-input-error :messages="$errors->get('hora_inicial')" class="text-xs"/>
                                     </div>
 
-                                    <div class="w-full md:w-1/2 px-3 mb-6">
+                                    <div class="w-full md:w-1/2 px-3 mt-3 mb-4">
                                         <label
-                                            class="block font-medium text-sm text-gray-700"
+                                            class="block font-medium text-xs text-gray-700"
                                             for="grid-fecha-fin">
                                             Fecha de fin
                                         </label>
                                         <input
-                                            class="w-full border-gray-300 mt-1 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm leading-tight"
-                                            id="grid-fecha-fin" type="date" name="fecha_final">
-                                            <x-input-error :messages="$errors->get('fecha_final')" />
+                                            class="w-full border-gray-400 h-8 text-xs mt-1 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm leading-tight"
+                                            id="grid-fecha-fin" type="date" name="fecha_final" value="{{ old('fecha_final') }}" required>
+                                            <x-input-error :messages="$errors->get('fecha_final')" class="text-xs"/>
                                     </div>
 
-                                    <div class="w-full md:w-1/2 px-3 mb-6">
+                                    <div class="w-full md:w-1/2 px-3 mt-3 mb-4">
                                         <label
-                                            class="block font-medium text-sm text-gray-700"
+                                            class="block font-medium text-xs text-gray-700"
                                             for="grid-hora-fin">
                                             Hora de fin
                                         </label>
                                         <input
-                                            class="w-full h-3/5 border-gray-300 mt-1 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm leading-tight"
-                                            id="grid-hora-fin" type="time" name="hora_final" min="08:00" max="16:00" required>
-                                            <x-input-error :messages="$errors->get('hora_final')" />
+                                            class="w-full h-3/5 border-gray-400 h-8 text-xs mt-1 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm leading-tight"
+                                            id="grid-hora-fin" type="time" name="hora_final" min="08:00" max="16:00" value="{{ old('hora_final') }}" required>
+                                            <x-input-error :messages="$errors->get('hora_final')" class="text-xs"/>
                                     </div>
                                 </div>
                             </div>
@@ -212,15 +222,19 @@
                             <div class="w-full md:w-1/2">
 
                                 <div class="w-full px-3 mb-6">
-                                    <label class="block font-medium text-sm text-gray-700"
+                                    <label class="block font-medium text-xs text-gray-700"
                                         for="grid-motivo">
                                         Motivo
                                     </label>
-                                    <textarea
-                                    
-                                        class="uppercase resize-none block w-full h-32 border-gray-300 rounded-md leading-tight mt-1 focus:border-indigo-500 focus:ring-indigo-500  shadow-sm"
-                                        id="grid-motivo" name="motivo"></textarea>
-                                        <x-input-error :messages="$errors->get('motivo')" />
+                                    <textarea                                    
+                                        class="resize-none block w-full text-xs h-28 border-gray-400 rounded-md leading-tight mt-1 focus:border-indigo-500 focus:ring-indigo-500  shadow-sm"
+                                        id="grid-motivo" name="motivo" required>
+                                        @if (old('motivo'))
+                                        {{ old('motivo') }}
+                                        @endif
+                                        
+                                    </textarea>
+                                        <x-input-error :messages="$errors->get('motivo')" class="text-xs"/>
                                 </div>
 
                             </div>

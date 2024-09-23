@@ -16,5 +16,6 @@ return [
     'failed' => 'Autentificación fallida.',
     'password' => 'La contraseña es incorrecta.',
     'throttle' => 'Demasiados intentos de inicio de sesion. Por favor intenta en :seconds segundos.',
+    'dui_pass_invalid' => 'Las credenciales provistas son invalidad.Intentalo de nuevo.',
 
 ];
