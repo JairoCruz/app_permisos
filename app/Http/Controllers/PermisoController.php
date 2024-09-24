@@ -121,15 +121,13 @@ class PermisoController extends Controller
         $hora_inicial_p = Carbon::parse($request->hora_inicial);
         $hora_final_p = Carbon::parse($request->hora_final);
 
-
-
-        // Save data
+        // Transform data
         $cod_empleado = $data_empleado->codigo_empleado;
         $fecha_inicial = $fecha_inicial_p->format('Y-m-d');
         $fecha_final = $fecha_final_p->format('Y-m-d');
         $hora_inicial = $hora_inicial_p->format('H:i');
         $hora_final = $hora_final_p->format('H:i');
-        $cod_permiso = $request->tipo_permiso;
+        $cod_permiso = ($request->tipo_permiso == 15 && $request->goce_sueldo == 'F') ? 16 : $request->tipo_permiso;
         $ano = $ano_p->year;
         //$usuario_crea = $request->digitador;
         $motivo = $request->motivo;
@@ -139,19 +137,27 @@ class PermisoController extends Controller
         $num_plaza = $data_empleado->num_plaza;
         $mes = $ano_p->month;
         //$tipo_empleado_ = $data_empleado->tipo_empleado;
-
-        $dato = Times::total_horas_minutos($fecha_inicial_p, $fecha_final_p, $hora_inicial_p, $hora_final_p);
+       
+        $total_tiempo = Times::total_horas_minutos($fecha_inicial_p, $fecha_final_p, $hora_inicial_p, $hora_final_p);
+       
+        $verificar_duplicado = Permiso::verificar($cod_empleado, $fecha_inicial, $fecha_final, $hora_inicial, $hora_final, $cod_permiso, $goce_sueldo, $constancia)->count();
+        // Verificar si ya existe un registro con los mismos datos ingresados.
+        if ($verificar_duplicado != 0) {
+            return redirect()->
+            back()->
+            with('errorss', 'Ya existe un permiso con los mismos datos que intenta ingresar.')->
+            withInput(); 
+        }
 
         // Obtengo una referencia a la secuencia, luego la llamo por medio del nombre definido en la db
         $secuencia = DB::getSequence();
-
         $p = new Permiso;
         $p->cod_empleado = $cod_empleado;
         $p->fecha_inicial = $fecha_inicial;
         $p->fecha_final = $fecha_final;
         $p->hora_inicial = $hora_inicial;
         $p->hora_final = $hora_final;
-        $p->cod_permiso = ($cod_permiso == 15 && $goce_sueldo == 'F') ? 16 : $cod_permiso;
+        $p->cod_permiso = $cod_permiso;
         $p->ano = $ano;
         $p->motivo = $motivo;
         $p->goce_sueldo = $goce_sueldo;
@@ -159,11 +165,12 @@ class PermisoController extends Controller
         $p->fecha_solic = $fecha_solicitud;
         $p->num_plaza = $num_plaza;
         $p->mes = $mes;
-        $p->total_tiempo = $dato;
+        $p->total_tiempo = $total_tiempo;
         $p->correlativo = $secuencia->nextValue('SEQ_CORRELATIVO');
 
+       // Guardar datos
         $p->save();
-
+             
         return redirect()->route('permiso.view', $p->correlativo)->with('message', 'Permiso registrado');
 
     }
@@ -197,8 +204,8 @@ class PermisoController extends Controller
             '18' => ["personal" => 15, "enf. personal" => 6, "familiar/duelo" => 36, "matrimonio" => 18],
             '6' => ["personal" => 15, "enf. personal" => 6, "familiar/duelo" => 36, "matrimonio" => 18],
             '16' => ["s/personal" => 16, "enf. personal" => 6, "familiar/duelo" => 36, "matrimonio" => 18],
-            '8'  => ["alumbramiento" => 8, "enf. personal" => 6, "familiar/duelo" => 36, "matrimonio" => 18],
-            '23'=>  ["paternidad" => 23, "enf. personal" => 6, "familiar/duelo" => 36, "matrimonio" => 18]
+            '8' => ["alumbramiento" => 8, "enf. personal" => 6, "familiar/duelo" => 36, "matrimonio" => 18],
+            '23' => ["paternidad" => 23, "enf. personal" => 6, "familiar/duelo" => 36, "matrimonio" => 18]
         };
 
 
