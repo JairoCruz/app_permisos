@@ -6,23 +6,28 @@
     </x-slot>
 
     <div class="py-2">
-       
-        
+
+
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-        
-        @if (session()->has('message'))
-            <div class="mb-2 px-4 py-2 text-white text-sm bg-indigo-400 shadow-sm sm:rounded-lg">
-                {{  session()->get('message')}}
+
+            <div class="w-full items-center flex flex-row h-8 mb-2 pl-4 content-center text-white text-xs bg-blue-600 border border-blue-800 shadow-sm sm:rounded-lg">
+                
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="size-5">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
+                </svg>
+                <span class="ml-2">Por favor antes de imprimir el permiso verifica que los datos esten correctos.</span>
             </div>
-        @endif
 
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     <div class="w-full">
-                        <!-- row logo -->
+                        <!-- 
+                         row logo
                         <div class="flex flex-row text-center">
                             <div class="w-1/4">
-                                <!-- imagen logo -->
+                                 imagen logo 
                             </div>
                             <div class="grow w-2/4 font-semibold break-words">
                                 <p class="leading-normal text-sm uppercase">
@@ -32,12 +37,17 @@
                                 </p>
                             </div>
                             <div class="w-1/4">
-                                <!-- imagen logo -->
+                                 imagen logo 
                             </div>
                         </div>
+
+                         -->
+
                         <!-- row data 1 -->
+
                         <div class="flex flex-row text-center my-2">
-                            <div class="w-1/6 text-start text-xs text-gray-700 uppercase pl-6 pt-2 pb-1">lugar y fecha</div>
+                            <div class="w-1/6 text-start text-xs text-gray-700 uppercase pl-6 pt-2 pb-1">lugar y fecha
+                            </div>
                             <div class="w-5/6 border border-gray-300 text-start pl-6 pt-1 pb-1 rounded">
                                 {{ $permiso['fecha_solic'] }}
                             </div>
@@ -45,7 +55,8 @@
 
                         <!-- row data 2 -->
                         <div class="flex flex-row text-center text-sm my-2">
-                            <div class="w-1/6 text-start text-xs text-gray-700 uppercase pl-6 pt-2 pb-1">solicitante</div>
+                            <div class="w-1/6 text-start text-xs text-gray-700 uppercase pl-6 pt-2 pb-1">solicitante
+                            </div>
                             <div class="w-5/6 border border-gray-300 text-start pl-6 pt-1 pb-1 rounded">
                                 {{ $empleado->empleado }}
                             </div>
@@ -86,7 +97,8 @@
                         <!-- header tiempo solicitado -->
 
                         <div class="flex flex-row text-center text-sm pt-6">
-                            <div class="w-1/6 text-start uppercase font-semibold text-gray-800 text-xs pl-6 pt-0 pb-1">Tipo de permiso</div>
+                            <div class="w-1/6 text-start uppercase font-semibold text-gray-800 text-xs pl-6 pt-0 pb-1">
+                                Tipo de permiso</div>
                             <div class="flex w-5/6">
                                 <!-- row group inner 1 -->
                                 <div class="flex mr-4">
@@ -208,11 +220,11 @@
                         <div class="flex flex-row text-center  uppercase text-sm">
                             <div class="w-1/6 text-start text-gray-700 text-xs pl-6 pt-1 pb-1">
                                 @if ($tipo_permiso[0]->cod_permiso != 16)
-                                {{ $tipo_permiso[0]->descripcion }}
+                                    {{ $tipo_permiso[0]->descripcion }}
                                 @else
-                                {{ substr($tipo_permiso[0]->descripcion, 0 , 10) }}
+                                    {{ substr($tipo_permiso[0]->descripcion, 0, 10) }}
                                 @endif
-                            
+
                             </div>
                             <div class="flex w-5/6">
 
@@ -306,7 +318,8 @@
 @endforeach -->
 
                         <div class="flex flex-col text-center uppercase text-sm my-4">
-                            <div class="w-full text-start text-xs text-gray-700 pl-6 pt-2 pb-1">motivo que justifica el permiso</div>
+                            <div class="w-full text-start text-xs text-gray-700 pl-6 pt-2 pb-1">motivo que justifica el
+                                permiso</div>
                             <div class="w-full text-start pl-6 pt-2">
                                 <div class="w-full border border-gray-300 rounded  pt-1 pb-1 pl-8">
                                     {{ $permiso['motivo'] }}
@@ -320,18 +333,18 @@
 
                         <div class="w-1/2">
                             <div class="w-24 pl-6">
-                            <a href="{{ route('permiso.index') }}"
-                            class="block h-10 content-center text-center border text-gray-500 hover:text-gray-800 text-sm py-1 px-2 rounded">Salir</a>
+                                <a href="{{ route('permiso.index') }}"
+                                    class="block h-10 content-center text-center border text-gray-500 hover:text-gray-800 text-sm py-1 px-2 rounded">Salir</a>
                             </div>
-                            
+
                         </div>
 
                         <div class="flex justify-end w-1/2">
                             <div class="w-24">
-                            <a href="{{ route('permiso.imprimir', $permiso->correlativo) }}"
-                            class="block h-10 content-center text-center border bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded">imprimir</a>
+                                <a href="{{ route('permiso.imprimir', $permiso->correlativo) }}"
+                                    class="block h-10 content-center text-center border bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded">imprimir</a>
                             </div>
-                            
+
                         </div>
 
                     </div>

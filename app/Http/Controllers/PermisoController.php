@@ -143,9 +143,9 @@ class PermisoController extends Controller
         $verificar_duplicado = Permiso::verificar($cod_empleado, $fecha_inicial, $fecha_final, $hora_inicial, $hora_final, $cod_permiso, $goce_sueldo, $constancia)->count();
         // Verificar si ya existe un registro con los mismos datos ingresados.
         if ($verificar_duplicado != 0) {
+            notify()->error('Ya existe un permiso con los mismos datos que intenta ingresar.');
             return redirect()->
             back()->
-            with('errorss', 'Ya existe un permiso con los mismos datos que intenta ingresar.')->
             withInput(); 
         }
 
@@ -170,8 +170,8 @@ class PermisoController extends Controller
 
        // Guardar datos
         $p->save();
-             
-        return redirect()->route('permiso.view', $p->correlativo)->with('message', 'Permiso registrado');
+        notify()->success('se ha creado el recurso');
+        return redirect()->route('permiso.view', $p->correlativo);
 
     }
 

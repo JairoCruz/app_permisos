@@ -10,11 +10,12 @@
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-
+        @notifyCss
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans antialiased">
+    @include('notify::components.notify')
         <div class="min-h-screen bg-gray-200">
             @include('layouts.navigation')
 
@@ -32,5 +33,6 @@
                 {{ $slot }}
             </main>
         </div>
+        @notifyJs
     </body>
 </html>
