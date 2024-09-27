@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Registrar permiso') }}
+            {{ __('Modificar permiso') }}
         </h2>
     </x-slot>
 
@@ -11,7 +11,8 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6">
                     <!-- Form -->
-                    <form action="{{ route('permiso.store') }}" method="POST" class="w-full">
+                    <form action="{{ route('permiso.update', $permiso) }}" method="POST" class="w-full">
+                        @method('PUT')
                         @include('permiso._form')
                     </form>
                 </div>

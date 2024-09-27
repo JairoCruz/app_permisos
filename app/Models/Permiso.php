@@ -8,6 +8,21 @@ use Illuminate\Database\Eloquent\Model;
 class Permiso extends Model
 {
 
+    protected $fillable = [
+        'fecha_solic',
+        'cod_permiso',
+        'goce_sueldo',
+        'constancia',
+        'fecha_inicial',
+        'fecha_final',
+        'hora_inicial',
+        'hora_final',
+        'motivo',
+        'ano',
+        'mes',
+        'total_tiempo'
+        ] ;
+
     protected $table = 'PLANTMP_PERMISOS_EN_LINEA';
     // public $sequencia = 'SEQ_CORRELATIVO';
     protected $primaryKey = 'correlativo';

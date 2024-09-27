@@ -19,6 +19,8 @@ Route::middleware(['auth', 'verified'])->group(function() {
     Route::get('/registrar-permiso',[PermisoController::class, 'create'])->name('permiso.create');
     Route::post('/guardar-permiso', [PermisoController::class, 'store'])->name('permiso.store');
     Route::get('/ver-permiso/{permiso}', [PermisoController::class, 'view'])->name('permiso.view');
+    Route::get('/modificar-permiso/{permiso}', [PermisoController::class,'edit'])->name('permiso.edit');
+    Route::put('/modificar-permiso/{permiso}', [PermisoController::class,'update'])->name('permiso.update');
     Route::get('/imprimir-permiso/{permiso}', [PermisoController::class, 'imprimir'])->name('permiso.imprimir');
     Route::get('/disponibilidad', action: [PermisoController::class, 'disponibilidad'])->name('permiso.disponibilidad');
 });

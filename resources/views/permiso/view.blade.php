@@ -9,7 +9,7 @@
 
 
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-
+            @if($permiso['estado'] != $estado_permiso['aprobado'])
             <div class="w-full items-center flex flex-row h-8 mb-2 pl-4 content-center text-white text-xs bg-blue-600 border border-blue-800 shadow-sm sm:rounded-lg">
                 
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -19,7 +19,8 @@
                 </svg>
                 <span class="ml-2">Por favor antes de imprimir el permiso verifica que los datos esten correctos.</span>
             </div>
-
+            @endif
+                
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     <div class="w-full">
@@ -334,16 +335,23 @@
                         <div class="w-1/2">
                             <div class="w-24 pl-6">
                                 <a href="{{ route('permiso.index') }}"
-                                    class="block h-10 content-center text-center border text-gray-500 hover:text-gray-800 text-sm py-1 px-2 rounded">Salir</a>
+                                    class="block h-10 content-center text-center border border-gray-400 bg-gray-200  text-gray-600 hover:text-gray-900 text-sm py-1 px-2 rounded">Salir</a>
                             </div>
 
                         </div>
 
                         <div class="flex justify-end w-1/2">
-                            <div class="w-24">
-                                <a href="{{ route('permiso.imprimir', $permiso->correlativo) }}"
-                                    class="block h-10 content-center text-center border bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded">imprimir</a>
+                            
+                            @if($permiso['estado'] == $estado_permiso['aprobado'])
+                            <div class="w-28 mr-6">
+                                <a href="{{ route('permiso.edit', $permiso) }}"
+                                    class="block h-10 content-center text-center border bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4  border border-blue-700 rounded">Modificar</a>
                             </div>
+                            <div class="w-28">
+                                <a href="{{ route('permiso.imprimir', $permiso->correlativo) }}"
+                                    class="block h-10 content-center text-center border bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 border border-green-800 rounded">Imprimir</a>
+                            </div>
+                            @endif
 
                         </div>
 
