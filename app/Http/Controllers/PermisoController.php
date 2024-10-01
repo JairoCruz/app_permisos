@@ -86,6 +86,7 @@ class PermisoController extends Controller
         // Get data from "TIPO PERMISOS"
         $data_tipo_permiso = DB::TABLE('PLANTMP_C_TIPOSPERMISOS')->select('cod_permiso', 'descripcion')->whereIn('cod_permiso', [15, 6, 18, 36, 8, 23])->get();
 
+        // Data for opcions
         $opciones = ['V' => 'si', 'F' => 'no'];
 
         return view('permiso.create', ['permiso' => $permiso, 'empleado' => $data_empleado, 'tipo_permisos' => $data_tipo_permiso, 'opciones' => $opciones]);
@@ -160,7 +161,7 @@ class PermisoController extends Controller
         // Guardar datos
         $p->save();
         // Notificar sobre registro guardado
-        notify()->success('se registrado el permiso');
+        notify()->success('Se ha registrado el permiso con éxito.');
         // Redirigir a la vista de permiso
         return redirect()->route('permiso.view', $p->correlativo);
 
@@ -227,7 +228,7 @@ class PermisoController extends Controller
 
         ]);
 
-        notify()->success('Se ha modificado el registro con exito');
+        notify()->success('Se ha modificado el registro con éxito');
 
         return redirect()->route('permiso.view', $permiso);
     }
@@ -259,7 +260,7 @@ class PermisoController extends Controller
 
         $pdf = Pdf::loadView('permiso.imprimir', ['permiso' => $permiso1, 'empleado' => $empleado, "t_permiso" => $tipo_permiso]);
         $pdf->render();
-        return $pdf->stream();
+        return $pdf->download('permiso'.'_'.$permiso1->fecha_solic.'.pdf');
         //return view('permiso.imprimir' , ['permiso' => $permiso1, 'empleado' => $empleado, "t_permiso" => $tipo_permiso]);
     }
 
