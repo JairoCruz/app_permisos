@@ -77,8 +77,20 @@ class PermisoController extends Controller
     public function create(Request $request, Permiso $permiso)
     {
 
-        
-        $cod_empleado = $request->user()->cod_empleado;
+        $empleado = null;
+    
+        if ($request->has('dui')){
+            $empleado = DB::TABLE('PLANTMP_VISTA_EMPLEADOS')->where('dui', $request->dui)->first();
+            if (is_null($empleado)) {
+                notify()->error('No hay registros que coincidan con el dui que digitastes. Intentalo de nuevo');
+                return redirect()->back()->withInput(); 
+            } 
+                         
+        }
+
+       // dd($empleado);
+
+        $cod_empleado = (is_null($empleado)) ? $request->user()->cod_empleado : $empleado->codigo_empleado;
 
         // Get data from one "EMPLEADO"
         $data_empleado = DB::TABLE('PLANTMP_VISTA_EMPLEADOS')->where('codigo_empleado', $cod_empleado)->first();
@@ -95,9 +107,10 @@ class PermisoController extends Controller
 
     public function store(Request $request)
     {
+        //dd($request);
 
         // Get data from Session
-        $cod_empleado = $request->user()->cod_empleado;
+        $cod_empleado = $request->cod_empleado;
 
         // Get data from one "EMPLEADO"
         $data_empleado = DB::TABLE('PLANTMP_VISTA_EMPLEADOS')->where('codigo_empleado', $cod_empleado)->first();
@@ -296,6 +309,12 @@ class PermisoController extends Controller
         $c4 = json_decode($c3);
 
         return view('permiso.disponibilidad', ['datos' => Collection::make($c4)]);
+    }
+
+
+    public function permiso_comp()
+    {
+        return view('permiso.permiso_com');
     }
 
 }

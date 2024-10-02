@@ -24,7 +24,7 @@
                         </div> -->
 
                         <div class="flex flex-wrap -mx-3 mb-4">
-
+                            <input type="hidden" name="cod_empleado" value="{{$empleado->codigo_empleado}}">
                             <div class="w-full md:w-1/4 px-3">
                                 <label class="block font-medium text-xs text-gray-700"
                                     for="grid-fecha-registro">

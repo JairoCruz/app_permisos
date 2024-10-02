@@ -23,6 +23,7 @@ Route::middleware(['auth', 'verified'])->group(function() {
     Route::put('/modificar-permiso/{permiso}', [PermisoController::class,'update'])->name('permiso.update');
     Route::get('/imprimir-permiso/{permiso}', [PermisoController::class, 'imprimir'])->name('permiso.imprimir');
     Route::get('/disponibilidad', action: [PermisoController::class, 'disponibilidad'])->name('permiso.disponibilidad');
+    Route::get('/registro-permiso-com', [PermisoController::class, 'permiso_comp'])->name('permiso.permiso_comp');
 });
 
 Route::middleware('auth')->group(function () {

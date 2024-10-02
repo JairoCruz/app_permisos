@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
+            {{ __('Tablero principal') }}
         </h2>
     </x-slot>
 
@@ -9,41 +9,53 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="flex flex-row gap-4">
                 <div class="w-1/3">
-                    <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                        <div class="p-6 text-gray-900">
-                            <div class="">
-                                <a href="{{ route('permiso.index') }}">Listar permisos</a>
+                    <div class="group bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                        <a href="{{ route('permiso.index') }}">
+                            <div class="p-6 text-base font-bold text-gray-600 hover:bg-zinc-400">
+                                <p class="group-hover:text-white">Listar permisos</p>
                             </div>
-                        </div>
+                        </a>
                     </div>
                 </div>
                 <div class="w-1/3">
                     <div class="flex flex-col gap-2">
 
-                    <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                        <div class="p-6 text-gray-900">
-                            <div class="">
-                                <a href="{{ route('permiso.create') }}">Registrar permiso (propio)</a>
-                            </div>
+                        <div class="group bg-white overflow-hidden shadow-sm sm:rounded-lg">
+
+
+                            <a href="{{ route('permiso.create') }}">
+                                <div class="p-6 text-base font-bold text-gray-600 hover:bg-zinc-400">
+                                    <p class="group-hover:text-white">
+                                        Registrar permiso (propio)
+                                    </p>
+                                </div>
+                            </a>
+
+
                         </div>
-                    </div>
-                    <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                        <div class="p-6 text-gray-900">
-                            <div class="">
-                                <a href="">Registrar permiso (compañero)</a>
-                            </div>
+                        <div class="group bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                            <a href="{{ route('permiso.permiso_comp') }}">
+                                <div class="p-6 text-base font-bold text-gray-600 hover:bg-zinc-400">
+                                    <p class="group-hover:text-white">
+                                        Registrar permiso (compañero)
+                                    </p>
+                                </div>
+                            </a>
                         </div>
-                    </div>
 
                     </div>
                 </div>
                 <div class="w-1/3">
-                    <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                        <div class="p-6 text-gray-900">
-                        <div class="">
-                                <a href="{{ route('permiso.disponibilidad') }}">Disponibilidad de permisos</a>
+                    <div class="group bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                        <a href="{{ route('permiso.disponibilidad') }}">
+                            <div class="p-6 text-base font-bold text-gray-600 hover:bg-zinc-400">
+                                <p class="group-hover:text-white">
+                                    Disponibilidad de permisos
+                                </p>
                             </div>
-                        </div>
+                        </a>
+
+
                     </div>
                 </div>
             </div>
