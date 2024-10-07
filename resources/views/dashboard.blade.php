@@ -7,9 +7,9 @@
 
     <div class="py-4">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="flex flex-row gap-4">
-                <div class="w-1/3">
-                    <div class="group bg-white overflow-hidden shadow-sm sm:rounded-lg">
+            <div class="flex flex-col md:flex-row gap-1 md:gap-4">
+                <div class="w-full px-4 md:px-0 md:w-1/3">
+                    <div class="group bg-white overflow-hidden shadow rounded-lg sm:shadow-sm sm:rounded-lg">
                         <a href="{{ route('permiso.index') }}">
                             <div class="p-6 text-base font-bold text-gray-600 hover:bg-zinc-400">
                                 <p class="group-hover:text-white">Listar permisos</p>
@@ -17,10 +17,10 @@
                         </a>
                     </div>
                 </div>
-                <div class="w-1/3">
-                    <div class="flex flex-col gap-2">
+                <div class="w-full px-4 md:px-0 md:w-1/3">
+                    <div class="flex flex-col gap-1 md:gap-2">
 
-                        <div class="group bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                        <div class="group bg-white overflow-hidden shadow rounded-lg sm:shadow-sm sm:rounded-lg">
 
 
                             <a href="{{ route('permiso.create') }}">
@@ -33,7 +33,7 @@
 
 
                         </div>
-                        <div class="group bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                        <div class="group bg-white overflow-hidden shadow rounded-lg sm:shadow-sm sm:rounded-lg">
                             <a href="{{ route('permiso.permiso_comp') }}">
                                 <div class="p-6 text-base font-bold text-gray-600 hover:bg-zinc-400">
                                     <p class="group-hover:text-white">
@@ -45,8 +45,8 @@
 
                     </div>
                 </div>
-                <div class="w-1/3">
-                    <div class="group bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="w-full px-4 md:px-0 md:w-1/3">
+                    <div class="group bg-white overflow-hidden shadow rounded-lg sm:shadow-sm sm:rounded-lg">
                         <a href="{{ route('permiso.disponibilidad') }}">
                             <div class="p-6 text-base font-bold text-gray-600 hover:bg-zinc-400">
                                 <p class="group-hover:text-white">

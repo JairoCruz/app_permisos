@@ -27,8 +27,8 @@
                         <div class="flex flex-col">
                             <span class="text-xs text-gray-600 font-semibold mb-2">Opciones de busqueda</span>
                             <form action="{{ route('permiso.index') }}" method="GET">
-                                <div class="flex flex-row mt-2">
-                                    <div class="w-1/4 ">
+                                <div class="flex flex-col md:flex-row  mt-2">
+                                    <div class="w-full md:w-1/4 ">
                                         <div class="w-full px-3 mb-2">
                                             <label class="block font-medium text-xs text-gray-700" for="fecha_solicitud">
                                                 Fecha de solicitud
@@ -38,7 +38,7 @@
                                                 id="fecha_solicitud" type="date" name="fecha_solicitud" value="{{ old('fecha_solicitud') }}">
                                         </div>
                                     </div>
-                                    <div class="w-1/4 ">
+                                    <div class="w-full md:w-1/4">
 
                                         <div class="w-full px-3 mb-2">
                                             <label class="block font-medium text-xs text-gray-700" for="tipo_permiso">
@@ -58,7 +58,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="w-1/4">
+                                    <div class="w-full md:w-1/4">
                                     <div class="w-full px-3 mb-2">
                                             <label class="block font-medium text-xs text-gray-700" for="fecha_solicitud">
                                                 Estado
@@ -77,17 +77,17 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="w-1/4 place-content-center">
-                                        <div class="flex  flex-row gap-2 pt-4">
-                                            <div class="w-1/2 text-end">
+                                    <div class="w-full md:w-1/4 place-content-center">
+                                        <div class="flex flex-col  md:flex-row gap-2 pt-4">
+                                            <div class="w-full md:w-1/2 text-end">
                                                 <button
-                                                    class="w-24 bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 border border-blue-700 rounded">
+                                                    class="w-full md:w-24 bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 border border-blue-700 rounded">
                                                     Buscar
                                                 </button>
                                             </div>
-                                            <div class="w-1/2 text-start">
+                                            <div class="w-full md:w-1/2 text-start">
                                                 <a href="{{ route('permiso.index') }}"
-                                                    class="w-24 h-full inline-block content-center text-center  border text-gray-500 hover:text-gray-800 text-sm py-1 px-2 rounded">
+                                                    class="w-full md:w-24 h-full inline-block content-center text-center  border border-gray-400 bg-gray-200 text-gray-600 hover:text-gray-900 text-sm py-1 px-2 rounded">
                                                     Limpiar
                                                 </a>
 
@@ -110,15 +110,15 @@
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900">
 
-                        <div class="m-4">
+                        <div class="m-4 overflow-x-auto">
                             <table class="table-auto w-full">
                                 <thead class="text-xs font-semibold uppercase text-gray-500 bg-gray-50">
                                     <tr>
-                                        <th class="p-2 whitespace-nowrap">
+                                        <!-- <th class="p-2 whitespace-nowrap">
                                             <div class="font-semibold text-left">Correlativo</div>
-                                        </th>
+                                        </th> -->
                                         <th class="p-2 whitespace-nowrap">
-                                            <div class="font-semibold text-left">Fecha solicitud</div>
+                                            <div class="font-semibold text-left">Fecha presentacion</div>
                                         </th>
                                         <th class="p-2 whitespace-nowrap">
                                             <div class="font-semibold text-left">Tipo</div>
@@ -150,7 +150,7 @@
 
                                     @foreach ($permisos as $permiso)
                                         <tr class="hover:bg-gray-100">
-                                            <td class="p-2 whitespace-nowrap">
+                                            <!-- <td class="p-2 whitespace-nowrap">
                                                 <div class="text-left">
                                                     <a href="{{ route('permiso.view', $permiso['correlativo']) }}">
                                                         {{ $permiso['correlativo'] }}
@@ -158,11 +158,12 @@
                                                 </div>
 
 
-                                            </td>
+                                            </td> -->
                                             <td class="p-2 whitespace-nowrap">
                                                 <div class="text-left">
-                                                    {{ date('d-m-Y', strtotime($permiso['fecha_solic'])) }}
-
+                                                    <a class="hover:font-bold hover:underline" href="{{ route('permiso.view', $permiso['correlativo']) }}">
+                                                        {{ date('d-m-Y', strtotime($permiso['fecha_solic'])) }}
+                                                    </a>
                                                 </div>
 
                                             </td>
@@ -233,11 +234,12 @@
                                 </tbody>
 
                             </table>
-                            <div class="w-full pt-6">
-                                {{ $permisos->links() }}
-                            </div>
+                            
 
                         </div>
+                        <div class="w-full pt-6">
+                                {{ $permisos->links() }}
+                            </div>
                     </div>
                 </div>
             </div>

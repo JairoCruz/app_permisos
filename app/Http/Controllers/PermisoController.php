@@ -117,6 +117,7 @@ class PermisoController extends Controller
 
         // Validations
         $request->validate([
+            'fecha_crea' => ['required'],
             'fecha_solic' => ['required'],
             'tipo_permiso' => ['required'],
             'goce_sueldo' => ['required'],
@@ -156,13 +157,13 @@ class PermisoController extends Controller
         $p->hora_inicial = Carbon::parse($request->hora_inicial)->format('H:i');
         $p->hora_final = Carbon::parse($request->hora_final)->format('H:i');
         $p->cod_permiso = ($request->tipo_permiso == 15 && $request->goce_sueldo == 'F') ? 16 : $request->tipo_permiso;
-        $p->ano = Carbon::parse($request->fecha_registro)->year;
+        $p->ano = Carbon::parse($request->fecha_crea)->year;
         $p->motivo = $request->motivo;
         $p->goce_sueldo = $request->goce_sueldo;
         $p->constancia = $request->constancia;
-        $p->fecha_solic = Carbon::parse($request->fecha_presentacion)->format('Y-m-d');
+        $p->fecha_solic = Carbon::parse($request->fecha_solic)->format('Y-m-d');
         $p->num_plaza = $data_empleado->num_plaza;
-        $p->mes = Carbon::parse($request->fecha_registro)->month;
+        $p->mes = Carbon::parse($request->fecha_crea)->month;
         $p->total_tiempo = Times::total_horas_minutos(
             Carbon::parse($request->fecha_inicial),
             Carbon::parse($request->fecha_final),
@@ -182,6 +183,7 @@ class PermisoController extends Controller
 
     public function view($permiso)
     {
+        
         //$tipo_permiso = array("personal"=>15,"enf. personal"=>6,"familiar/duelo"=>18,"matrimonio"=>36);
         //dd($tipo_permiso);
         $estado_permiso = ['aprobado' => 'A'];
@@ -195,7 +197,7 @@ class PermisoController extends Controller
 
         // Get data from "TIPO PERMISOS"
         $data_tipo_permiso = DB::TABLE('PLANTMP_C_TIPOSPERMISOS')->select('descripcion', 'cod_permiso')->where('cod_permiso', $permiso1->cod_permiso)->get();
-
+    
         return view('permiso.view', ['permiso' => $permiso1, 'empleado' => $empleado, 'tipo_permiso' => $data_tipo_permiso, 'estado_permiso' => $estado_permiso]);
     }
 
@@ -205,11 +207,11 @@ class PermisoController extends Controller
         // Get data from one "EMPLEADO"
         $empleado = DB::TABLE('PLANTMP_VISTA_EMPLEADOS')->where('codigo_empleado', $permiso->cod_empleado)->first();
         // Get data from "TIPO PERMISOS"
-        $data_tipo_permiso = DB::TABLE('PLANTMP_C_TIPOSPERMISOS')->select('cod_permiso', 'descripcion')->whereIn('cod_permiso', [15, 6, 18, 36, 8, 23])->get();
+        $data_tipo_permiso = DB::TABLE('PLANTMP_C_TIPOSPERMISOS')->select('cod_permiso', 'descripcion')->whereIn('cod_permiso', [15, 6, 18, 36, 8, 23, 16])->get();
         
         $opciones = ['V' => 'si', 'F' => 'no'];
 
-       
+       $permiso->fecha_crea = Carbon::parse($permiso->fecha_crea)->format('Y-m-d');
        $permiso->fecha_solic = Carbon::parse($permiso->fecha_solic)->format('Y-m-d');
        $permiso->fecha_inicial = Carbon::parse($permiso->fecha_inicial)->format('Y-m-d');
        $permiso->fecha_final = Carbon::parse($permiso->fecha_final)->format('Y-m-d');
@@ -230,8 +232,8 @@ class PermisoController extends Controller
             'hora_inicial' => Carbon::parse($request->hora_inicial)->format('H:i'),
             'hora_final' => Carbon::parse($request->hora_final)->format('H:i'),
             'motivo' => $request->motivo,
-            'ano' => Carbon::parse($request->fecha_registro)->year,
-            'mes' => Carbon::parse($request->fecha_registro)->month,
+            'ano' => Carbon::parse($request->fecha_crea)->year,
+            'mes' => Carbon::parse($request->fecha_crea)->month,
             'total_tiempo' => Times::total_horas_minutos(
                 Carbon::parse($request->fecha_inicial),
                 Carbon::parse($request->fecha_final),
@@ -281,12 +283,21 @@ class PermisoController extends Controller
 
     public function disponibilidad(Request $request)
     {
+        //dd(now()->format('Y'));
         $cod_empleado = $request->user()->cod_empleado;
         $cod_permisos = DB::TABLE('PLANTMP_C_TIPOSPERMISOS')->select(['cod_permiso', 'descripcion', 'valor'])
             ->whereIn('cod_permiso', [15, 16, 6, 18, 8, 23, 36])
             ->get();
 
-        $datos = DB::table('t_vista_disponibilidad_h')
+        $periodo = DB::table('t_vista_disponibilidad_anual')
+            ->select('ano')
+            ->where('cod_empleado', $cod_empleado)
+            ->where('ano', now()->format('Y'))
+            ->first();
+        //$periodo = (is_null($periodo)) ? ['ano'=>now()->format('Y')] : $periodo;
+        //dd($periodo);
+
+        $datos = DB::table('t_vista_disponibilidad_anual')
             ->where('cod_empleado', $cod_empleado)
             ->get()
             ->transform(function ($disponibilidad, int $key) {
@@ -295,7 +306,6 @@ class PermisoController extends Controller
                     'cod_permiso' => $disponibilidad->cod_permiso,
                     'descripcion' => $disponibilidad->descripcion,
                     'goce_sueldo' => $disponibilidad->goce_sueldo,
-                    'mes' => $disponibilidad->mes,
                     'ano' => $disponibilidad->ano,
                     'valor' => $disponibilidad->valor,
                     'total' => Times::total_tiempo_solicitado(($disponibilidad->total), 1),
@@ -308,7 +318,7 @@ class PermisoController extends Controller
         $c3 = $c1->union($c2);
         $c4 = json_decode($c3);
 
-        return view('permiso.disponibilidad', ['datos' => Collection::make($c4)]);
+        return view('permiso.disponibilidad', ['datos' => Collection::make($c4), 'periodo' => $periodo]);
     }
 
 
