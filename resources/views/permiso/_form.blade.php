@@ -24,16 +24,16 @@
                         </div> -->
 
                         <div class="flex flex-wrap -mx-3 mb-4">
-
+                            <input type="hidden" name="cod_empleado" value="{{$empleado->codigo_empleado}}">
                             <div class="w-full md:w-1/4 px-3">
                                 <label class="block font-medium text-xs text-gray-700"
                                     for="grid-fecha-registro">
-                                    Fecha de registro
+                                    Fecha de registro (sistema)
                                 </label>
                                 <input
                                     class="w-full border-gray-400 h-8 mt-1 text-xs focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm leading-tight"
-                                    id="grid-fecha-registro" type="date" value="{{ date('Y-m-d', time()) }}"
-                                    name="fecha_registro"
+                                    id="grid-fecha-registro" type="date" value="{{ old('fecha_crea', ($permiso->fecha_crea == null) ? date('Y-m-d', time()) : $permiso->fecha_crea) }}"
+                                    name="fecha_crea"
                                     readonly="true">
                             </div>
 
