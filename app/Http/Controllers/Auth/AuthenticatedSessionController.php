@@ -28,6 +28,8 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
+        //error_log('entro aca auth');
+
         return redirect()->intended(route('dashboard', absolute: false));
     }
 

@@ -10,7 +10,10 @@ use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-    use HasUuids;
+    // Al estar utilizando HasUuids, debo modificar la migracion de la tabla users, por que se genera un Uuids lo que significa que necesita
+    // que el campo ID almacene un string y no un numero.
+    //use HasUuids;
+    
     use HasFactory, Notifiable;
 
     /**

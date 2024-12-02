@@ -45,7 +45,7 @@
                                 <input
                                     class="w-full lowercase border-gray-400 h-8 mt-1 text-xs focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm leading-tight"
                                     id="grid-nombre-empleado" type="text"
-                                    value="{{ $empleado->empleado }}" readonly="true">
+                                    value="{{ $empleado->apellidos . ' ' . $empleado->nombres }}" readonly="true">
                             </div>
 
 
@@ -73,7 +73,7 @@
                                 <input
                                     class="w-full lowercase border-gray-400 h-8 text-xs mt-1 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm leading-tight"
                                     id="grid-pertenece" type="text" placeholder="Unidad de talento humano"
-                                    value="{{ $empleado->unidad }}" readonly="true">
+                                    value="{{ $empleado->unidad->nombre }}" readonly="true">
                             </div>
 
                         </div>
@@ -93,8 +93,8 @@
                                         id="grid-tipo-permiso" name="tipo_permiso" required>
                                         <option value="" hidden>seleccione una opcion</option>
                                         @foreach ($tipo_permisos as $t_permiso)
-                                            <option value="{{ $t_permiso->cod_permiso }}" 
-                                            {{ old('tipo_permiso', $permiso->cod_permiso) == $t_permiso->cod_permiso ? 'selected' : ''}}>
+                                            <option value="{{ $t_permiso->id }}"                                            
+                                            {{ old('tipo_permiso', (isset($permiso->tipo_permiso->id) ? $permiso->tipo_permiso->id : '' )) == $t_permiso->id ? 'selected' : ''}}>
                                                 {{ $t_permiso->descripcion }}
                                             </option>
                                         @endforeach
@@ -117,6 +117,7 @@
                                         <option value="" hidden>seleccione una opcion</option>
                                         @foreach ($opciones as $opcion => $op )
                                         <option value="{{ $opcion }}"
+                                        
                                         {{ old('goce_sueldo', $permiso->goce_sueldo) == $opcion ? 'selected' : ''}}
                                         >
                                             {{ $op }}

@@ -49,9 +49,9 @@
                                                     class="w-full border-gray-300 mt-1 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm leading-tight"
                                                     id="tipo_permiso" name="tipo_permiso">
                                                     <option selected value hidden>seleccione una opcion</option>
-                                                    @foreach ($t_permisos as $tp => $tp1)
-                                                        <option value="{{ $tp }}" {{ old('tipo_permiso') == $tp ? 'selected' : ''}}>
-                                                            {{ $tp }}
+                                                    @foreach ($t_permisos as $tp)
+                                                        <option value="{{ $tp->cod_permiso }}" {{ old('tipo_permiso') == $tp->cod_permiso ? 'selected' : ''}}>
+                                                            {{ $tp->descripcion }}
                                                         </option>
                                                     @endforeach
                                                 </select>
@@ -161,7 +161,7 @@
                                             </td> -->
                                             <td class="p-2 whitespace-nowrap">
                                                 <div class="text-left">
-                                                    <a class="hover:font-bold hover:underline" href="{{ route('permiso.view', $permiso['correlativo']) }}">
+                                                    <a class="hover:font-bold hover:underline" href="{{ route('permiso.view', $permiso['id']) }}">
                                                         {{ date('d-m-Y', strtotime($permiso['fecha_solic'])) }}
                                                     </a>
                                                 </div>

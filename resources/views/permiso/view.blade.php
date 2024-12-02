@@ -50,7 +50,7 @@
                             <div class="w-1/6 text-start text-xs text-gray-700 uppercase pl-6 pt-2 pb-1">lugar y fecha
                             </div>
                             <div class="w-5/6 border border-gray-300 text-start pl-6 pt-1 pb-1 rounded">
-                                {{ $permiso['fecha_solic'] }}
+                                {{ date('d-m-Y', strtotime($permiso['fecha_solicitud'])) }}
                             </div>
                         </div>
 
@@ -59,7 +59,7 @@
                             <div class="w-1/6 text-start text-xs text-gray-700 uppercase pl-6 pt-2 pb-1">solicitante
                             </div>
                             <div class="w-5/6 border border-gray-300 text-start pl-6 pt-1 pb-1 rounded">
-                                {{ $empleado->empleado }}
+                                {{ $empleado->apellidos . ' ' . $empleado->nombres }}
                             </div>
                         </div>
 
@@ -67,7 +67,7 @@
                         <div class="flex flex-row text-center text-sm my-2">
                             <div class="w-1/6 text-start text-xs text-gray-700 uppercase pl-6 pt-2 pb-1">unidad</div>
                             <div class="w-5/6 border border-gray-300 text-start pl-6 pt-1 pb-1 rounded">
-                                {{ $empleado->unidad }}
+                                {{ $empleado->unidad->nombre }}
                             </div>
                         </div>
 
@@ -80,7 +80,7 @@
                                 </div>
                                 <div class="w-2/3">
                                     <div class="w-24 border border-gray-300 text-center pt-1 pb-1 rounded">
-                                        {{ $permiso->num_plaza }}
+                                        {{ $permiso->numero_plaza }}
                                     </div>
                                 </div>
                             </div>
@@ -89,7 +89,7 @@
                                     cargo
                                 </div>
                                 <div class="w-5/6 border border-gray-300 text-start pl-6 pt-1 pb-1 rounded">
-                                    {{ $empleado->cargo }}
+                                    {{ $empleado->cargo->nombre }}
                                 </div>
                             </div>
 
@@ -220,10 +220,10 @@
 -->
                         <div class="flex flex-row text-center  uppercase text-sm">
                             <div class="w-1/6 text-start text-gray-700 text-xs pl-6 pt-1 pb-1">
-                                @if ($tipo_permiso[0]->cod_permiso != 16)
-                                    {{ $tipo_permiso[0]->descripcion }}
+                                @if ($permiso->tipo_permiso->id != 10)
+                                    {{ $permiso->tipo_permiso->descripcion }}
                                 @else
-                                    {{ substr($tipo_permiso[0]->descripcion, 0, 10) }}
+                                    {{ substr($permiso->tipo_permiso->descripcion, 0, 10) }}
                                 @endif
 
                             </div>
@@ -342,13 +342,13 @@
 
                         <div class="flex justify-end w-1/2">
                             
-                            @if($permiso['estado'] == $estado_permiso['aprobado'])
+                            @if($permiso['estado'] != 1)
                             <div class="w-28 mr-6">
                                 <a href="{{ route('permiso.edit', $permiso) }}"
                                     class="block h-10 content-center text-center border bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4  border border-blue-700 rounded">Modificar</a>
                             </div>
                             <div class="w-28">
-                                <a href="{{ route('permiso.imprimir', $permiso->correlativo) }}"
+                                <a href="{{ route('permiso.imprimir', $permiso->id) }}"
                                     class="block h-10 content-center text-center border bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 border border-green-800 rounded">Imprimir</a>
                             </div>
                             @endif

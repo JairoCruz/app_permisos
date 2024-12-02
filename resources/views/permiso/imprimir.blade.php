@@ -132,7 +132,7 @@
                 </td>
                 <td class="tg-0lax" colspan="14">
                     <div class="text-data">
-                        {{ $empleado->empleado }}
+                        {{ $empleado->nombres . ' ' . $empleado->apellidos }}
                     </div>
                 </td>
             </tr>
@@ -144,7 +144,7 @@
                 </td>
                 <td class="tg-0lax" colspan="14">
                     <div class="text-data">
-                        {{ $empleado->unidad }}
+                        {{ $empleado->unidad->nombre }}
                     </div>
                 </td>
             </tr>
@@ -156,7 +156,7 @@
                 </td>
                 <td class="tg-0lax" colspan="2">
                     <div class="text-data">
-                        {{ $empleado->num_plaza }}
+                        {{ $empleado->numero_plaza }}
                     </div>
                 </td>
                 <td class="tg-0lax twb" colspan="2"></td>
@@ -167,7 +167,7 @@
                 </td>
                 <td class="tg-0lax" colspan="8">
                     <div class="text-data">
-                        {{ $empleado->cargo }}
+                        {{ $empleado->cargo->nombre }}
                     </div>
                 </td>
             </tr>
@@ -233,7 +233,7 @@
                     <!-- tipo -->
                     <td class="tg-0lax" colspan="1">
                         <div class="text-header-1">
-                            @if ($permiso->cod_permiso == $tp1)
+                            @if ($permiso->tipo_permiso->cod_permiso == $tp1)
                                 x
                             @endif
                         </div>
@@ -241,7 +241,7 @@
                     <!-- sueldo_si -->
                     <td class="tg-0lax" colspan="1">
                         <div class="text-header-1">
-                            @if ($permiso->cod_permiso == $tp1 && $permiso->goce_sueldo == 'V')
+                            @if ($permiso->tipo_permiso->cod_permiso == $tp1 && $permiso->goce_sueldo == 'V')
                                 x
                             @endif
                         </div>
@@ -249,7 +249,7 @@
                     <!-- sueldo_no -->
                     <td class="tg-0lax" colspan="1">
                         <div class="text-header-1">
-                            @if ($permiso->cod_permiso == $tp1 && $permiso->goce_sueldo == 'F')
+                            @if ($permiso->tipo_permiso->cod_permiso == $tp1 && $permiso->goce_sueldo == 'F')
                                 x
                             @endif
                         </div>
@@ -257,7 +257,7 @@
                     <!-- constancia_si -->
                     <td class="tg-0lax" colspan="1">
                         <div class="text-header-1">
-                            @if ($permiso->cod_permiso == $tp1 && $permiso->constancia == 'V')
+                            @if ($permiso->tipo_permiso->cod_permiso == $tp1 && $permiso->constancia == 'V')
                                 x
                             @endif
                         </div>
@@ -265,7 +265,7 @@
                     <!-- constancia_no -->
                     <td class="tg-0lax" colspan="1">
                         <div class="text-header-1">
-                            @if ($permiso->cod_permiso == $tp1 && $permiso->constancia == 'F')
+                            @if ($permiso->tipo_permiso->cod_permiso == $tp1 && $permiso->constancia == 'F')
                                 x
                             @endif
                         </div>
@@ -273,7 +273,7 @@
                     <!-- fecha_inicial -->
                     <td class="tg-0lax" colspan="2">
                         <div class="text-header-1">
-                            @if ($permiso->cod_permiso == $tp1)
+                            @if ($permiso->tipo_permiso->cod_permiso == $tp1)
                                 {{ date('d-m-Y', strtotime($permiso->fecha_inicial)) }}
                             @endif
                         </div>
@@ -281,7 +281,7 @@
                     <!-- fecha_final -->
                     <td class="tg-0lax" colspan="2">
                         <div class="text-header-1">
-                            @if ($permiso->cod_permiso == $tp1)
+                            @if ($permiso->tipo_permiso->cod_permiso == $tp1)
                                 {{ date('d-m-Y', strtotime($permiso->fecha_final)) }}
                             @endif
                         </div>
@@ -289,14 +289,14 @@
                     <!-- horas -->
                     <td class="tg-0lax" colspan="1">
                         <div class="text-header-1">
-                            @if ($permiso->cod_permiso == $tp1)
+                            @if ($permiso->tipo_permiso->cod_permiso == $tp1)
                                 {{ $permiso->hora_inicial }}
                             @endif
                         </div>
                     </td>
                     <td class="tg-0lax" colspan="1">
                         <div class="text-header-1">
-                            @if ($permiso->cod_permiso == $tp1)
+                            @if ($permiso->tipo_permiso->cod_permiso == $tp1)
                                 {{ $permiso->hora_final }}
                             @endif
                         </div>
@@ -304,7 +304,7 @@
                     <!-- total_horas -->
                     <td class="tg-0lax" colspan="3">
                         <div class="text-header-1">
-                            @if ($permiso->cod_permiso == $tp1)
+                            @if ($permiso->tipo_permiso->cod_permiso == $tp1)
                                 {{ $permiso->total_tiempo }}
                             @endif
                         </div>

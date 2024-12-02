@@ -3,7 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Permiso extends Model
 {
@@ -20,14 +22,27 @@ class Permiso extends Model
         'motivo',
         'ano',
         'mes',
-        'total_tiempo'
+        'total_tiempo',
+        'tp_fk'
         ] ;
 
-    protected $table = 'PLANTMP_PERMISOS_EN_LINEA';
+    use HasUuids;
+
+    protected $table = 'PERMISOS_EN_LINEA';
     // public $sequencia = 'SEQ_CORRELATIVO';
-    protected $primaryKey = 'correlativo';
+   // protected $primaryKey = 'correlativo';
 
     public $timestamps = false;
+
+    public function tipo_permiso(): BelongsTo
+    {
+        return $this->belongsTo(Tipo_permiso::class, 'tp_fk');
+    }
+
+    public function estado_permiso(): BelongsTo
+    {
+        return $this->belongsTo(EstadoPermiso::class, 'estado');
+    }
 
     public function scopeVerificar(
         Builder $query,
@@ -41,12 +56,12 @@ class Permiso extends Model
         string $constancia
     ): void {
         $query->
-            where('cod_empleado', $cod_empleado)->
+            where('codigo_empleado', $cod_empleado)->
             where('fecha_inicial', $fecha_inicio)->
             where('fecha_final', $fecha_fin)->
             where('hora_inicial', $hora_inicio)->
             where('hora_final', $hora_fin)->
-            where('cod_permiso', $tipo_permiso)->
+            where('tp_fk', $tipo_permiso)->
             where('goce_sueldo', $goce_sueldo)->
             where('constancia', $constancia);
     }

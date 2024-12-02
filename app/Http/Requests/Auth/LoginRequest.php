@@ -41,6 +41,7 @@ class LoginRequest extends FormRequest
     {
         $this->ensureIsNotRateLimited();
 
+
         if (! Auth::attempt($this->only('dui', 'password'), $this->boolean('remember'))) {
            
             /*  Comente esta linea por que me salta un error cuando ingreso un password equivocado, este error es del drive de oracle */
