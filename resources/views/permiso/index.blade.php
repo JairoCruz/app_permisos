@@ -7,7 +7,7 @@
                 </h2>
             </div>
             <div class="w-1/2 flex justify-end">
-                <!-- 
+                <!--
                 <a href="{{ route('permiso.create') }}"
                     class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
                     Crear permiso
@@ -30,12 +30,14 @@
                                 <div class="flex flex-col md:flex-row  mt-2">
                                     <div class="w-full md:w-1/4 ">
                                         <div class="w-full px-3 mb-2">
-                                            <label class="block font-medium text-xs text-gray-700" for="fecha_solicitud">
+                                            <label class="block font-medium text-xs text-gray-700"
+                                                for="fecha_solicitud">
                                                 Fecha de solicitud
                                             </label>
                                             <input
                                                 class="w-full border-gray-300 mt-1 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm leading-tight"
-                                                id="fecha_solicitud" type="date" name="fecha_solicitud" value="{{ old('fecha_solicitud') }}">
+                                                id="fecha_solicitud" type="date" name="fecha_solicitud"
+                                                value="{{ old('fecha_solicitud') }}">
                                         </div>
                                     </div>
                                     <div class="w-full md:w-1/4">
@@ -50,7 +52,8 @@
                                                     id="tipo_permiso" name="tipo_permiso">
                                                     <option selected value hidden>seleccione una opcion</option>
                                                     @foreach ($t_permisos as $tp)
-                                                        <option value="{{ $tp->cod_permiso }}" {{ old('tipo_permiso') == $tp->cod_permiso ? 'selected' : ''}}>
+                                                        <option value="{{ $tp->cod_permiso }}"
+                                                            {{ old('tipo_permiso') == $tp->cod_permiso ? 'selected' : '' }}>
                                                             {{ $tp->descripcion }}
                                                         </option>
                                                     @endforeach
@@ -59,8 +62,9 @@
                                         </div>
                                     </div>
                                     <div class="w-full md:w-1/4">
-                                    <div class="w-full px-3 mb-2">
-                                            <label class="block font-medium text-xs text-gray-700" for="fecha_solicitud">
+                                        <div class="w-full px-3 mb-2">
+                                            <label class="block font-medium text-xs text-gray-700"
+                                                for="fecha_solicitud">
                                                 Estado
                                             </label>
                                             <div class="relative">
@@ -69,7 +73,8 @@
                                                     id="grid-tipo-permiso" name="estado_permiso">
                                                     <option selected value hidden>seleccione una opcion</option>
                                                     @foreach ($e_permisos as $tp => $tp1)
-                                                        <option value="{{ $tp1 }}" {{ old('e_permiso') == $tp1 ? 'selected' : ''}}>
+                                                        <option value="{{ $tp1 }}"
+                                                            {{ old('e_permiso') == $tp1 ? 'selected' : '' }}>
                                                             {{ $tp }}
                                                         </option>
                                                     @endforeach
@@ -97,7 +102,7 @@
                                 </div>
 
                             </form>
-                            
+
                         </div>
 
                     </div>
@@ -148,9 +153,9 @@
 
                                     @if (!empty($permisos->items()))
 
-                                    @foreach ($permisos as $permiso)
-                                        <tr class="hover:bg-gray-100">
-                                            <!-- <td class="p-2 whitespace-nowrap">
+                                        @foreach ($permisos as $permiso)
+                                            <tr class="hover:bg-gray-100">
+                                                <!-- <td class="p-2 whitespace-nowrap">
                                                 <div class="text-left">
                                                     <a href="{{ route('permiso.view', $permiso['correlativo']) }}">
                                                         {{ $permiso['correlativo'] }}
@@ -159,87 +164,87 @@
 
 
                                             </td> -->
-                                            <td class="p-2 whitespace-nowrap">
-                                                <div class="text-left">
-                                                    <a class="hover:font-bold hover:underline" href="{{ route('permiso.view', $permiso['id']) }}">
-                                                        {{ date('d-m-Y', strtotime($permiso['fecha_solic'])) }}
-                                                    </a>
-                                                </div>
+                                                <td class="p-2 whitespace-nowrap">
+                                                    <div class="text-left">
+                                                        <a class="hover:font-bold hover:underline"
+                                                            href="{{ route('permiso.view', $permiso['id']) }}">
+                                                            {{ date('d-m-Y', strtotime($permiso['fecha_solicitud'])) }}
+                                                        </a>
+                                                    </div>
 
-                                            </td>
-                                            <td class="p-2 whitespace-nowrap">
-                                                <div class="text-left">
-                                                    {{ $permiso['cod_permiso'] }}
+                                                </td>
+                                                <td class="p-2 whitespace-nowrap">
+                                                    <div class="text-left">
+                                                        {{ $permiso['tipo_permiso'] }}
 
-                                                </div>
+                                                    </div>
 
-                                            </td>
-                                            <td class="p-2 whitespace-nowrap">
-                                                <div class="text-left">
-                                                    {{ date('d-m-Y', strtotime($permiso['fecha_inicial'])) }}
+                                                </td>
+                                                <td class="p-2 whitespace-nowrap">
+                                                    <div class="text-left">
+                                                        {{ date('d-m-Y', strtotime($permiso['fecha_inicial'])) }}
 
-                                                </div>
+                                                    </div>
 
-                                            </td>
-                                            <td class="p-2 whitespace-nowrap">
-                                                <div class="text-left">
-                                                    {{ $permiso['hora_inicial'] }}
+                                                </td>
+                                                <td class="p-2 whitespace-nowrap">
+                                                    <div class="text-left">
+                                                        {{ $permiso['hora_inicial'] }}
 
-                                                </div>
+                                                    </div>
 
-                                            </td>
-                                            <td class="p-2 whitespace-nowrap">
-                                                <div class="text-left">
-                                                    {{ date('d-m-Y', strtotime($permiso['fecha_final'])) }}
+                                                </td>
+                                                <td class="p-2 whitespace-nowrap">
+                                                    <div class="text-left">
+                                                        {{ date('d-m-Y', strtotime($permiso['fecha_final'])) }}
 
-                                                </div>
+                                                    </div>
 
-                                            </td>
-                                            <td class="p-2 whitespace-nowrap">
-                                                <div class="text-left">
-                                                    {{ $permiso['hora_final'] }}
+                                                </td>
+                                                <td class="p-2 whitespace-nowrap">
+                                                    <div class="text-left">
+                                                        {{ $permiso['hora_final'] }}
 
-                                                </div>
+                                                    </div>
 
-                                            </td>
-                                            <td class="p-2 whitespace-nowrap">
-                                                <div class="text-left">
-                                                    {{ $permiso['total_tiempo'] }}
+                                                </td>
+                                                <td class="p-2 whitespace-nowrap">
+                                                    <div class="text-left">
+                                                        {{ $permiso['total_tiempo'] }}
 
-                                                </div>
+                                                    </div>
 
-                                            </td>
+                                                </td>
 
-                                            <td class="p-2 whitespace-nowrap">
-                                                <div class="text-left">
-                                                    {{ $permiso['estado'] }}
+                                                <td class="p-2 whitespace-nowrap">
+                                                    <div class="text-left">
+                                                        {{ $permiso['estado'] }}
 
-                                                </div>
+                                                    </div>
 
-                                            </td>
-                                        </tr>
-                                    @endforeach
-
+                                                </td>
+                                            </tr>
+                                        @endforeach
                                     @else
                                         <tr>
                                             <td class="text-center p-2 whitespace-nowrap" colspan="9">
                                                 <div class="">No hay ninguna coicidencia para su busqueda</div>
-                                                
+
                                             </td>
                                         </tr>
                                     @endif
 
-                                    
+
 
                                 </tbody>
 
                             </table>
-                            
+
 
                         </div>
                         <div class="w-full pt-6">
-                                {{ $permisos->links() }}
-                            </div>
+                            {{ $permisos->links() }}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -254,6 +259,32 @@
             </div>
         @endif
 
+        <script type="module">
+            // $.ajaxSetup({
+            //     headers: {
+            //         'x-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            //     }
+            // });
+
+            $(document).ready(function() {
+                loadIndex();
+                function loadIndex() {
+                    let url = $('meta[name=app-url]').attr("content") + "/permisos";
+                    console.log('{{ url('permisos')}}')
+                    $.ajax({
+                        url: '{{ url('permisos')}}',
+                        type: 'GET',
+                        success: function(response) {
+                            console.log(response);
+                        },
+                        error: function(response) {
+                            console.log(response)
+                        }
+                    });
+
+                }
+            });
+        </script>
 
     </div>
 </x-app-layout>

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\PermisoController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RegistroController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -11,6 +12,12 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('/wel', function(){
+    return view('welcome');
+});
+
+Route::apiResource('welcome', RegistroController::class);
 
 
 

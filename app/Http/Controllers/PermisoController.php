@@ -29,6 +29,8 @@ class PermisoController extends Controller
 
         // Obtener codigo del empleado
         $cod_empleado = $request->user()->cod_empleado;
+
+
        
        
 
@@ -40,16 +42,23 @@ class PermisoController extends Controller
                     'id' => $permiso->id,
                     'tp_fk' => $permiso->tp_fk,
                     'correlativo' => $permiso->correlativo,
-                    'cod_permiso' => $permiso->tipo_permiso->descripcion,
-                    'fecha_solic' => $permiso->fecha_solicitud,
+                    'tipo_permiso' => $permiso->tipo_permiso->descripcion,
+                    'fecha_solicitud' => $permiso->fecha_solicitud,
                     'fecha_inicial' => $permiso->fecha_inicial,
                     'hora_inicial' => $permiso->hora_inicial,
                     'fecha_final' => $permiso->fecha_final,
                     'hora_final' => $permiso->hora_final,
-                    'total_tiempo' => Times::total_tiempo_solicitado($permiso->total_tiempo, 0),
+                    'total_tiempo' => Times::total_tiempo_solicitado($permiso->total_tiempo, 0), 
                     'estado' => $permiso->estado_permiso->nombre
                 ];
-            });
+        });
+        
+
+        if($request->ajax()) {
+            $data = Permiso::get();
+        return response()->json(['unidad' => $data]);
+        }
+        
 
         // Verificar si el empleado ya ha registrado algun permiso
         $i_permisos = $permisos->count();
