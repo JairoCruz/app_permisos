@@ -12,10 +12,18 @@
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/1.11.4/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+    
         
         @notifyCss
         <!-- Scripts -->
         @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+        <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+        <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.11.4/js/dataTables.bootstrap5.min.js"></script>
+        <script src="https://cdn.datatables.net/1.11.4/js/dataTables.bootstrap5.min.js"></script>
     </head>
     <body class="font-sans antialiased">
     @include('notify::components.notify')
@@ -33,7 +41,10 @@
 
             <!-- Page Content -->
             <main>
-                {{ $slot }}
+                <div class="container">
+                    {{ $slot }}
+                </div>
+                
             </main>
         </div>
         

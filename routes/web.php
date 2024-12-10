@@ -17,6 +17,7 @@ Route::get('/wel', function(){
     return view('welcome');
 });
 
+
 Route::apiResource('welcome', RegistroController::class);
 
 

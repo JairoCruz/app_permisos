@@ -19,6 +19,47 @@
     </x-slot>
 
     <div class="py-4">
+
+
+
+
+        <table class="table table-bordered data-table">
+            <thead>
+                <tr>
+                    <th>Fecha presentacion</th>
+                    <th>Tipo</th>
+                    <th>Fecha de inicio</th>
+                    <th>Hora de inicio</th>
+                    <th>Fecha de fin</th>
+                    <th>Hora de fin</th>
+                    <th>Tiempo solicitado</th>
+                    <th>estado</th>
+                    <th width="100px">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+
+
+
+
+
+
+
+
+
+        <br>
+        <br>
+        <br>
+
+
+
+
+
+
+
+
         @if ($i_permisos != 0)
 
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mb-2">
@@ -267,12 +308,41 @@
             // });
 
             $(document).ready(function() {
+
+                var table = $('.data-table').DataTable({
+                    processing: true,
+                    serverSide: true,
+                    ajax: "{{ route('permiso.index') }}",
+                    columns: [
+                        { data: 'fecha_solicitud', name: 'fecha_presentacion'},
+                        { data: 'tipo_permiso', name: 'tipo_permiso'},
+                        { data: 'fecha_inicial', name: 'fecha_inicial'},
+                        { data: 'hora_inicial', name: 'hora_inicial'},
+                        { data: 'fecha_final', name: 'fecha_final'},
+                        { data: 'hora_final', name: 'hora_final'},
+                        { data: 'total_tiempo', name: 'total_tiempo'},
+                        {
+                            data: 'estado',
+                            name: 'estado'
+                        },
+
+                        {
+                            data: 'action',
+                            name: 'action',
+                            orderable: false,
+                            searchable: false
+                        },
+                    ]
+                });
+
+
                 loadIndex();
+
                 function loadIndex() {
                     let url = $('meta[name=app-url]').attr("content") + "/permisos";
-                    console.log('{{ url('permisos')}}')
+                    console.log('{{ url('permisos') }}')
                     $.ajax({
-                        url: '{{ url('permisos')}}',
+                        url: '{{ url('permisos') }}',
                         type: 'GET',
                         success: function(response) {
                             console.log(response);
