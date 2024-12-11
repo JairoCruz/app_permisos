@@ -1,4 +1,7 @@
 <x-app-layout>
+    @section('css')
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+    @endsection
     <x-slot name="header">
         <div class="w-full flex flex-row">
             <div class="w-1/2 content-center">
@@ -18,8 +21,41 @@
         </div>
     </x-slot>
 
-    <div class="py-4">
-        @if ($i_permisos != 0)
+    <div class="container">
+
+
+        <table id="permisos" class="table">
+            <thead>
+                <tr>
+                    <th>Fecha presentacion</th>
+                    <th>Tipo</th>
+                    <th>Fecha inicio</th>
+                    <th>Hora inicio</th>
+                    <th>Fecha fin</th>
+                    <th>Hora fin</th>
+                    <th>Total tiempo</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($permisos as $permiso)
+                    <tr>
+                        <td>{{  $permiso['fecha_solic'] }}</td>
+                        <td>{{  $permiso['cod_permiso'] }}</td>
+                        <td>{{  $permiso['fecha_inicial'] }}</td>
+                        <td>{{  $permiso['hora_inicial'] }}</td>
+                        <td>{{  $permiso['fecha_final'] }}</td>
+                        <td>{{  $permiso['hora_final'] }}</td>
+                        <td>{{  $permiso['total_tiempo'] }}</td>
+                        <td>{{  $permiso['estado'] }}</td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+
+
+
+       {{--  @if ($i_permisos != 0)
 
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mb-2">
                 <div class="bg-white overflow-hidden-shadow-sm sm:rounded-lg">
@@ -253,7 +289,7 @@
 
             </div>
         @endif
-
+ --}}
 
     </div>
 </x-app-layout>

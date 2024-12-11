@@ -41,15 +41,22 @@ class PermisoController extends Controller
                     'tp_fk' => $permiso->tp_fk,
                     'correlativo' => $permiso->correlativo,
                     'cod_permiso' => $permiso->tipo_permiso->descripcion,
-                    'fecha_solic' => $permiso->fecha_solicitud,
-                    'fecha_inicial' => $permiso->fecha_inicial,
+                    'fecha_solic' => Carbon::parse($permiso->fecha_solicitud)->format('d-m-Y'),
+                    'fecha_inicial' => Carbon::parse($permiso->fecha_inicial)->format('d-m-Y'),
                     'hora_inicial' => $permiso->hora_inicial,
-                    'fecha_final' => $permiso->fecha_final,
+                    'fecha_final' => Carbon::parse($permiso->fecha_final)->format('d-m-Y'),
                     'hora_final' => $permiso->hora_final,
                     'total_tiempo' => Times::total_tiempo_solicitado($permiso->total_tiempo, 0),
                     'estado' => $permiso->estado_permiso->nombre
                 ];
             });
+
+
+        if($request->ajax()){
+            
+            $data = $permisos;
+            return response()->json(['data' => $data]);
+        }
 
         // Verificar si el empleado ya ha registrado algun permiso
         $i_permisos = $permisos->count();
