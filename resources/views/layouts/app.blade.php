@@ -4,6 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
+        <meta name="app-url" content="{{url('/')}}">
 
         <title>{{ config('app.name', 'Laravel') }}</title>
 
@@ -16,6 +17,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
         <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
         <script src="https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap5.js"></script>
+        
         @notifyCss
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -40,30 +42,6 @@
             </main>
         </div>
         @notifyJs
-        <script>
-            new DataTable('#permisos', {
-                ajax: "{{ route('permiso.index')}}",
-                columns: [
-                    { data: 'fecha_solic' },
-                    { data: 'cod_permiso' },
-                    { data: 'fecha_inicial' },
-                    { data: 'hora_inicial' },
-                    { data: 'fecha_final' },
-                    { data: 'hora_final' },
-                    { data: 'total_tiempo' },
-                    { data: 'estado' },
-                ],
-                language: {
-                    search: 'Buscar:',
-                    lengthMenu: 'Mostrando _MENU_ por pagina',
-                    entries: {
-                        _: 'Permisos',
-                    },
-                    info: 'Mostrando pagina _PAGE_ de _PAGES_',
-                    infoEmpty: 'No hay registros para mostrar',
-                    infoFiltered: '- filtrado de _MAX_ registros'
-                }
-            });
-        </script>
+        
     </body>
 </html>

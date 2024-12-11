@@ -23,10 +23,7 @@ class PermisoController extends Controller
 {
     public function index(Request $request)
     {
-       // $tipo_permisos = ["personal" => 9, "enfermedad personal" => 3, "familiar/duelo" => 1, "matrimonio" => 12, 'personal sin goce de sueldo' => 10, 'alumbramiento' => 4, 'paternidad' => 15];
-       $tipo_permisos = Tipo_Permiso::select('id','cod_permiso', 'descripcion')->whereIn('cod_permiso', [15,6,36,18,8,16,23])->get(); 
-       $estado_permisos = ["aprobado" => 'A', "pendiente" => 'P', "denegado" => 'D'];
-
+       
         // Obtener codigo del empleado
         $cod_empleado = $request->user()->cod_empleado;
        
@@ -58,34 +55,11 @@ class PermisoController extends Controller
             return response()->json(['data' => $data]);
         }
 
-        // Verificar si el empleado ya ha registrado algun permiso
-        $i_permisos = $permisos->count();
-
-        // Opciones de busqueda 
-
-        if (!empty($request->input('fecha_solicitud'))) {
-            $permisos = $permisos->where('fecha_solic', $request->date('fecha_solicitud'));
-        }
-
-        if (!empty($request->query('tipo_permiso'))) {
-            //dd($request->input('tipo_permiso'));
-            // verificar esta opcion, ya que recupero el tp_fk y no el cod_permiso, verificar en jquery si 
-            // se puede mejorar esta opcion
-            $permisos = $permisos->where('tp_fk', $request->input('tipo_permiso'));
-        }
-
-        if (!empty($request->query('estado_permiso'))) {
-            $permisos = $permisos->where('estado', $request->input('estado_permiso'));
-        }
-
-        // Paginacion
-        $permisos = Paginate::paginate($permisos);
-        $permisos->withPath(url('/permisos'));
-
+        
         // Devolver los valores para el form de busqueda
         $request->flash();
 
-        return view('permiso.index', ['i_permisos' => $i_permisos, 'permisos' => $permisos, 't_permisos' => $tipo_permisos, 'e_permisos' => $estado_permisos]);
+        return view('permiso.index', ['permisos' => $permisos,]);
     }
 
 

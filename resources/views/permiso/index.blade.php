@@ -1,284 +1,167 @@
 <x-app-layout>
-    @section('css')
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
-    @endsection
-    <x-slot name="header">
-        <div class="w-full flex flex-row">
-            <div class="w-1/2 content-center">
-                <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                    {{ __('Permisos') }}
-                </h2>
-            </div>
-            <div class="w-1/2 flex justify-end">
-                <!-- 
-                <a href="{{ route('permiso.create') }}"
-                    class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
-                    Crear permiso
-                </a>
-                 -->
+    <div class="container my-5">
 
+        <div class="row">
+            <div class="col">
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Launch demo modal
+                </button>
             </div>
+            <div class="col-12">
+                <table id="permisos" class="table table-responsive table-hover my-1">
+                    <thead>
+                        <tr>
+                            <th>Fecha presentacion</th>
+                            <th>Tipo</th>
+                            <th>Fecha inicio</th>
+                            <th>Hora inicio</th>
+                            <th>Fecha fin</th>
+                            <th>Hora fin</th>
+                            <th>Total tiempo</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </div>
+
         </div>
-    </x-slot>
-
-    <div class="container">
+    </div>
 
 
-        <table id="permisos" class="table">
-            <thead>
-                <tr>
-                    <th>Fecha presentacion</th>
-                    <th>Tipo</th>
-                    <th>Fecha inicio</th>
-                    <th>Hora inicio</th>
-                    <th>Fecha fin</th>
-                    <th>Hora fin</th>
-                    <th>Total tiempo</th>
-                    <th>Estado</th>
-                </tr>
-            </thead>
-            <tbody>
-                
-            </tbody>
-        </table>
+    <!-- Modal -->
+    <div class="modal fade modal-lg" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Registro de permiso personal</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="mb-3">
+                                <label for="fechaSolicitud" class="form-label">Ingrese la fecha de solicitud</label>
+                                <input type="date" class="form-control" id="fechaSolicitud">
+                            </div>
 
-
-
-       {{--  @if ($i_permisos != 0)
-
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mb-2">
-                <div class="bg-white overflow-hidden-shadow-sm sm:rounded-lg">
-                    <div class="p-6 text-gray-900">
-                        <div class="flex flex-col">
-                            <span class="text-xs text-gray-600 font-semibold mb-2">Opciones de busqueda</span>
-                            <form action="{{ route('permiso.index') }}" method="GET">
-                                <div class="flex flex-col md:flex-row  mt-2">
-                                    <div class="w-full md:w-1/4 ">
-                                        <div class="w-full px-3 mb-2">
-                                            <label class="block font-medium text-xs text-gray-700" for="fecha_solicitud">
-                                                Fecha de solicitud
-                                            </label>
-                                            <input
-                                                class="w-full border-gray-300 mt-1 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm leading-tight"
-                                                id="fecha_solicitud" type="date" name="fecha_solicitud" value="{{ old('fecha_solicitud') }}">
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-4">
+                                <label for="tipoPermiso" class="form-label">Tipo permiso</label>
+                                <select name="" id="tipoPermiso" class="form-select" aria-label="select example">
+                                    <option selected>Selecciona una opcion</option>
+                                    <option value="1">One</option>
+                                    <option value="2">Two</option>
+                                </select>
+                            </div>
+                            <div class="col-4">
+                                <select name="" id="" class="form-select" aria-label="select example">
+                                    <option selected>Open this select</option>
+                                    <option value="1">One</option>
+                                    <option value="2">Two</option>
+                                </select>
+                            </div>
+                            <div class="col-4">
+                                <select name="" id="" class="form-select" aria-label="select example">
+                                    <option selected>Open this select</option>
+                                    <option value="1">One</option>
+                                    <option value="2">Two</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="mb-3">
+                                            <label for="fechaSolicitud" class="form-label">Fecha inicio</label>
+                                            <input type="date" class="form-control" id="fechaSolicitud">
                                         </div>
                                     </div>
-                                    <div class="w-full md:w-1/4">
-
-                                        <div class="w-full px-3 mb-2">
-                                            <label class="block font-medium text-xs text-gray-700" for="tipo_permiso">
-                                                Tipo de permiso
-                                            </label>
-                                            <div class="relative">
-                                                <select
-                                                    class="w-full border-gray-300 mt-1 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm leading-tight"
-                                                    id="tipo_permiso" name="tipo_permiso">
-                                                    <option selected value hidden>seleccione una opcion</option>
-                                                    @foreach ($t_permisos as $tp)
-                                                        <option value="{{ $tp->cod_permiso }}" {{ old('tipo_permiso') == $tp->cod_permiso ? 'selected' : ''}}>
-                                                            {{ $tp->descripcion }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="w-full md:w-1/4">
-                                    <div class="w-full px-3 mb-2">
-                                            <label class="block font-medium text-xs text-gray-700" for="fecha_solicitud">
-                                                Estado
-                                            </label>
-                                            <div class="relative">
-                                                <select
-                                                    class="w-full border-gray-300 mt-1 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm leading-tight"
-                                                    id="grid-tipo-permiso" name="estado_permiso">
-                                                    <option selected value hidden>seleccione una opcion</option>
-                                                    @foreach ($e_permisos as $tp => $tp1)
-                                                        <option value="{{ $tp1 }}" {{ old('e_permiso') == $tp1 ? 'selected' : ''}}>
-                                                            {{ $tp }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="w-full md:w-1/4 place-content-center">
-                                        <div class="flex flex-col  md:flex-row gap-2 pt-4">
-                                            <div class="w-full md:w-1/2 text-end">
-                                                <button
-                                                    class="w-full md:w-24 bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 border border-blue-700 rounded">
-                                                    Buscar
-                                                </button>
-                                            </div>
-                                            <div class="w-full md:w-1/2 text-start">
-                                                <a href="{{ route('permiso.index') }}"
-                                                    class="w-full md:w-24 h-full inline-block content-center text-center  border border-gray-400 bg-gray-200 text-gray-600 hover:text-gray-900 text-sm py-1 px-2 rounded">
-                                                    Limpiar
-                                                </a>
-
-                                            </div>
+                                    <div class="col-6">
+                                        <div class="mb-3">
+                                            <label for="fechaSolicitud" class="form-label">Hora inicio</label>
+                                            <input type="time" class="form-control" id="fechaSolicitud">
                                         </div>
                                     </div>
                                 </div>
 
-                            </form>
-                            
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="p-6 text-gray-900">
-
-                        <div class="m-4 overflow-x-auto">
-                            <table class="table-auto w-full">
-                                <thead class="text-xs font-semibold uppercase text-gray-500 bg-gray-50">
-                                    <tr>
-                                        <!-- <th class="p-2 whitespace-nowrap">
-                                            <div class="font-semibold text-left">Correlativo</div>
-                                        </th> -->
-                                        <th class="p-2 whitespace-nowrap">
-                                            <div class="font-semibold text-left">Fecha presentacion</div>
-                                        </th>
-                                        <th class="p-2 whitespace-nowrap">
-                                            <div class="font-semibold text-left">Tipo</div>
-                                        </th>
-                                        <th class="p-2 whitespace-nowrap">
-                                            <div class="font-semibold text-left">Fecha de inicio</div>
-                                        </th>
-                                        <th class="p-2 whitespace-nowrap">
-                                            <div class="font-semibold text-left">Hora de inicio</div>
-                                        </th>
-                                        <th class="p-2 whitespace-nowrap">
-                                            <div class="font-semibold text-left">Fecha de fin</div>
-                                        </th>
-                                        <th class="p-2 whitespace-nowrap">
-                                            <div class="font-semibold text-left">Hora de fin</div>
-                                        </th>
-                                        <th class="p-2 whitespace-nowrap">
-                                            <div class="font-semibold text-left">Tiempo solicitado</div>
-                                        </th>
-                                        <th class="p-2 whitespace-nowrap">
-                                            <div class="font-semibold text-left">Estado</div>
-                                        </th>
-                                    </tr>
-                                </thead>
-
-                                <tbody class="text-sm divide-y divide-gray-100">
-
-                                    @if (!empty($permisos->items()))
-
-                                    @foreach ($permisos as $permiso)
-                                        <tr class="hover:bg-gray-100">
-                                            <!-- <td class="p-2 whitespace-nowrap">
-                                                <div class="text-left">
-                                                    <a href="{{ route('permiso.view', $permiso['correlativo']) }}">
-                                                        {{ $permiso['correlativo'] }}
-                                                    </a>
-                                                </div>
-
-
-                                            </td> -->
-                                            <td class="p-2 whitespace-nowrap">
-                                                <div class="text-left">
-                                                    <a class="hover:font-bold hover:underline" href="{{ route('permiso.view', $permiso['id']) }}">
-                                                        {{ date('d-m-Y', strtotime($permiso['fecha_solic'])) }}
-                                                    </a>
-                                                </div>
-
-                                            </td>
-                                            <td class="p-2 whitespace-nowrap">
-                                                <div class="text-left">
-                                                    {{ $permiso['cod_permiso'] }}
-
-                                                </div>
-
-                                            </td>
-                                            <td class="p-2 whitespace-nowrap">
-                                                <div class="text-left">
-                                                    {{ date('d-m-Y', strtotime($permiso['fecha_inicial'])) }}
-
-                                                </div>
-
-                                            </td>
-                                            <td class="p-2 whitespace-nowrap">
-                                                <div class="text-left">
-                                                    {{ $permiso['hora_inicial'] }}
-
-                                                </div>
-
-                                            </td>
-                                            <td class="p-2 whitespace-nowrap">
-                                                <div class="text-left">
-                                                    {{ date('d-m-Y', strtotime($permiso['fecha_final'])) }}
-
-                                                </div>
-
-                                            </td>
-                                            <td class="p-2 whitespace-nowrap">
-                                                <div class="text-left">
-                                                    {{ $permiso['hora_final'] }}
-
-                                                </div>
-
-                                            </td>
-                                            <td class="p-2 whitespace-nowrap">
-                                                <div class="text-left">
-                                                    {{ $permiso['total_tiempo'] }}
-
-                                                </div>
-
-                                            </td>
-
-                                            <td class="p-2 whitespace-nowrap">
-                                                <div class="text-left">
-                                                    {{ $permiso['estado'] }}
-
-                                                </div>
-
-                                            </td>
-                                        </tr>
-                                    @endforeach
-
-                                    @else
-                                        <tr>
-                                            <td class="text-center p-2 whitespace-nowrap" colspan="9">
-                                                <div class="">No hay ninguna coicidencia para su busqueda</div>
-                                                
-                                            </td>
-                                        </tr>
-                                    @endif
-
-                                    
-
-                                </tbody>
-
-                            </table>
-                            
-
-                        </div>
-                        <div class="w-full pt-6">
-                                {{ $permisos->links() }}
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="mb-3">
+                                            <label for="fechaSolicitud" class="form-label">Fecha fin</label>
+                                            <input type="date" class="form-control" id="fechaSolicitud">
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="mb-3">
+                                            <label for="fechaSolicitud" class="form-label">Hora fin</label>
+                                            <input type="time" class="form-control" id="fechaSolicitud">
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
+                            <div class="col">
+                                <div class="mb-3">
+                                    <label for="textMotivo" class="form-label">Motivo</label>
+                                    <textarea name="" id="" rows="5" class="form-control"></textarea>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button class="btn btn-primary">Save changes</button>
+                </div>
             </div>
-        @else
-            <div class="flex w-96 place-content-center mx-auto mt-10">
-                <span class="text-gray-600 text-center text-base">
-                    Aun no tienes permisos registrados. Para registrar haz click <a
-                        class="underline  text-gray-600 hover:text-gray-900 rounded-md focus:outline-none"
-                        href="{{ route('permiso.create') }}">aqui</a>
-                </span>
-
-            </div>
-        @endif
- --}}
-
+        </div>
     </div>
+
+    <script>
+        new DataTable('#permisos', {
+            ajax: "{{ route('permiso.index') }}",
+            columns: [{
+                    data: 'fecha_solic'
+                },
+                {
+                    data: 'cod_permiso'
+                },
+                {
+                    data: 'fecha_inicial'
+                },
+                {
+                    data: 'hora_inicial'
+                },
+                {
+                    data: 'fecha_final'
+                },
+                {
+                    data: 'hora_final'
+                },
+                {
+                    data: 'total_tiempo'
+                },
+                {
+                    data: 'estado'
+                },
+            ],
+            language: {
+                search: 'Buscar:',
+                lengthMenu: 'Mostrando _MENU_ por pagina',
+                entries: {
+                    _: 'Permisos',
+                },
+                info: 'Mostrando pagina _PAGE_ de _PAGES_',
+                infoEmpty: 'No hay registros para mostrar',
+                infoFiltered: '- filtrado de _MAX_ registros'
+            }
+        });
+    </script>
+
 </x-app-layout>
