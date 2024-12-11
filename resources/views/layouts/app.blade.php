@@ -42,6 +42,17 @@
         @notifyJs
         <script>
             new DataTable('#permisos', {
+                ajax: "{{ route('permiso.index')}}",
+                columns: [
+                    { data: 'fecha_solic' },
+                    { data: 'cod_permiso' },
+                    { data: 'fecha_inicial' },
+                    { data: 'hora_inicial' },
+                    { data: 'fecha_final' },
+                    { data: 'hora_final' },
+                    { data: 'total_tiempo' },
+                    { data: 'estado' },
+                ],
                 language: {
                     search: 'Buscar:',
                     lengthMenu: 'Mostrando _MENU_ por pagina',

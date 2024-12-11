@@ -38,18 +38,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($permisos as $permiso)
-                    <tr>
-                        <td>{{  $permiso['fecha_solic'] }}</td>
-                        <td>{{  $permiso['cod_permiso'] }}</td>
-                        <td>{{  $permiso['fecha_inicial'] }}</td>
-                        <td>{{  $permiso['hora_inicial'] }}</td>
-                        <td>{{  $permiso['fecha_final'] }}</td>
-                        <td>{{  $permiso['hora_final'] }}</td>
-                        <td>{{  $permiso['total_tiempo'] }}</td>
-                        <td>{{  $permiso['estado'] }}</td>
-                    </tr>
-                @endforeach
+                
             </tbody>
         </table>
 
