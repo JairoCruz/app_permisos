@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Validator;
 
 
 
@@ -27,7 +28,8 @@ class PermisoController extends Controller
         // Obtener codigo del empleado
         $cod_empleado = $request->user()->cod_empleado;
        
-       
+        
+        //$request->session()->put('codigo',$cod_empleado);
 
         $permisos = Permiso::where('codigo_empleado', $cod_empleado)
             ->orderByDesc('fecha_solicitud')
@@ -48,9 +50,8 @@ class PermisoController extends Controller
                 ];
             });
 
-
+        $tipos = Tipo_Permiso::select('id','cod_permiso', 'descripcion')->whereIn('cod_permiso', [15,6,36,18,8,23])->get();
         if($request->ajax()){
-            
             $data = $permisos;
             return response()->json(['data' => $data]);
         }
@@ -59,7 +60,7 @@ class PermisoController extends Controller
         // Devolver los valores para el form de busqueda
         $request->flash();
 
-        return view('permiso.index', ['permisos' => $permisos,]);
+        return view('permiso.index', ['permisos' => $permisos, 'tipos' => $tipos]);
     }
 
 
@@ -102,8 +103,102 @@ class PermisoController extends Controller
     
     }
 
+
+    
+
     public function store(Request $request)
     {
+
+
+        if($request->ajax()){
+
+
+            $data_empleado = Empleado::where('codigo_empleado', $request->user()->cod_empleado)->first();
+            
+
+            
+
+            $validator = Validator::make($request->all(), [
+                'fechaSolicitud' => 'required',
+                'tipoPermiso' => 'required',
+                'goceSueldo' => 'required',
+                'constancia' => 'required',
+                'fechaInicio' => 'required',
+                'fechaFin' => 'required',
+                'horaInicio' => 'required',
+                'horaFin' => 'required',
+                'motivo' => 'required'
+            ]);
+
+            if ($validator->fails()){
+                return response()->json(["errors" => $validator->errors()]);
+            }
+
+           
+
+        
+        $p = new Permiso;
+        $p->emp_fk = $data_empleado->id;
+        $p->codigo_empleado_registra =  $data_empleado->codigo_empleado;
+        $p->jefe_unidad_id = 45; // ignac
+        $p->codigo_empleado = $data_empleado->codigo_empleado;
+        $p->fecha_inicial = Carbon::parse($request->fechaInicio)->format('Y-m-d');
+        $p->fecha_final = Carbon::parse($request->fechaFin)->format('Y-m-d');
+        $p->hora_inicial = Carbon::parse($request->horaInicio)->format('H:i');
+        $p->hora_final = Carbon::parse($request->horaFin)->format('H:i');
+        $p->tp_fk = ($request->tipoPermiso == 9 && $request->goceSueldo == 'F') ? 10 : $request->tipoPermiso;
+        $p->ano = Carbon::parse($request->fechaSolicitud)->year;
+        $p->motivo = $request->motivo;
+        $p->goce_sueldo = $request->goceSueldo;
+        $p->constancia = $request->constancia;
+        $p->fecha_solicitud = Carbon::parse($request->fechaSolicitud)->format('Y-m-d');
+        $p->numero_plaza = $data_empleado->numero_plaza;
+        $p->mes = Carbon::parse($request->fechaSolicitud)->month;
+        $p->total_tiempo = Times::total_horas_minutos(
+            Carbon::parse($request->fechaInicio),
+            Carbon::parse($request->fechaFin),
+            Carbon::parse($request->horaInicio),
+            Carbon::parse($request->horaFin)
+        );
+
+       $p->save();
+
+
+
+
+
+
+        // Permiso::updateOrCreate(
+        //     [
+        //         'emp_fk' => $data_empleado->id,
+        //         'codigo_empleado_registra' => $data_empleado->codigo_empleado,
+        //         'jefe_unidad_id' => 45,
+        //         'codigo_empleado' => $data_empleado->codigo_empleado,
+        //         'fecha_inicial' => Carbon::parse($request->fechaInicio)->format('Y-m-d'),
+        //         'fecha_final' => Carbon::parse($request->fechaFin)->format('Y-m-d'),
+        //         'hora_inicial' => Carbon::parse($request->horaInicio)->format('H:i'),
+        //         'hora_final' => Carbon::parse($request->horaFin)->format('H:i'),
+        //         'tp_fk'=> ($request->tipoPermiso == 9 && $request->goceSueldo == 'F') ? 10 : $request->tipoPermiso,
+        //         'ano' => Carbon::parse($request->fechaSolicitud)->year,
+        //         'motivo' => $request->motivo,
+        //         'goce_sueldo' => $request->goceSueldo,
+        //         'constancia' => $request->constancia,
+        //         'fecha_solicitud' => $request->fechaSolicitud,
+        //         'numero_plaza' => $data_empleado->numero_plaza,
+        //         'mes' => Carbon::parse($request->fechaSolicitud)->moth,
+        //         'total_tiempo' => Times::total_horas_minutos(
+        //             Carbon::parse($request->fechaInicio),
+        //             Carbon::parse($request->fechaFin),
+        //             Carbon::parse($request->horaInicio),
+        //             Carbon::parse($request->horaFin)
+        //         ),
+        //     ]
+        // );
+
+
+        return Response()->json(['success' => 'Se ha registrado el permiso', 'data' => $request->all()]);
+
+        }
         //dd($request);
 
         // Get data from Session
