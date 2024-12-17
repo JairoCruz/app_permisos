@@ -24,11 +24,11 @@ class PermisoController extends Controller
 {
     public function index(Request $request)
     {
-       
+
         // Obtener codigo del empleado
         $cod_empleado = $request->user()->cod_empleado;
-       
-        
+
+
         //$request->session()->put('codigo',$cod_empleado);
 
         $permisos = Permiso::where('codigo_empleado', $cod_empleado)
@@ -50,13 +50,13 @@ class PermisoController extends Controller
                 ];
             });
 
-        $tipos = Tipo_Permiso::select('id','cod_permiso', 'descripcion')->whereIn('cod_permiso', [15,6,36,18,8,23])->get();
-        if($request->ajax()){
+        $tipos = Tipo_Permiso::select('id', 'cod_permiso', 'descripcion')->whereIn('cod_permiso', [15, 6, 36, 18, 8, 23])->get();
+        if ($request->ajax()) {
             $data = $permisos;
             return response()->json(['data' => $data]);
         }
 
-        
+
         // Devolver los valores para el form de busqueda
         $request->flash();
 
@@ -69,54 +69,52 @@ class PermisoController extends Controller
     {
 
         $empleado = null;
-    
-        if ($request->has('dui')){
+
+        if ($request->has('dui')) {
             $empleado = Empleado::where('dui', $request->dui)->first();
             if (is_null($empleado)) {
                 notify()->error('No hay registros que coincidan con el dui que digitastes. Intentalo de nuevo');
-                return redirect()->back()->withInput(); 
-            } 
-                         
+                return redirect()->back()->withInput();
+            }
         }
 
-       
+
 
         $cod_empleado = (is_null($empleado)) ? $request->user()->cod_empleado : $empleado->codigo_empleado;
 
         // Get data from one "EMPLEADO"
         $data_empleado = Empleado::where('codigo_empleado', $cod_empleado)->first();
-       
+
 
         // Get data from "TIPO PERMISOS"
-        $data_tipo_permiso = Tipo_Permiso::select('id','cod_permiso', 'descripcion')->whereIn('cod_permiso', [15,6,36,18,8,23])->get();
+        $data_tipo_permiso = Tipo_Permiso::select('id', 'cod_permiso', 'descripcion')->whereIn('cod_permiso', [15, 6, 36, 18, 8, 23])->get();
         //dd($data_tipo_permiso);
 
         // Data for opcions
         $opciones = ['V' => 'si', 'F' => 'no'];
 
         $jefes_x_empleado = JefesxEmpleado::where('e_id', 400)->get();
-        
-       // dd($jefes_x_empleado);
-       
 
-        return view('permiso.create', ['permiso' => $permiso, 'empleado' => $data_empleado, 'tipo_permisos' => $data_tipo_permiso, 'opciones' => $opciones, 'jf'=> $jefes_x_empleado]);
-    
+        // dd($jefes_x_empleado);
+
+
+        return view('permiso.create', ['permiso' => $permiso, 'empleado' => $data_empleado, 'tipo_permisos' => $data_tipo_permiso, 'opciones' => $opciones, 'jf' => $jefes_x_empleado]);
     }
 
 
-    
+
 
     public function store(Request $request)
     {
 
 
-        if($request->ajax()){
+        if ($request->ajax()) {
 
 
             $data_empleado = Empleado::where('codigo_empleado', $request->user()->cod_empleado)->first();
-            
 
-            
+
+
 
             $validator = Validator::make($request->all(), [
                 'fechaSolicitud' => 'required',
@@ -130,74 +128,73 @@ class PermisoController extends Controller
                 'motivo' => 'required'
             ]);
 
-            if ($validator->fails()){
+            if ($validator->fails()) {
                 return response()->json(["errors" => $validator->errors()]);
             }
 
-           
-
-        
-        $p = new Permiso;
-        $p->emp_fk = $data_empleado->id;
-        $p->codigo_empleado_registra =  $data_empleado->codigo_empleado;
-        $p->jefe_unidad_id = 45; // ignac
-        $p->codigo_empleado = $data_empleado->codigo_empleado;
-        $p->fecha_inicial = Carbon::parse($request->fechaInicio)->format('Y-m-d');
-        $p->fecha_final = Carbon::parse($request->fechaFin)->format('Y-m-d');
-        $p->hora_inicial = Carbon::parse($request->horaInicio)->format('H:i');
-        $p->hora_final = Carbon::parse($request->horaFin)->format('H:i');
-        $p->tp_fk = ($request->tipoPermiso == 9 && $request->goceSueldo == 'F') ? 10 : $request->tipoPermiso;
-        $p->ano = Carbon::parse($request->fechaSolicitud)->year;
-        $p->motivo = $request->motivo;
-        $p->goce_sueldo = $request->goceSueldo;
-        $p->constancia = $request->constancia;
-        $p->fecha_solicitud = Carbon::parse($request->fechaSolicitud)->format('Y-m-d');
-        $p->numero_plaza = $data_empleado->numero_plaza;
-        $p->mes = Carbon::parse($request->fechaSolicitud)->month;
-        $p->total_tiempo = Times::total_horas_minutos(
-            Carbon::parse($request->fechaInicio),
-            Carbon::parse($request->fechaFin),
-            Carbon::parse($request->horaInicio),
-            Carbon::parse($request->horaFin)
-        );
-
-       $p->save();
 
 
+
+            $p = new Permiso;
+            $p->emp_fk = $data_empleado->id;
+            $p->codigo_empleado_registra =  $data_empleado->codigo_empleado;
+            $p->jefe_unidad_id = 45; // ignac
+            $p->codigo_empleado = $data_empleado->codigo_empleado;
+            $p->fecha_inicial = Carbon::parse($request->fechaInicio)->format('Y-m-d');
+            $p->fecha_final = Carbon::parse($request->fechaFin)->format('Y-m-d');
+            $p->hora_inicial = Carbon::parse($request->horaInicio)->format('H:i');
+            $p->hora_final = Carbon::parse($request->horaFin)->format('H:i');
+            $p->tp_fk = ($request->tipoPermiso == 9 && $request->goceSueldo == 'F') ? 10 : $request->tipoPermiso;
+            $p->ano = Carbon::parse($request->fechaSolicitud)->year;
+            $p->motivo = $request->motivo;
+            $p->goce_sueldo = $request->goceSueldo;
+            $p->constancia = $request->constancia;
+            $p->fecha_solicitud = Carbon::parse($request->fechaSolicitud)->format('Y-m-d');
+            $p->numero_plaza = $data_empleado->numero_plaza;
+            $p->mes = Carbon::parse($request->fechaSolicitud)->month;
+            $p->total_tiempo = Times::total_horas_minutos(
+                Carbon::parse($request->fechaInicio),
+                Carbon::parse($request->fechaFin),
+                Carbon::parse($request->horaInicio),
+                Carbon::parse($request->horaFin)
+            );
+
+            $p->save();
 
 
 
 
-        // Permiso::updateOrCreate(
-        //     [
-        //         'emp_fk' => $data_empleado->id,
-        //         'codigo_empleado_registra' => $data_empleado->codigo_empleado,
-        //         'jefe_unidad_id' => 45,
-        //         'codigo_empleado' => $data_empleado->codigo_empleado,
-        //         'fecha_inicial' => Carbon::parse($request->fechaInicio)->format('Y-m-d'),
-        //         'fecha_final' => Carbon::parse($request->fechaFin)->format('Y-m-d'),
-        //         'hora_inicial' => Carbon::parse($request->horaInicio)->format('H:i'),
-        //         'hora_final' => Carbon::parse($request->horaFin)->format('H:i'),
-        //         'tp_fk'=> ($request->tipoPermiso == 9 && $request->goceSueldo == 'F') ? 10 : $request->tipoPermiso,
-        //         'ano' => Carbon::parse($request->fechaSolicitud)->year,
-        //         'motivo' => $request->motivo,
-        //         'goce_sueldo' => $request->goceSueldo,
-        //         'constancia' => $request->constancia,
-        //         'fecha_solicitud' => $request->fechaSolicitud,
-        //         'numero_plaza' => $data_empleado->numero_plaza,
-        //         'mes' => Carbon::parse($request->fechaSolicitud)->moth,
-        //         'total_tiempo' => Times::total_horas_minutos(
-        //             Carbon::parse($request->fechaInicio),
-        //             Carbon::parse($request->fechaFin),
-        //             Carbon::parse($request->horaInicio),
-        //             Carbon::parse($request->horaFin)
-        //         ),
-        //     ]
-        // );
 
 
-        return Response()->json(['success' => 'Se ha registrado el permiso', 'data' => $request->all()]);
+            // Permiso::updateOrCreate(
+            //     [
+            //         'emp_fk' => $data_empleado->id,
+            //         'codigo_empleado_registra' => $data_empleado->codigo_empleado,
+            //         'jefe_unidad_id' => 45,
+            //         'codigo_empleado' => $data_empleado->codigo_empleado,
+            //         'fecha_inicial' => Carbon::parse($request->fechaInicio)->format('Y-m-d'),
+            //         'fecha_final' => Carbon::parse($request->fechaFin)->format('Y-m-d'),
+            //         'hora_inicial' => Carbon::parse($request->horaInicio)->format('H:i'),
+            //         'hora_final' => Carbon::parse($request->horaFin)->format('H:i'),
+            //         'tp_fk'=> ($request->tipoPermiso == 9 && $request->goceSueldo == 'F') ? 10 : $request->tipoPermiso,
+            //         'ano' => Carbon::parse($request->fechaSolicitud)->year,
+            //         'motivo' => $request->motivo,
+            //         'goce_sueldo' => $request->goceSueldo,
+            //         'constancia' => $request->constancia,
+            //         'fecha_solicitud' => $request->fechaSolicitud,
+            //         'numero_plaza' => $data_empleado->numero_plaza,
+            //         'mes' => Carbon::parse($request->fechaSolicitud)->moth,
+            //         'total_tiempo' => Times::total_horas_minutos(
+            //             Carbon::parse($request->fechaInicio),
+            //             Carbon::parse($request->fechaFin),
+            //             Carbon::parse($request->horaInicio),
+            //             Carbon::parse($request->horaFin)
+            //         ),
+            //     ]
+            // );
 
+
+            return Response()->json(['success' => 'Se ha registrado el permiso', 'data' => $request->all()]);
         }
         //dd($request);
 
@@ -222,7 +219,7 @@ class PermisoController extends Controller
             'motivo' => ['required']
         ]);
 
-        
+
         $verificar_duplicado = Permiso::verificar(
             $cod_empleado,
             Carbon::parse($request->fecha_inicial)->format('Y-m-d'),
@@ -231,19 +228,18 @@ class PermisoController extends Controller
             Carbon::parse($request->hora_final)->format('H:i'),
             ($request->tipo_permiso == 15 && $request->goce_sueldo == 'F') ? 16 : $request->tipo_permiso,
             $request->goce_sueldo,
-            $request->constancia)
+            $request->constancia
+        )
             ->count();
         // Verificar si ya existe un registro con los mismos datos ingresados.
         if ($verificar_duplicado != 0) {
             notify()->error('Ya existe un permiso con los mismos datos que intenta ingresar.');
-            return redirect()->
-            back()->
-            withInput(); 
+            return redirect()->back()->withInput();
         }
 
         // Obtengo una referencia a la secuencia, luego la llamo por medio del nombre definido en la db
-       // $secuencia = DB::getSequence();
-       
+        // $secuencia = DB::getSequence();
+
         $p = new Permiso;
         $p->emp_fk = $data_empleado->id;
         $p->codigo_empleado_registra = $cod_empleado;
@@ -267,27 +263,26 @@ class PermisoController extends Controller
             Carbon::parse($request->hora_inicial),
             Carbon::parse($request->hora_final)
         );
-       // $p->correlativo = $secuencia->nextValue('SEQ_CORRELATIVO');
-        
+        // $p->correlativo = $secuencia->nextValue('SEQ_CORRELATIVO');
+
         // Guardar datos
         $p->save();
         // Notificar sobre registro guardado
         notify()->success('Se ha registrado el permiso con éxito.');
         // Redirigir a la vista de permiso
         return redirect()->route('permiso.view', $p->id);
-
     }
 
     public function view($permiso)
     {
-        
+
         //$tipo_permiso = array("personal"=>15,"enf. personal"=>6,"familiar/duelo"=>18,"matrimonio"=>36);
         //dd($tipo_permiso);
         $estado_permiso = ['aprobado' => 'A'];
 
         $permiso1 = Permiso::where('id', $permiso)->first();
 
-        
+
 
         $empleado = Empleado::where('codigo_empleado', $permiso1->codigo_empleado)->first();
         ($empleado);
@@ -298,33 +293,33 @@ class PermisoController extends Controller
         // Get data from "TIPO PERMISOS"
         $data_tipo_permiso = Tipo_Permiso::select('descripcion', 'cod_permiso')->where('id', $permiso1->tp_fk)->get();
         //dd($data_tipo_permiso);
-        
+
         return view('permiso.view', ['permiso' => $permiso1, 'empleado' => $empleado, 'tipo_permiso' => $data_tipo_permiso, 'estado_permiso' => $estado_permiso]);
     }
 
     public function edit(Permiso $permiso)
     {
-        
+
         // Get data from one "EMPLEADO"
         $empleado = Empleado::where('codigo_empleado', $permiso->codigo_empleado)->first();
         // Get data from "TIPO PERMISOS"
         $data_tipo_permiso = Tipo_Permiso::select('id', 'cod_permiso', 'descripcion')->whereIn('cod_permiso', [6, 15, 18, 36, 8, 16, 23])->get();
-        
-        
-        
+
+
+
         $opciones = ['V' => 'si', 'F' => 'no'];
 
-       $permiso->fecha_crea = Carbon::parse($permiso->fecha_crea)->format('Y-m-d');
-       $permiso->fecha_solic = Carbon::parse($permiso->fecha_solic)->format('Y-m-d');
-       $permiso->fecha_inicial = Carbon::parse($permiso->fecha_inicial)->format('Y-m-d');
-       $permiso->fecha_final = Carbon::parse($permiso->fecha_final)->format('Y-m-d');
-       
+        $permiso->fecha_crea = Carbon::parse($permiso->fecha_crea)->format('Y-m-d');
+        $permiso->fecha_solic = Carbon::parse($permiso->fecha_solic)->format('Y-m-d');
+        $permiso->fecha_inicial = Carbon::parse($permiso->fecha_inicial)->format('Y-m-d');
+        $permiso->fecha_final = Carbon::parse($permiso->fecha_final)->format('Y-m-d');
+
         return view('permiso.edit', ['permiso' => $permiso, 'empleado' => $empleado, 'tipo_permisos' => $data_tipo_permiso, 'opciones' => $opciones]);
     }
 
     public function update(Request $request, Permiso $permiso)
     {
-    
+
         //dd($request->tipo_permiso, $permiso);
         $permiso->update([
             'fecha_solicitud' => Carbon::parse($request->fecha_solic)->format('Y-m-d'),
@@ -346,7 +341,7 @@ class PermisoController extends Controller
             )
 
         ]);
-        
+
 
         notify()->success('Se ha modificado el registro con éxito');
 
@@ -355,10 +350,10 @@ class PermisoController extends Controller
 
     public function imprimir($permiso)
     {
-       // dd($permiso);
+        // dd($permiso);
 
         $permiso1 = Permiso::where('id', $permiso)->first();
-        
+
 
         $tipo_permiso = match ($permiso1->tipo_permiso->cod_permiso) {
             '15' => ["personal" => 15, "enf. personal" => 6, "familiar/duelo" => 36, "matrimonio" => 18],
@@ -370,7 +365,7 @@ class PermisoController extends Controller
             '23' => ["paternidad" => 23, "enf. personal" => 6, "familiar/duelo" => 36, "matrimonio" => 18]
         };
 
-        
+
 
         $empleado = Empleado::where('codigo_empleado', $permiso1->codigo_empleado)->first();
         $permiso1->fecha_solic = date('d-m-Y', strtotime($permiso1->fecha_solicitud));
@@ -379,11 +374,11 @@ class PermisoController extends Controller
         //$pdf = Pdf::loadView('permiso.imprimir');
         // return $pdf->download('test.pdf');
 
-        
+
 
         $pdf = Pdf::loadView('permiso.imprimir', ['permiso' => $permiso1, 'empleado' => $empleado, "t_permiso" => $tipo_permiso]);
         $pdf->render();
-        return $pdf->download('permiso'.'_'.$permiso1->fecha_solic.'.pdf');
+        return $pdf->download('permiso' . '_' . $permiso1->fecha_solic . '.pdf');
         //return view('permiso.imprimir' , ['permiso' => $permiso1, 'empleado' => $empleado, "t_permiso" => $tipo_permiso]);
     }
 
@@ -393,10 +388,10 @@ class PermisoController extends Controller
     {
         //dd(now()->format('Y'));
         $cod_empleado = $request->user()->cod_empleado;
-        $cod_permisos = Tipo_permiso::select(['id','cod_permiso', 'descripcion', 'valor'])
+        $cod_permisos = Tipo_permiso::select(['id', 'cod_permiso', 'descripcion', 'valor'])
             ->whereIn('cod_permiso', [15, 16, 6, 18, 8, 23, 36])
             ->get();
-       // dd($cod_permisos);
+        // dd($cod_permisos);
 
         $periodo = DB::table('t_vista_disponibilidad_anual')
             ->select('ano')
@@ -436,5 +431,4 @@ class PermisoController extends Controller
     {
         return view('permiso.permiso_com');
     }
-
 }

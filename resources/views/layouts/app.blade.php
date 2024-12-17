@@ -22,12 +22,12 @@
         
         @notifyCss
         <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
+        @vite([/*'resources/css/app.css',*/ 'resources/js/app.js'])
     </head>
     <body class="font-sans antialiased">
     @include('notify::components.notify')
-        <div class="min-h-screen bg-gray-200">
-            @include('layouts.navigation')
+        <div class="vh-100 bg-secondary-subtle">
+            @include('layouts.navigation_')
 
             <!-- Page Heading -->
             @isset($header)
@@ -40,7 +40,9 @@
 
             <!-- Page Content -->
             <main>
-                {{ $slot }}
+                <div class="container">
+                    {{ $slot }}
+                </div>
             </main>
         </div>
         @notifyJs

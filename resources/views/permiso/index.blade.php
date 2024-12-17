@@ -1,32 +1,36 @@
 <x-app-layout>
-    <div class="container my-5">
+    <div class="my-5">
 
-        <div class="row">
-            <div class="col">
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="agregar()">
-                    Launch demo modal
-                </button>
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="agregar()">
+                            Agregar
+                        </button>
+                    </div>
+                    <div class="col-12">
+                        <table id="permisos" class="table table-responsive table-hover my-1">
+                            <thead>
+                                <tr>
+                                    <th>Fecha presentacion</th>
+                                    <th>Tipo</th>
+                                    <th>Fecha inicio</th>
+                                    <th>Hora inicio</th>
+                                    <th>Fecha fin</th>
+                                    <th>Hora fin</th>
+                                    <th>Total tiempo</th>
+                                    <th>Estado</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+        
+                            </tbody>
+                        </table>
+                    </div>
+        
+                </div>
             </div>
-            <div class="col-12">
-                <table id="permisos" class="table table-responsive table-hover my-1">
-                    <thead>
-                        <tr>
-                            <th>Fecha presentacion</th>
-                            <th>Tipo</th>
-                            <th>Fecha inicio</th>
-                            <th>Hora inicio</th>
-                            <th>Fecha fin</th>
-                            <th>Hora fin</th>
-                            <th>Total tiempo</th>
-                            <th>Estado</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-
-                    </tbody>
-                </table>
-            </div>
-
         </div>
     </div>
 
@@ -37,7 +41,8 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Registro de permiso personal</h5>
-                    <button type="button" id="cerrarHeaderBtn" class="btn" data-bs-dismiss="modal" aria-label="Close"><i class="bi-x-lg"></i></button>
+                    <button type="button" id="cerrarHeaderBtn" class="btn" data-bs-dismiss="modal"
+                        aria-label="Close"><i class="bi-x-lg"></i></button>
                 </div>
                 <div class="modal-body">
                     <div class="alert alert-danger print-error-msg" id="errors" style="display: none">
@@ -50,8 +55,8 @@
                             <div class="col-12">
                                 <div class="mb-3">
                                     <label for="fechaSolicitud" class="form-label">Ingrese la fecha de solicitud</label>
-                                    <input type="date" class="form-control" id="fechaSolicitud"
-                                        name="fechaSolicitud" required>
+                                    <input type="date" class="form-control" id="fechaSolicitud" name="fechaSolicitud"
+                                        required>
                                     <div id="fechaSolicitud-error" class="text-danger mt-1"><small></small></div>
                                 </div>
 
@@ -148,7 +153,8 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button"  class="btn btn-secondary" id="cerrarBtn" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-secondary" id="cerrarFooterBtn"
+                        data-bs-dismiss="modal">Cerrar</button>
                     <button type="submit" class="btn btn-primary" id="guardarBtn">Guardar</button>
                 </div>
                 </form>
@@ -157,6 +163,7 @@
     </div>
 
     <script>
+        // Configuracion de Datatable, para mostrar los datos
         var table = new DataTable('#permisos', {
             ajax: "{{ route('permiso.index') }}",
             columns: [{
@@ -196,21 +203,18 @@
             }
         });
 
-       // $('#permisoForm').validate();
-
+        // Reset del formulario
         function agregar() {
             $('#permisoForm').trigger("reset");
         }
 
-        $('#cerrarBtn').on('click', function() {
+        $('#cerrarFooterBtn, #cerrarHeaderBtn').on('click', function() {
             reset();
         });
 
-        $('#cerrarHeaderBtn').on('click', function() {
-            reset();
-        });
+        
 
-        function reset(){
+        function reset() {
             v.resetForm();
             resetErrorMsg();
         }
@@ -220,6 +224,7 @@
                 fechaSolicitud: {
                     required: true,
                 }
+
             },
             messages: {
                 fechaSolicitud: {
@@ -256,136 +261,70 @@
             },
             errorClass: 'text-danger',
             errorElement: 'small',
-            highlight: function(element, errorClass){
+            highlight: function(element, errorClass) {
                 $(element).removeClass(errorClass)
             },
-            submitHandler: function(form){
+            submitHandler: function(form) {
                 let formData = new FormData(form);
 
                 $.ajax({
-                type: 'POST',
-                url: "{{ route('permiso.store') }}",
-                data: formData,
-                contentType: false,
-                processData: false,
-                success: (response) => {
-                    console.log(response);
-                    if ($.isEmptyObject(response.errors)) {
-                        $('#permisoForm').trigger("reset");
-                        $('#guardarBtn').html('Guardar');
-                        $('#exampleModal').modal('hide');
-                        resetErrorMsg();
-                    } else {
+                    type: 'POST',
+                    url: "{{ route('permiso.store') }}",
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: (response) => {
+                        console.log(response);
+                        if ($.isEmptyObject(response.errors)) {
+                            $('#permisoForm').trigger("reset");
+                            $('#guardarBtn').html('Guardar');
+                            $('#exampleModal').modal('hide');
+                            resetErrorMsg();
+                        } else {
 
-                        $('#fechaSolicitud-error > small').text(capitalizeFirstL(response.errors
-                            .fechaSolicitud));
-                        $('#tipoPermiso-error > small').text(capitalizeFirstL(response.errors
-                            .tipoPermiso));
-                        $('#goceSueldo-error > small').text(capitalizeFirstL(response.errors
-                            .goceSueldo));
-                        $('#constancia-error > small').text(capitalizeFirstL(response.errors
-                            .constancia));
-                        $('#fechaInicio-error > small').text(capitalizeFirstL(response.errors
-                            .fechaInicio));
-                        $('#horaInicio-error > small').text(capitalizeFirstL(response.errors
-                            .horaInicio));
-                        $('#fechaFin-error > small').text(capitalizeFirstL(response.errors
-                            .fechaFin));
-                        $('#horaFin-error > small').text(capitalizeFirstL(response.errors
-                            .horaFin));
-                        $('#motivo-error > small').text(capitalizeFirstL(response.errors
-                            .motivo));
+                            errorMessagesFromServer(response);
+                        }
+
+                        table.ajax.reload();
+                    },
+                    error: function(response) {
+                        $.each(response.responseJSON.errors, function(key, value) {
+                            $('#permisoForm').find(".print-error-msg").find("ul").append(
+                                '<li>' +
+                                value + '</li>');
+                        });
                     }
+                });
 
-                    table.ajax.reload();
-                },
-                error: function(response) {
-                    $.each(response.responseJSON.errors, function(key, value) {
-                        $('#permisoForm').find(".print-error-msg").find("ul").append('<li>' +
-                            value + '</li>');
-                    });
-                }
-            });
-                
             }
         });
 
-        // $('#permisoForm').submit(function(e) {
-        //     e.preventDefault();
-        //     console.log('cualquier boton me dispara');
-        //     let formData = new FormData(this);
-            
+        // Utilidades
+        function errorMessagesFromServer(response) {
+            $('#fechaSolicitud-error > small').text(capitalizeFirstLetter(response.errors
+                .fechaSolicitud));
+            $('#tipoPermiso-error > small').text(capitalizeFirstLetter(response.errors
+                .tipoPermiso));
+            $('#goceSueldo-error > small').text(capitalizeFirstLetter(response.errors
+                .goceSueldo));
+            $('#constancia-error > small').text(capitalizeFirstLetter(response.errors
+                .constancia));
+            $('#fechaInicio-error > small').text(capitalizeFirstLetter(response.errors
+                .fechaInicio));
+            $('#horaInicio-error > small').text(capitalizeFirstLetter(response.errors
+                .horaInicio));
+            $('#fechaFin-error > small').text(capitalizeFirstLetter(response.errors
+                .fechaFin));
+            $('#horaFin-error > small').text(capitalizeFirstLetter(response.errors
+                .horaFin));
+            $('#motivo-error > small').text(capitalizeFirstLetter(response.errors
+                .motivo));
+        }
 
-        //     $('#guardarBtn').html('Enviando....');
-
-            
-        //     $.ajax({
-        //         type: 'POST',
-        //         url: "{{ route('permiso.store') }}",
-        //         data: formData,
-        //         contentType: false,
-        //         processData: false,
-        //         success: (response) => {
-        //             console.log(response);
-        //             if ($.isEmptyObject(response.errors)) {
-        //                 $('#permisoForm').trigger("reset");
-        //                 $('#guardarBtn').html('Guardar');
-        //                 $('#exampleModal').modal('hide');
-        //                 resetErrorMsg();
-        //             } else {
-
-        //                 $('#fechaSolicitud-error > small').text(capitalizeFirstL(response.errors
-        //                     .fechaSolicitud));
-        //                 $('#tipoPermiso-error > small').text(capitalizeFirstL(response.errors
-        //                     .tipoPermiso));
-        //                 $('#goceSueldo-error > small').text(capitalizeFirstL(response.errors
-        //                     .goceSueldo));
-        //                 $('#constancia-error > small').text(capitalizeFirstL(response.errors
-        //                     .constancia));
-        //                 $('#fechaInicio-error > small').text(capitalizeFirstL(response.errors
-        //                     .fechaInicio));
-        //                 $('#horaInicio-error > small').text(capitalizeFirstL(response.errors
-        //                     .horaInicio));
-        //                 $('#fechaFin-error > small').text(capitalizeFirstL(response.errors
-        //                     .fechaFin));
-        //                 $('#horaFin-error > small').text(capitalizeFirstL(response.errors
-        //                     .horaFin));
-        //                 $('#motivo-error > small').text(capitalizeFirstL(response.errors
-        //                     .motivo));
-        //             }
-
-        //             table.ajax.reload();
-        //         },
-        //         error: function(response) {
-        //             $.each(response.responseJSON.errors, function(key, value) {
-        //                 $('#permisoForm').find(".print-error-msg").find("ul").append('<li>' +
-        //                     value + '</li>');
-        //             });
-        //         }
-        //     });
-
-
-        //     /*  for (const [key, value] of formData) {
-        //          console.log(`${key}: ${value}`);
-        //      } */
-
-        // });
-
-        // $(document).ready(function(){
-        //     $.ajax({
-        //         url: '{{ url('permisos') }}',
-        //         type: 'GET',
-        //         success: function(response){
-        //             console.log(response);
-        //         },
-        //         error: function(response){
-        //             console.log(response);
-        //         }
-        //     });
-        // });
-        function capitalizeFirstL(string1) {
+        function capitalizeFirstLetter(string1) {
             return (string1) ? string1.toString().substring(0, 1).toUpperCase() + string1.toString().substring(1) : string1;
         }
+
 
         function resetErrorMsg() {
             $('#fechaSolicitud-error > small').text('');

@@ -2,39 +2,95 @@
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
-    
+    <div class="col-md-5">
+        <!-- Este error se muestra en caso el form de login lance un error -->
+        @if ($errors->any())
+            <div class="alert alert-warning alert-dismissible fase show " role="alert">
+                <div class="row">
 
-    <form method="POST" action="{{ route('login') }}">
-        @csrf
+                    @foreach ($errors->all() as $message)
+                        <div class="col-1">
+                            <i class="bi-exclamation-triangle-fill"></i>
+                        </div>
+                        <div class="col-10">
+                            <ul class="list-unstyled" style="margin-bottom: 0px">
+                                <li><small>{{ $message }}</small></li>
+                            </ul>
+                        </div>
+                        <div class="col-1">
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @endforeach
 
-        <!-- COD_EMPLEADO -->
-        <div>
-            <x-input-label for="dui" :value="__('Dui')" />
-            <x-text-input id="dui" class="block mt-1 w-full" name="dui" :value="old('dui')" required autofocus
-                autocomplete="dui" />
+                </div>
+                
+            </div>
+        @endif
+        <div class="">
+            <div class="card px-4 py-4 border-dark-subtle">
+                <div class="card-body">
+                    <form method="POST" action="{{ route('login') }}" class="needs-validation" novalidate>
+                        @csrf
+
+                        <div class="form-group mb-3">
+                            <label for="dui" class="form-label">Dui</label>
+                            <div class="input-group has-validation">
+                                <input type="text" class="form-control form-control-lg" id="dui" name="dui"
+                                    value="{{ old('dui') }}" aria-describedby="duiHelp"
+                                    placeholder="Ingrese el numero de DUI" required>
+                                <div class="invalid-feedback">
+                                    No puede quedar vacio el numero de DUI
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label for="password" class="form-label">Contraseña</label>
+                            <div class="input-group has-validation">
+                                <input type="password" name="password" id="password"
+                                    placeholder="Ingrese su contraseña" class="form-control form-control-lg"
+                                    aria-describedby="passHelp" required>
+                                <div class="invalid-feedback">
+                                    No puede quedar vacio el password
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-check mb-3">
+                            <input type="checkbox" class="form-check-input" id="remember_me">
+                            <label for="remember_me">Recuerdame</label>
+                        </div>
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                            <button class="btn btn-primary btn-lg">Acceder</button>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
+    </div>
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Contraseña')" />
+    <script>
+        (() => {
+            'use strict'
 
-            <x-text-input id="password" class="block mt-1 w-full" type="password" name="password" required
-                autocomplete="current-password" />
-        </div>
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            const forms = document.querySelectorAll('.needs-validation')
+            console.log(forms);
+            // Loop over them and prevent submission
+            Array.from(forms).forEach(form => {
+                form.addEventListener('submit', event => {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
 
-        <!-- Remember Me -->
-        <div class="block mt-4">
-            <label for="remember_me" class="inline-flex items-center">
-                <input id="remember_me" type="checkbox"
-                    class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
-                <span class="ms-2 text-sm text-gray-600">{{ __('Recuerdame') }}</span>
-            </label>
-        </div>
+                    form.classList.add('was-validated')
+                }, false)
+            })
+        })()
+    </script>
 
-        <div class="flex items-center justify-end mt-4">
-            <x-primary-button class="ms-3">
-                {{ __('Acceder') }}
-            </x-primary-button>
-        </div>
-    </form>
+
 </x-guest-layout>

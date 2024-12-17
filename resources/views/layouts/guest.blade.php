@@ -11,21 +11,17 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="font-sans text-gray-900 antialiased">
-    <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-200">
-        <!-- Este error se muestra en caso el form de login lance un error -->
-        @if ($errors->any())
-            <div class="w-full sm:max-w-md mb-2  px-2 py-2 bg-red-100 shadow-md overflow-hidden sm:rounded-lg">
-                <x-input-error :messages="$errors->get('err_dui_pass')" />
-            </div>
-        @endif
-
-        <div class="w-full sm:max-w-md  px-6 py-6 bg-white shadow-md overflow-hidden sm:rounded-lg">
+<body class="bg-secondary-subtle">
+    <div class="container">
+        <div class="row vh-100 d-flex justify-content-center align-items-center">
             {{ $slot }}
         </div>
     </div>
