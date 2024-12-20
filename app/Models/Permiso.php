@@ -12,7 +12,6 @@ class Permiso extends Model
 
     protected $fillable = [
         'fecha_solic',
-        'cod_permiso',
         'goce_sueldo',
         'constancia',
         'fecha_inicial',
@@ -23,7 +22,12 @@ class Permiso extends Model
         'ano',
         'mes',
         'total_tiempo',
-        'tp_fk'
+        'tp_fk',
+        'emp_fk',
+        'codigo_empleado_registra',
+        'jefe_unidad_id',
+        'codigo_empleado',
+        'numero_plaza'
         ] ;
 
     use HasUuids;

@@ -1,11 +1,26 @@
 <x-app-layout>
+    <div class="toast-container position-absolute top-0 end-0 p-3">
+        <div class="toast align-items-center text-white bg-success border-0" role="alert" data-bs-delay="3000"
+            aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body">
+                    Se ha registrado el permiso.
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                    aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+
+
     <div class="my-5">
 
         <div class="card">
             <div class="card-body">
                 <div class="row">
                     <div class="col">
-                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="agregar()">
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                            onclick="agregar()">
                             Agregar
                         </button>
                     </div>
@@ -13,22 +28,23 @@
                         <table id="permisos" class="table table-responsive table-hover my-1">
                             <thead>
                                 <tr>
-                                    <th>Fecha presentacion</th>
+                                    <th>Referencia</th>
+                                    <th>Fecha</th>
                                     <th>Tipo</th>
-                                    <th>Fecha inicio</th>
-                                    <th>Hora inicio</th>
-                                    <th>Fecha fin</th>
-                                    <th>Hora fin</th>
-                                    <th>Total tiempo</th>
+                                    {{-- <th>Fecha inicio</th> --}}
+                                   {{--  <th>Hora inicio</th> --}}
+                                   {{--  <th>Fecha fin</th> --}}
+                                   {{--  <th>Hora fin</th> --}}
+                                    <th>Tiempo solicitado</th>
                                     <th>Estado</th>
                                 </tr>
                             </thead>
                             <tbody>
-        
+
                             </tbody>
                         </table>
                     </div>
-        
+
                 </div>
             </div>
         </div>
@@ -37,7 +53,7 @@
 
     <!-- Modal -->
     <div class="modal fade modal-xl" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel">
-        <div class="modal-dialog">
+        <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Registro de permiso personal</h5>
@@ -49,12 +65,13 @@
                         <ul></ul>
                     </div>
                     <form action="javascript:void(0)" id="permisoForm" name="permisoForm">
+                        <input type="hidden" name="p_id" id="p_id">
                         @csrf
 
                         <div class="row">
-                            <div class="col-12">
+                            <div class="col-2">
                                 <div class="mb-3">
-                                    <label for="fechaSolicitud" class="form-label">Ingrese la fecha de solicitud</label>
+                                    <label for="fechaSolicitud" class="form-label">Fecha de presentación</label>
                                     <input type="date" class="form-control" id="fechaSolicitud" name="fechaSolicitud"
                                         required>
                                     <div id="fechaSolicitud-error" class="text-danger mt-1"><small></small></div>
@@ -79,8 +96,8 @@
                                     <select name="goceSueldo" id="goceSueldo" class="form-select"
                                         aria-label="select example" required>
                                         <option value="" selected>Selecciona una opcion</option>
-                                        <option value="v">Si</option>
-                                        <option value="f">No</option>
+                                        <option value="V">Si</option>
+                                        <option value="F">No</option>
                                     </select>
                                     <div id="goceSueldo-error" class="text-danger mt-1"><small></small></div>
                                 </div>
@@ -89,8 +106,8 @@
                                     <select name="constancia" id="constancia" class="form-select"
                                         aria-label="select example" required>
                                         <option value="" selected>Selecciona una opcion</option>
-                                        <option value="v">Si</option>
-                                        <option value="f">No</option>
+                                        <option value="V">Si</option>
+                                        <option value="F">No</option>
                                     </select>
                                     <div id="constancia-error" class="text-danger mt-1"><small></small></div>
                                 </div>
@@ -100,7 +117,7 @@
                                 <div class="col">
                                     <div class="row">
                                         <div class="col-6">
-                                            <div class="mb-3">
+                                            <div class="mb-4">
                                                 <label for="fechaInicio" class="form-label">Fecha inicio</label>
                                                 <input type="date" class="form-control" id="fechaInicio"
                                                     name="fechaInicio" required>
@@ -109,7 +126,7 @@
                                             </div>
                                         </div>
                                         <div class="col-6">
-                                            <div class="mb-3">
+                                            <div class="mb-4">
                                                 <label for="horaInicio" class="form-label">Hora inicio</label>
                                                 <input type="time" class="form-control" id="horaInicio"
                                                     name="horaInicio" min="08:00" max="16:00" required>
@@ -139,10 +156,10 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col">
-                                    <div class="mb-3">
+                                <div class="col-6">
+                                    <div class="mb-3 h-100">
                                         <label for="motivo" class="form-label">Motivo</label>
-                                        <textarea name="motivo" id="motivo" rows="5" class="form-control" required></textarea>
+                                        <textarea name="motivo" id="motivo" rows="5" class="form-control w-100 h-75" required></textarea>
                                         <div id="motivo-error" class="text-danger mt-1"><small></small></div>
                                     </div>
                                 </div>
@@ -163,27 +180,32 @@
     </div>
 
     <script>
-        // Configuracion de Datatable, para mostrar los datos
+                // Configuracion de Datatable, para mostrar los datos
         var table = new DataTable('#permisos', {
             ajax: "{{ route('permiso.index') }}",
-            columns: [{
+            columns: [
+                {
+                    data: 'id',
+                    render: function(data, type, row, meta) {return '<a href="javascript:void(0)" class="link-offset-2 link-underline link-underline-opacity-0 viewPermiso" data-id="'+row.id+'">'+ row.id.substring(0,8).toUpperCase() +'</a>';}
+                },
+                {
                     data: 'fecha_solic'
                 },
                 {
                     data: 'cod_permiso'
                 },
-                {
-                    data: 'fecha_inicial'
-                },
-                {
-                    data: 'hora_inicial'
-                },
-                {
-                    data: 'fecha_final'
-                },
-                {
-                    data: 'hora_final'
-                },
+                // {
+                //     data: 'fecha_inicial'
+                // },
+                // {
+                //     data: 'hora_inicial'
+                // },
+                // {
+                //     data: 'fecha_final'
+                // },
+                // {
+                //     data: 'hora_final'
+                // },
                 {
                     data: 'total_tiempo'
                 },
@@ -212,7 +234,25 @@
             reset();
         });
 
-        
+        // Mostrar permiso
+        $('body').on('click', '.viewPermiso', function(){
+            var permiso = $(this).data('id');
+            //console.log('presionado', p_id);
+            $.get("{{ route('permiso.edit') }}",{id: permiso}, function(data){
+                $('#exampleModal').modal('show');
+                $('#p_id').val(data.permiso.id);
+                $('#fechaSolicitud').val(data.permiso.fecha_solicitud);
+                $('#goceSueldo').val(data.permiso.goce_sueldo).change();
+                $('#constancia').val(data.permiso.constancia).change();
+                $('#tipoPermiso').val(data.permiso.tp_fk).change();
+                $('#fechaInicio').val(data.permiso.fecha_inicial);
+                $('#horaInicio').val(data.permiso.hora_inicial);
+                $('#fechaFin').val(data.permiso.fecha_final);
+                $('#horaFin').val(data.permiso.hora_final);
+                $('#motivo').val(data.permiso.motivo);
+                console.log(data.permiso.fecha_solicitud);
+            });
+        });
 
         function reset() {
             v.resetForm();
@@ -267,6 +307,8 @@
             submitHandler: function(form) {
                 let formData = new FormData(form);
 
+                $('#guardarBtn').prop('disabled', true).html('Enviando....');
+
                 $.ajax({
                     type: 'POST',
                     url: "{{ route('permiso.store') }}",
@@ -276,9 +318,13 @@
                     success: (response) => {
                         console.log(response);
                         if ($.isEmptyObject(response.errors)) {
-                            $('#permisoForm').trigger("reset");
-                            $('#guardarBtn').html('Guardar');
                             $('#exampleModal').modal('hide');
+                            $('#p_id').val('');
+                            $('#permisoForm').trigger("reset");
+                            //$('#guardarBtn').html('Guardar');
+                            //$('#guardarBtn').prop('disabled', false);
+                            $('#guardarBtn').prop('disabled', false).html('Guardar');
+                            showToast();
                             resetErrorMsg();
                         } else {
 
@@ -300,6 +346,15 @@
         });
 
         // Utilidades
+
+        function showToast() {
+            var toastElList = [].slice.call(document.querySelectorAll('.toast'))
+            var toastList = toastElList.map(function(toastEl) {
+                return new bootstrap.Toast(toastEl)
+            })
+            toastList.forEach(toast => toast.show())
+        }
+
         function errorMessagesFromServer(response) {
             $('#fechaSolicitud-error > small').text(capitalizeFirstLetter(response.errors
                 .fechaSolicitud));
