@@ -8,7 +8,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a href="#" class="nav-link" aria-current="page">Dashboard</a>
+                    <a href="{{ route('dashboard') }}" class="nav-link" aria-current="page">Dashboard</a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('permiso.index') }}" class="nav-link">Permisos</a>

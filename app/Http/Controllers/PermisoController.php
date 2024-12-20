@@ -22,6 +22,13 @@ use Illuminate\Support\Facades\Validator;
 
 class PermisoController extends Controller
 {
+    public function tipo_permisos(Request $request){
+        if ($request->ajax()){
+            $tipos = Tipo_Permiso::select('id', 'cod_permiso', 'descripcion')->whereIn('cod_permiso', [15, 6, 36, 18, 8, 23])->get();
+            return response()->json(['tipos' => $tipos]);
+        }
+    }
+
     public function index(Request $request)
     {
 
