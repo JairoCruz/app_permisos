@@ -20,7 +20,7 @@
                                 </div>
                                 <div class="col-4 d-flex justify-content-center">
                                     <div class="align-self-center">
-                                        <button type="button" class="btn btn-outline-primary"><i
+                                        <button onclick="mostra()" type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"><i
                                                 class="bi bi-file-earmark-plus" style="font-size: 2rem;"></i></button>
                                     </div>
                                 </div>
@@ -90,10 +90,7 @@
             </div>
         </div>
 
-        <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="mostra()">
-    Launch demo modal
-  </button>
+       
 
         <x-model_register />
 
