@@ -138,7 +138,8 @@ class PermisoController extends Controller
 
             error_log($request->p_id);
             error_log($request->fechaInicio);
-            Permiso::updateOrCreate(
+            error_log($request->fechaSolicitud);
+           $obj1 = Permiso::updateOrCreate(
                 ['id' => $request->p_id],
                 [
                     'emp_fk' => $data_empleado->id,
@@ -165,8 +166,12 @@ class PermisoController extends Controller
                 ]
             );
 
-            return Response()->json(['success' => 'Se ha registrado el permiso', 'data' => $request->all()]);
+            //$this->imprimir($obj1->id);
+
+            return Response()->json(['success' => 'Se ha registrado el permiso', 'data' => $obj1]);
         }
+
+        
         //dd($request);
 
         // Get data from Session
@@ -210,7 +215,7 @@ class PermisoController extends Controller
 
         // Obtengo una referencia a la secuencia, luego la llamo por medio del nombre definido en la db
         // $secuencia = DB::getSequence();
-
+/* 
         $p = new Permiso;
         $p->emp_fk = $data_empleado->id;
         $p->codigo_empleado_registra = $cod_empleado;
@@ -241,7 +246,7 @@ class PermisoController extends Controller
         // Notificar sobre registro guardado
         notify()->success('Se ha registrado el permiso con éxito.');
         // Redirigir a la vista de permiso
-        return redirect()->route('permiso.view', $p->id);
+        return redirect()->route('permiso.view', $p->id); */
     }
 
     public function view($permiso)
@@ -335,7 +340,6 @@ class PermisoController extends Controller
 
     public function imprimir($permiso)
     {
-        // dd($permiso);
 
         $permiso1 = Permiso::where('id', $permiso)->first();
 
@@ -353,8 +357,10 @@ class PermisoController extends Controller
 
 
         $empleado = Empleado::where('codigo_empleado', $permiso1->codigo_empleado)->first();
-        $permiso1->fecha_solic = date('d-m-Y', strtotime($permiso1->fecha_solicitud));
+        
+        $permiso1->fecha_solicitud = date('d-m-Y', strtotime($permiso1->fecha_solicitud));
         $permiso1->total_tiempo = Times::total_tiempo_solicitado($permiso1->total_tiempo, 0);
+        
 
         //$pdf = Pdf::loadView('permiso.imprimir');
         // return $pdf->download('test.pdf');
@@ -363,7 +369,7 @@ class PermisoController extends Controller
 
         $pdf = Pdf::loadView('permiso.imprimir', ['permiso' => $permiso1, 'empleado' => $empleado, "t_permiso" => $tipo_permiso]);
         $pdf->render();
-        return $pdf->download('permiso' . '_' . $permiso1->fecha_solic . '.pdf');
+        return $pdf->download('permiso' . '_' . $permiso1->fecha_solicitud . '.pdf');
         //return view('permiso.imprimir' , ['permiso' => $permiso1, 'empleado' => $empleado, "t_permiso" => $tipo_permiso]);
     }
 

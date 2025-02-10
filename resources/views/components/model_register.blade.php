@@ -1,5 +1,5 @@
-<div class="toast-container position-absolute top-0 end-0 p-3">
-    <div class="toast align-items-center text-white bg-success border-0" role="alert" data-bs-delay="3000"
+<div  class="toast-container position-absolute top-0 end-0 p-3">
+    <div id="toast-1" class="toast align-items-center text-white bg-success border-0" role="alert" data-bs-delay="2000"
         aria-live="assertive" aria-atomic="true">
         <div class="d-flex">
             <div class="toast-body">
@@ -9,7 +9,20 @@
                 aria-label="Close"></button>
         </div>
     </div>
+
+    <div id="toast-2" class="toast align-items-center text-white bg-info border-0" role="alert" data-bs-delay="3000"
+        aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body">
+                Su permiso se descargara en unos momentos.
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                aria-label="Close"></button>
+        </div>
+    </div>
+
 </div>
+
 
 
 <!-- Modal Registrar -->
@@ -122,9 +135,6 @@
                             </div>
                         </div>
                     </div>
-
-
-
             </div>
             <div class="modal-footer">
                 <button type="button" onclick="print()" class="btn btn-secondary" id="cerrarFooterBtn"
@@ -140,270 +150,231 @@
 
 <!-- Modal View/Print -->
 
-<div class="modal fade modal-xl" id="modalViewPrint" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Visor de permiso</h5>
-        <button type="button" class="btn" data-bs-dismiss="modal" aria-label="Close">
-          <i class="bi-x-lg"></i>
-        </button>
-      </div>
-      <div class="modal-body">
-        
-        <div class="row">
-          {{-- Header --}}
-          <div class="col-12">
-            <div class="row">
-              <div class="col-2">logo1</div>
-              <div class="col-8">
-                <div class="d-flex flex-column">
-                  <div class="d-flex justify-content-center">TRIBUNAL SUPREMO ELECTORAL</div>
-                  <div class="d-flex justify-content-center">DIRECCION DE TALENTO HUMANO INSTITUCIONAL</div>
-                  <div class="d-flex justify-content-center">SOLICITUD DE PERMISO</div>
-                </div>
-              </div>
-              <div class="col-2">logo2</div>
+<div class="modal fade modal-lg" id="modalViewPrint" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Visor de permiso</h5>
+                <button type="button" class="btn" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="bi-x-lg"></i>
+                </button>
             </div>
-
-            <div class="py-3">
-              <div class="col-12">
-                <div class="row">
-                  <div class="col-2">
-                    <div class="border border-1 py-2 px-2">
-                      <span>Lugar y Fecha:</span>
-                    </div>
-                  </div>
-                  <div class="col-10">
-                    <div class="border border-1 py-2 px-2">
-                      texto
-                    </div>
-                  </div>
-              </div>
-
-              <div class="row">
-                <div class="col-2">
-                  <div class="border border-1 py-2 px-2">
-                    <span>Solicitante:</span>
-                  </div>
-                </div>
-                <div class="col-10">
-                  <div class="border border-1 py-2 px-2">
-                    texto
-                  </div>
-                </div>
+            <div class="modal-body">
+                Su permiso se esta generando y en un momento esta listo para su descarga.
             </div>
-
+            <div class="modal-footer">
+                <button type="button" onclick="print()" class="btn btn-primary" id="guardarBtn">Guardar</button>
             </div>
-            
-
-
-
-          </div>
         </div>
-
-
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        <button type="button" class="btn btn-primary">Imprimir</button>
-      </div>
     </div>
-  </div>
-</div>
 
 
 
 
+    <script>
+        function print() {
+            //$('#modalViewPrint').modal('show');
+        }
+        // Reset del formulario
+        function agregar() {
+            $('#permisoForm').trigger("reset");
+        }
 
-
-
-<script>
-  function print(){
-    $('#modalViewPrint').modal('show');
-  }
-    // Reset del formulario
-    function agregar() {
-        $('#permisoForm').trigger("reset");
-    }
-
-    $('#cerrarFooterBtn, #cerrarHeaderBtn').on('click', function() {
-        reset();
-    });
-
-    // Mostrar permiso
-    $('body').on('click', '.viewPermiso', function() {
-        var permiso = $(this).data('id');
-        //console.log('presionado', p_id);
-        $.get("{{ route('permiso.edit') }}", {
-            id: permiso
-        }, function(data) {
-            $('#exampleModal').modal('show');
-            $('#p_id').val(data.permiso.id);
-            $('#fechaSolicitud').val(data.permiso.fecha_solicitud);
-            $('#goceSueldo').val(data.permiso.goce_sueldo).change();
-            $('#constancia').val(data.permiso.constancia).change();
-            $('#tipoPermiso').val(data.permiso.tp_fk).change();
-            $('#fechaInicio').val(data.permiso.fecha_inicial);
-            $('#horaInicio').val(data.permiso.hora_inicial);
-            $('#fechaFin').val(data.permiso.fecha_final);
-            $('#horaFin').val(data.permiso.hora_final);
-            $('#motivo').val(data.permiso.motivo);
-            console.log(data.permiso.fecha_solicitud);
+        $('#cerrarFooterBtn, #cerrarHeaderBtn').on('click', function() {
+            reset();
         });
-    });
 
-    function reset() {
-        v.resetForm();
-        resetErrorMsg();
-    }
-
-    var v = $('#permisoForm').validate({
-        rules: {
-            fechaSolicitud: {
-                required: true,
-            }
-
-        },
-        messages: {
-            fechaSolicitud: {
-                required: "Este campo no puede quedar vacio",
-            },
-            tipoPermiso: {
-                required: "Debe elegir una opcion valida",
-            },
-            goceSueldo: {
-                required: "Debe elegir una opcion valida",
-            },
-            constancia: {
-                required: "Debe elegir una opcion valida",
-            },
-            fechaInicio: {
-                required: "Este campo no puede quedar vacio",
-            },
-            horaInicio: {
-                required: "Este campo no puede quedar vacio",
-                min: "La hora no debe ser menor a 08:00",
-                max: "La hora no debe ser mayor a 16:00",
-            },
-            fechaFin: {
-                required: "Este campo no puede quedar vacio",
-            },
-            horaFin: {
-                required: "Este campo no puede quedar vacio",
-                min: "La hora no debe ser menor a 08:00",
-                max: "La hora no debe ser mayor a 16:00",
-            },
-            motivo: {
-                required: "Este campo no puede quedar vacio"
-            }
-        },
-        errorClass: 'text-danger',
-        errorElement: 'small',
-        highlight: function(element, errorClass) {
-            $(element).removeClass(errorClass)
-        },
-        submitHandler: function(form) {
-            let formData = new FormData(form);
-
-            $('#guardarBtn').prop('disabled', true).html('Enviando....');
-
-            $.ajax({
-                type: 'POST',
-                url: "{{ route('permiso.store') }}",
-                data: formData,
-                contentType: false,
-                processData: false,
-                success: (response) => {
-                    console.log(response);
-                    if ($.isEmptyObject(response.errors)) {
-                        $('#exampleModal').modal('hide');
-                        $('#p_id').val('');
-                        $('#permisoForm').trigger("reset");
-                        //$('#guardarBtn').html('Guardar');
-                        //$('#guardarBtn').prop('disabled', false);
-                        $('#guardarBtn').prop('disabled', false).html('Guardar');
-                        showToast();
-                        resetErrorMsg();
-                        window.setTimeout(() => {
-                            $('#modalViewPrint').modal('show');
-                        }, 3000);
-                    } else {
-
-                        errorMessagesFromServer(response);
-                    }
-                },
-                error: function(response) {
-                    $.each(response.responseJSON.errors, function(key, value) {
-                        $('#permisoForm').find(".print-error-msg").find("ul").append(
-                            '<li>' +
-                            value + '</li>');
-                    });
-                }
+        // Mostrar permiso
+        $('body').on('click', '.viewPermiso', function() {
+            var permiso = $(this).data('id');
+            //console.log('presionado', p_id);
+            $.get("{{ route('permiso.edit') }}", {
+                id: permiso
+            }, function(data) {
+                $('#exampleModal').modal('show');
+                $('#p_id').val(data.permiso.id);
+                $('#fechaSolicitud').val(data.permiso.fecha_solicitud);
+                $('#goceSueldo').val(data.permiso.goce_sueldo).change();
+                $('#constancia').val(data.permiso.constancia).change();
+                $('#tipoPermiso').val(data.permiso.tp_fk).change();
+                $('#fechaInicio').val(data.permiso.fecha_inicial);
+                $('#horaInicio').val(data.permiso.hora_inicial);
+                $('#fechaFin').val(data.permiso.fecha_final);
+                $('#horaFin').val(data.permiso.hora_final);
+                $('#motivo').val(data.permiso.motivo);
+                console.log(data.permiso.fecha_solicitud);
             });
+        });
+
+        function reset() {
+            v.resetForm();
+            resetErrorMsg();
+        }
+
+        // Validacion
+        var v = $('#permisoForm').validate({
+            rules: {
+                fechaSolicitud: {
+                    required: true,
+                }
+
+            },
+            messages: {
+                fechaSolicitud: {
+                    required: "Este campo no puede quedar vacio",
+                },
+                tipoPermiso: {
+                    required: "Debe elegir una opcion valida",
+                },
+                goceSueldo: {
+                    required: "Debe elegir una opcion valida",
+                },
+                constancia: {
+                    required: "Debe elegir una opcion valida",
+                },
+                fechaInicio: {
+                    required: "Este campo no puede quedar vacio",
+                },
+                horaInicio: {
+                    required: "Este campo no puede quedar vacio",
+                    min: "La hora no debe ser menor a 08:00",
+                    max: "La hora no debe ser mayor a 16:00",
+                },
+                fechaFin: {
+                    required: "Este campo no puede quedar vacio",
+                },
+                horaFin: {
+                    required: "Este campo no puede quedar vacio",
+                    min: "La hora no debe ser menor a 08:00",
+                    max: "La hora no debe ser mayor a 16:00",
+                },
+                motivo: {
+                    required: "Este campo no puede quedar vacio"
+                }
+            },
+            errorClass: 'text-danger',
+            errorElement: 'small',
+            highlight: function(element, errorClass) {
+                $(element).removeClass(errorClass)
+            },
+            submitHandler: function(form) {
+                let formData = new FormData(form);
+
+                $('#guardarBtn').prop('disabled', true).html('Enviando....');
+
+                $.ajax({
+                    type: 'POST',
+                    url: "{{ route('permiso.store') }}",
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: (response) => {
+                        console.log(response);
+                        if ($.isEmptyObject(response.errors)) {
+                            $('#exampleModal').modal('hide');
+                            $('#p_id').val('');
+                            $('#permisoForm').trigger("reset");
+                            //$('#guardarBtn').html('Guardar');
+                            //$('#guardarBtn').prop('disabled', false);
+                            $('#guardarBtn').prop('disabled', false).html('Guardar');
+                            showToast();
+                            resetErrorMsg();
+                           // $('#modalViewPrint').modal('show');
+                            window.setTimeout(() => {
+                                showToasInfo();
+                            }, 3000);
+
+                            window.setTimeout(() => {
+                                // Generar y descargar permiso PDF
+                                window.location.href = '/imprimir-permiso/' + response.data.id;
+                            }, 4000);
+                            
+                        } else {
+                            errorMessagesFromServer(response);
+                        }
+                        
+                    },
+                    error: function(response) {
+                        $.each(response.responseJSON.errors, function(key, value) {
+                            $('#permisoForm').find(".print-error-msg").find("ul").append(
+                                '<li>' +
+                                value + '</li>');
+                        });
+                    }
+                });
+
+            }
+        });
+
+        // Utilidades
+
+        function showToast() {
+            var toastElList = [].slice.call(document.querySelectorAll('#toast-1'))
+            var toastList = toastElList.map(function(toastEl) {
+                return new bootstrap.Toast(toastEl)
+            })
+            toastList.forEach(toast => toast.show())
 
         }
-    });
 
-    // Utilidades
+        function showToasInfo() {
+            var toastElList = [].slice.call(document.querySelectorAll('#toast-2'))
+            var toastList = toastElList.map(function(toastEl) {
+                return new bootstrap.Toast(toastEl)
+            })
+            toastList.forEach(toast => toast.show())
+        }
 
-    function showToast() {
-        var toastElList = [].slice.call(document.querySelectorAll('.toast'))
-        var toastList = toastElList.map(function(toastEl) {
-            return new bootstrap.Toast(toastEl)
-        })
-        toastList.forEach(toast => toast.show())
-    }
+        function errorMessagesFromServer(response) {
+            $('#fechaSolicitud-error > small').text(capitalizeFirstLetter(response.errors
+                .fechaSolicitud));
+            $('#tipoPermiso-error > small').text(capitalizeFirstLetter(response.errors
+                .tipoPermiso));
+            $('#goceSueldo-error > small').text(capitalizeFirstLetter(response.errors
+                .goceSueldo));
+            $('#constancia-error > small').text(capitalizeFirstLetter(response.errors
+                .constancia));
+            $('#fechaInicio-error > small').text(capitalizeFirstLetter(response.errors
+                .fechaInicio));
+            $('#horaInicio-error > small').text(capitalizeFirstLetter(response.errors
+                .horaInicio));
+            $('#fechaFin-error > small').text(capitalizeFirstLetter(response.errors
+                .fechaFin));
+            $('#horaFin-error > small').text(capitalizeFirstLetter(response.errors
+                .horaFin));
+            $('#motivo-error > small').text(capitalizeFirstLetter(response.errors
+                .motivo));
+        }
 
-    function errorMessagesFromServer(response) {
-        $('#fechaSolicitud-error > small').text(capitalizeFirstLetter(response.errors
-            .fechaSolicitud));
-        $('#tipoPermiso-error > small').text(capitalizeFirstLetter(response.errors
-            .tipoPermiso));
-        $('#goceSueldo-error > small').text(capitalizeFirstLetter(response.errors
-            .goceSueldo));
-        $('#constancia-error > small').text(capitalizeFirstLetter(response.errors
-            .constancia));
-        $('#fechaInicio-error > small').text(capitalizeFirstLetter(response.errors
-            .fechaInicio));
-        $('#horaInicio-error > small').text(capitalizeFirstLetter(response.errors
-            .horaInicio));
-        $('#fechaFin-error > small').text(capitalizeFirstLetter(response.errors
-            .fechaFin));
-        $('#horaFin-error > small').text(capitalizeFirstLetter(response.errors
-            .horaFin));
-        $('#motivo-error > small').text(capitalizeFirstLetter(response.errors
-            .motivo));
-    }
-
-    function capitalizeFirstLetter(string1) {
-        return (string1) ? string1.toString().substring(0, 1).toUpperCase() + string1.toString().substring(1) : string1;
-    }
+        function capitalizeFirstLetter(string1) {
+            return (string1) ? string1.toString().substring(0, 1).toUpperCase() + string1.toString().substring(1) : string1;
+        }
 
 
-    function resetErrorMsg() {
-        $('#fechaSolicitud-error > small').text('');
-        $('#tipoPermiso-error > small').text('');
-        $('#goceSueldo-error > small').text('');
-        $('#constancia-error > small').text('');
-        $('#fechaInicio-error > small').text('');
-        $('#horaInicio-error > small').text('');
-        $('#fechaFin-error > small').text('');
-        $('#horaFin-error > small').text('');
-        $('#motivo-error > small').text('');
-    }
+        function resetErrorMsg() {
+            $('#fechaSolicitud-error > small').text('');
+            $('#tipoPermiso-error > small').text('');
+            $('#goceSueldo-error > small').text('');
+            $('#constancia-error > small').text('');
+            $('#fechaInicio-error > small').text('');
+            $('#horaInicio-error > small').text('');
+            $('#fechaFin-error > small').text('');
+            $('#horaFin-error > small').text('');
+            $('#motivo-error > small').text('');
+        }
 
 
-    //////
+        // La llamada a este metodo esta disponible en dashboard.blade.php
 
-    function mostra() {
-        $('#tipoPermiso').html('');
-        $('#tipoPermiso').html('<option value="" selected>Seleccione una opcion</option>');
-        $.get("{{ route('permiso-tipos') }}", function(data) {
-            $.each(data.tipos, function(key, value) {
-                $('#tipoPermiso').append('<option value="' + value.id + '">' + value.descripcion +
-                    '</option>');
+        function mostra() {
+            $('#tipoPermiso').html('');
+            $('#tipoPermiso').html('<option value="" selected>Seleccione una opcion</option>');
+            $.get("{{ route('permiso-tipos') }}", function(data) {
+                $.each(data.tipos, function(key, value) {
+                    $('#tipoPermiso').append('<option value="' + value.id + '">' + value.descripcion +
+                        '</option>');
+                });
             });
-        });
-    }
-</script>
+        }
+    </script>

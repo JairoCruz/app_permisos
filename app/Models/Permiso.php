@@ -11,7 +11,7 @@ class Permiso extends Model
 {
 
     protected $fillable = [
-        'fecha_solic',
+        'fecha_solicitud',
         'goce_sueldo',
         'constancia',
         'fecha_inicial',
