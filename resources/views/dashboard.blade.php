@@ -56,7 +56,8 @@
                         <div class="col-8">
                             <div class="card-body">
                                 <h5 class="card-title">Mis permisos</h5>
-                                <p class="card-text"><small>Historial de permisos solicitados</small></p>
+                                {{-- <p class="card-text"><small>Historial de permisos solicitados</small></p> --}}
+                                <p class="card-text"><small>Permisos solicitados (mes actual)</small></p>
                             </div>
                         </div>
                         <div class="col-4 d-flex justify-content-center">

@@ -1,27 +1,11 @@
-{{-- Toas alert --}}
-<x-alert_toast id="toast-1" type="bg-success" delay="2000">
-    Se ha registrado el permiso
-</x-alert_toast>
-{{-- End toas alert --}}
-
-{{-- Toas alert --}}
-<x-alert_toast id="toast-2" type="bg-info" delay="3000">
-    Su permiso se descargara en unos momento.
-</x-alert_toast>
-{{-- End toas alert --}}
-
-
-
-
-
-<!-- Modal Registrar -->
-<div class="modal fade modal-xl" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel">
+ <!-- Modal -->
+ <div class="modal fade modal-xl" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Registro de permiso personal</h5>
-                <button type="button" id="cerrarHeaderBtn" class="btn" data-bs-dismiss="modal" aria-label="Close"><i
-                        class="bi-x-lg"></i></button>
+                <button type="button" id="cerrarHeaderBtn" class="btn" data-bs-dismiss="modal"
+                    aria-label="Close"><i class="bi-x-lg"></i></button>
             </div>
             <div class="modal-body">
                 <div class="alert alert-danger print-error-msg" id="errors" style="display: none">
@@ -44,10 +28,8 @@
                         <div class="row mb-3">
                             <div class="col-4">
                                 <label for="tipoPermiso" class="form-label">Tipo permiso</label>
-
                                 <select class="form-select" id="tipoPermiso" name="tipoPermiso" required>
                                 </select>
-
                                 <div id="tipoPermiso-error" class="text-danger mt-1"><small></small></div>
                             </div>
                             <div class="col-4">
@@ -108,8 +90,8 @@
                                     <div class="col-6">
                                         <div class="mb-3">
                                             <label for="horaFin" class="form-label">Hora fin</label>
-                                            <input type="time" class="form-control" id="horaFin" name="horaFin"
-                                                min="08:00" max="16:00" required>
+                                            <input type="time" class="form-control" id="horaFin"
+                                                name="horaFin" min="08:00" max="16:00" required>
                                             <div id="horaFin-error" class="text-danger mt-1"><small></small></div>
                                         </div>
                                     </div>
@@ -124,9 +106,12 @@
                             </div>
                         </div>
                     </div>
+
+
+
             </div>
             <div class="modal-footer">
-                <button type="button" onclick="print()" class="btn btn-secondary" id="cerrarFooterBtn"
+                <button type="button" class="btn btn-secondary" id="cerrarFooterBtn"
                     data-bs-dismiss="modal">Cerrar</button>
                 <button type="submit" class="btn btn-primary" id="guardarBtn">Guardar</button>
             </div>
@@ -135,38 +120,9 @@
     </div>
 </div>
 
-
-
-<!-- Modal View/Print -->
-
-<div class="modal fade modal-lg" id="modalViewPrint" tabindex="-1" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Visor de permiso</h5>
-                <button type="button" class="btn" data-bs-dismiss="modal" aria-label="Close">
-                    <i class="bi-x-lg"></i>
-                </button>
-            </div>
-            <div class="modal-body">
-                Su permiso se esta generando y en un momento esta listo para su descarga.
-            </div>
-            <div class="modal-footer">
-                <button type="button" onclick="print()" class="btn btn-primary" id="guardarBtn">Guardar</button>
-            </div>
-        </div>
-    </div>
-
-
-
-
-    <script>
-        function print() {
-            //$('#modalViewPrint').modal('show');
-        }
-        // Reset del formulario
-        function agregar() {
+<script>
+    // Reset del formulario
+    function agregar() {
             $('#permisoForm').trigger("reset");
         }
 
@@ -175,12 +131,10 @@
         });
 
         // Mostrar permiso
-        $('body').on('click', '.viewPermiso', function() {
+        $('body').on('click', '.viewPermiso', function(){
             var permiso = $(this).data('id');
             //console.log('presionado', p_id);
-            $.get("{{ route('permiso.edit') }}", {
-                id: permiso
-            }, function(data) {
+            $.get("{{ route('permiso.edit') }}",{id: permiso}, function(data){
                 $('#exampleModal').modal('show');
                 $('#p_id').val(data.permiso.id);
                 $('#fechaSolicitud').val(data.permiso.fecha_solicitud);
@@ -201,7 +155,6 @@
             resetErrorMsg();
         }
 
-        // Validacion
         var v = $('#permisoForm').validate({
             rules: {
                 fechaSolicitud: {
@@ -269,20 +222,12 @@
                             $('#guardarBtn').prop('disabled', false).html('Guardar');
                             showToast();
                             resetErrorMsg();
-                           // $('#modalViewPrint').modal('show');
-                            window.setTimeout(() => {
-                                showToasInfo();
-                            }, 3000);
-
-                            window.setTimeout(() => {
-                                // Generar y descargar permiso PDF
-                                window.location.href = '/imprimir-permiso/' + response.data.id;
-                            }, 3000);
-                            
                         } else {
+
                             errorMessagesFromServer(response);
                         }
                         
+                        table.ajax.reload();
                     },
                     error: function(response) {
                         $.each(response.responseJSON.errors, function(key, value) {
@@ -299,16 +244,7 @@
         // Utilidades
 
         function showToast() {
-            var toastElList = [].slice.call(document.querySelectorAll('#toast-1'))
-            var toastList = toastElList.map(function(toastEl) {
-                return new bootstrap.Toast(toastEl)
-            })
-            toastList.forEach(toast => toast.show())
-
-        }
-
-        function showToasInfo() {
-            var toastElList = [].slice.call(document.querySelectorAll('#toast-2'))
+            var toastElList = [].slice.call(document.querySelectorAll('.toast'))
             var toastList = toastElList.map(function(toastEl) {
                 return new bootstrap.Toast(toastEl)
             })
@@ -353,7 +289,6 @@
             $('#motivo-error > small').text('');
         }
 
-
         // La llamada a este metodo esta disponible en dashboard.blade.php
 
         function mostra() {
@@ -366,4 +301,5 @@
                 });
             });
         }
-    </script>
+
+</script>

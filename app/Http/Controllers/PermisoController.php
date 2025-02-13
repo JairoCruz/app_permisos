@@ -35,9 +35,6 @@ class PermisoController extends Controller
         // Obtener codigo del empleado
         $cod_empleado = $request->user()->cod_empleado;
 
-
-        //$request->session()->put('codigo',$cod_empleado);
-
         $permisos = Permiso::where('codigo_empleado', $cod_empleado)
             ->orderByDesc('fecha_solicitud')
             ->get()
@@ -57,17 +54,13 @@ class PermisoController extends Controller
                 ];
             });
 
-        $tipos = Tipo_Permiso::select('id', 'cod_permiso', 'descripcion')->whereIn('cod_permiso', [15, 6, 36, 18, 8, 23])->get();
+
         if ($request->ajax()) {
             $data = $permisos;
             return response()->json(['data' => $data]);
         }
 
-
-        // Devolver los valores para el form de busqueda
-        $request->flash();
-
-        return view('permiso.index', ['permisos' => $permisos, 'tipos' => $tipos]);
+        return view('permiso.index');
     }
 
 
@@ -136,9 +129,7 @@ class PermisoController extends Controller
                 return response()->json(["errors" => $validator->errors()]);
             }
 
-            error_log($request->p_id);
-            error_log($request->fechaInicio);
-            error_log($request->fechaSolicitud);
+           
            $obj1 = Permiso::updateOrCreate(
                 ['id' => $request->p_id],
                 [
