@@ -1,20 +1,13 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Registrar permiso') }}
-        </h2>
-    </x-slot>
-
-    <div class="py-4">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                        
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6">
-                    <!-- Form -->
-                    <form action="{{ route('permiso.store') }}" method="POST" class="w-full">
-                        @include('permiso._form')
-                    </form>
-                </div>
+    <div class="py-5">
+        <div class="card">
+            <div class="card-body">
+                <!-- Form -->
+                {{-- <form action="{{ route('permiso.store') }}" method="POST" class="w-full">
+                    @include('permiso._form')
+                </form> --}}
+                <x-form />
+    
             </div>
         </div>
     </div>

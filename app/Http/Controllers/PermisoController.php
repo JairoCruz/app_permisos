@@ -106,27 +106,46 @@ class PermisoController extends Controller
 
     public function store(Request $request)
     {
-
+        $empleado = null;
 
         if ($request->ajax()) {
 
-            $data_empleado = Empleado::where('codigo_empleado', $request->user()->cod_empleado)->first();
+            if($request->has('numDuiCom')){
+                $empleado = Empleado::where('dui', $request->numDuiCom)->first();
+                if(is_null($empleado)){
+                    return response()->json(["errors" => "No hay registros que coincidan con el dui digitado"]);
+                }
+            }
+           // $request->numDuiCom;
+
+            $cod_empleado = (is_null($empleado)) ? $request->user()->cod_empleado : $empleado->codigo_empleado;
+
+            $data_empleado = Empleado::where('codigo_empleado', $cod_empleado)->first();
 
 
-            $validator = Validator::make($request->all(), [
-                'fechaSolicitud' => 'required',
-                'tipoPermiso' => 'required',
-                'goceSueldo' => 'required',
-                'constancia' => 'required',
-                'fechaInicio' => 'required',
-                'fechaFin' => 'required',
-                'horaInicio' => 'required',
-                'horaFin' => 'required',
-                'motivo' => 'required'
-            ]);
+            $validator = Validator::make($request->all(), 
+                Permiso::$validated
+            );
 
             if ($validator->fails()) {
                 return response()->json(["errors" => $validator->errors()]);
+            }
+
+
+            $verificar_duplicado = Permiso::verificar(
+                $data_empleado->codigo_empleado,
+                Carbon::parse($request->fechaInicio)->format('Y-m-d'),
+                Carbon::parse($request->fechaFin)->format('Y-m-d'),
+                Carbon::parse($request->horaInicio)->format('H:i'),
+                Carbon::parse($request->horaFin)->format('H:i'),
+                ($request->tipoPermiso == 9 && $request->goceSueldo == 'F') ? 10 : $request->tipoPermiso,
+                $request->goceSueldo,
+                $request->constancia
+            )
+                ->count();
+            // Verificar si ya existe un registro con los mismos datos ingresados.
+            if ($verificar_duplicado != 0) {
+                return response()->json(["errors" => "Ya existe un permiso con los mismos datos que intenta ingresar"]);
             }
 
            
@@ -157,87 +176,9 @@ class PermisoController extends Controller
                 ]
             );
 
-            //$this->imprimir($obj1->id);
-
             return Response()->json(['success' => 'Se ha registrado el permiso', 'data' => $obj1]);
         }
 
-        
-        //dd($request);
-
-        // Get data from Session
-        $cod_empleado = $request->cod_empleado;
-
-        // Get data from one "EMPLEADO"
-        $data_empleado = Empleado::where('codigo_empleado', $cod_empleado)->first();
-        //dd($data_empleado);
-
-        // Validations
-        $request->validate([
-            'fecha_crea' => ['required'],
-            'fecha_solic' => ['required'],
-            'tipo_permiso' => ['required'],
-            'goce_sueldo' => ['required'],
-            'constancia' => ['required'],
-            'fecha_inicial' => ['required'],
-            'fecha_final' => ['required'],
-            'hora_inicial' => ['required'],
-            'hora_final' => ['required'],
-            'motivo' => ['required']
-        ]);
-
-
-        $verificar_duplicado = Permiso::verificar(
-            $cod_empleado,
-            Carbon::parse($request->fecha_inicial)->format('Y-m-d'),
-            Carbon::parse($request->fecha_final)->format('Y-m-d'),
-            Carbon::parse($request->hora_inicial)->format('H:i'),
-            Carbon::parse($request->hora_final)->format('H:i'),
-            ($request->tipo_permiso == 15 && $request->goce_sueldo == 'F') ? 16 : $request->tipo_permiso,
-            $request->goce_sueldo,
-            $request->constancia
-        )
-            ->count();
-        // Verificar si ya existe un registro con los mismos datos ingresados.
-        if ($verificar_duplicado != 0) {
-            notify()->error('Ya existe un permiso con los mismos datos que intenta ingresar.');
-            return redirect()->back()->withInput();
-        }
-
-        // Obtengo una referencia a la secuencia, luego la llamo por medio del nombre definido en la db
-        // $secuencia = DB::getSequence();
-/* 
-        $p = new Permiso;
-        $p->emp_fk = $data_empleado->id;
-        $p->codigo_empleado_registra = $cod_empleado;
-        $p->jefe_unidad_id = 45; // ignac
-        $p->codigo_empleado = $cod_empleado;
-        $p->fecha_inicial = Carbon::parse($request->fecha_inicial)->format('Y-m-d');
-        $p->fecha_final = Carbon::parse($request->fecha_final)->format('Y-m-d');
-        $p->hora_inicial = Carbon::parse($request->hora_inicial)->format('H:i');
-        $p->hora_final = Carbon::parse($request->hora_final)->format('H:i');
-        $p->tp_fk = ($request->tipo_permiso == 9 && $request->goce_sueldo == 'F') ? 10 : $request->tipo_permiso;
-        $p->ano = Carbon::parse($request->fecha_crea)->year;
-        $p->motivo = $request->motivo;
-        $p->goce_sueldo = $request->goce_sueldo;
-        $p->constancia = $request->constancia;
-        $p->fecha_solicitud = Carbon::parse($request->fecha_solic)->format('Y-m-d');
-        $p->numero_plaza = $data_empleado->numero_plaza;
-        $p->mes = Carbon::parse($request->fecha_crea)->month;
-        $p->total_tiempo = Times::total_horas_minutos(
-            Carbon::parse($request->fecha_inicial),
-            Carbon::parse($request->fecha_final),
-            Carbon::parse($request->hora_inicial),
-            Carbon::parse($request->hora_final)
-        );
-        // $p->correlativo = $secuencia->nextValue('SEQ_CORRELATIVO');
-
-        // Guardar datos
-        $p->save();
-        // Notificar sobre registro guardado
-        notify()->success('Se ha registrado el permiso con éxito.');
-        // Redirigir a la vista de permiso
-        return redirect()->route('permiso.view', $p->id); */
     }
 
     public function view($permiso)

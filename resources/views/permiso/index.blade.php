@@ -1,17 +1,11 @@
 <x-app-layout>
-    {{-- Toas alert --}}
-    <x-alert_toast id="toast_up" type="bg-success" delay="3000">
-        Se ha actualizado el registro.
-    </x-alert_toast>
-    {{-- End toas alert --}}
-
     <div class="my-5">
 
         <div class="card">
             <div class="card-body">
                 <div class="row">
                     <div class="col-12">
-                        <table id="permisos" class="table table-responsive table-hover my-1">
+                        <table id="permisos" class="table table-bordered table-responsive table-hover my-1">
                             <thead>
                                 <tr>
                                     <th>Referencia</th>

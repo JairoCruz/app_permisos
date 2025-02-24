@@ -1,8 +1,68 @@
 <x-app-layout>
 
 
-    <div class="py-9">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+    <div class="py-5">
+
+        <div class="row justify-content-md-center">
+            <div class="col col-sm-auto col-lg-6">
+
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <p>
+                                Ingresa el numero de DUI de tu compañero para poder registrar un permiso con sus datos,
+                                recuerda que al finalizar el registro quedara en el historial de tu compañero.
+                            </p>
+                        </div>
+                        <div class="row">
+                            <div class="my-2">
+                                <form action="{{ route('permiso.create') }}" method="get">
+                                    <div class="input-group mb-3">
+                                        <span class="input-group-text" id="basic-addon1">
+                                            <i class="bi bi-person-vcard"></i>
+                                        </span>
+                                        <input type="text" id="dui" name="dui" class="form-control" placeholder="Digite el numero de DUI"
+                                            aria-label="Username" aria-describedby="basic-addon1">
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Siguiente</button>
+                                </form>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        {{-- <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="row">
+                            <p>
+                                Ingresa el numero de DUI de tu compañero para poder registrar un permiso con sus datos,
+                        recuerda que al finalizar el registro quedara en el historial de tu compañero.
+                            </p>
+                        </div>
+                        <div class="row">
+                            <div class="my-2">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text" id="basic-addon1">
+                                        <i class="bi bi-person-vcard"></i>
+                                    </span>
+                                    <input type="text" class="form-control" placeholder="Digite el numero de DUI" aria-label="Username" aria-describedby="basic-addon1">
+                                  </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> --}}
+
+        {{-- <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="flex flex-col gap-4">
 
                 <div class="w-full max-w-md mx-auto bg-white shadow-md overflow-hidden sm:rounded-lg px-4 py-4">
@@ -27,6 +87,9 @@
                 </div>
 
             </div>
-        </div>
+        </div> --}}
+
+
+
     </div>
 </x-app-layout>

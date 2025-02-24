@@ -28,13 +28,25 @@ class Permiso extends Model
         'jefe_unidad_id',
         'codigo_empleado',
         'numero_plaza'
-        ] ;
+    ];
 
     use HasUuids;
 
+    public static $validated = [
+        'fechaSolicitud' => 'required',
+        'tipoPermiso' => 'required',
+        'goceSueldo' => 'required',
+        'constancia' => 'required',
+        'fechaInicio' => 'required',
+        'fechaFin' => 'required',
+        'horaInicio' => 'required',
+        'horaFin' => 'required',
+        'motivo' => 'required|max:255'
+    ];
+
     protected $table = 'PERMISOS_EN_LINEA';
     // public $sequencia = 'SEQ_CORRELATIVO';
-   // protected $primaryKey = 'correlativo';
+    // protected $primaryKey = 'correlativo';
 
     public $timestamps = false;
 
@@ -59,15 +71,6 @@ class Permiso extends Model
         string $goce_sueldo,
         string $constancia
     ): void {
-        $query->
-            where('codigo_empleado', $cod_empleado)->
-            where('fecha_inicial', $fecha_inicio)->
-            where('fecha_final', $fecha_fin)->
-            where('hora_inicial', $hora_inicio)->
-            where('hora_final', $hora_fin)->
-            where('tp_fk', $tipo_permiso)->
-            where('goce_sueldo', $goce_sueldo)->
-            where('constancia', $constancia);
+        $query->where('codigo_empleado', $cod_empleado)->where('fecha_inicial', $fecha_inicio)->where('fecha_final', $fecha_fin)->where('hora_inicial', $hora_inicio)->where('hora_final', $hora_fin)->where('tp_fk', $tipo_permiso)->where('goce_sueldo', $goce_sueldo)->where('constancia', $constancia);
     }
-
 }
