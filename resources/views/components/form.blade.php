@@ -21,6 +21,13 @@
                 </div>
     
             </div>
+            <div class="col-4">
+                <div class="mb-3">
+                    <label for="autorizacionJefe" class="form-label">Responsable de autorizacion</label>
+                    <select name="autorizacionJefe" id="autorizacionJefe" class="form-select" required></select>
+                    <div id="autorizacionJefe-error" class="text-danger mt-1"><small></small></div>
+                </div>
+            </div>
         </div>
 
         

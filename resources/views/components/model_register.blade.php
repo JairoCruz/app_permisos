@@ -87,6 +87,9 @@
 
             },
             messages: {
+                autorizacionJefe: {
+                    required: "Debe elegir una opcion valida",
+                },
                 fechaSolicitud: {
                     required: "Este campo no puede quedar vacio",
                 },
@@ -204,6 +207,7 @@
         }
 
         function errorMessagesFromServer(response) {
+            $('#autorizacionJefe-error > small').text(capitalizeFirstLetter(response.errors.autorizacionJefe));
             $('#fechaSolicitud-error > small').text(capitalizeFirstLetter(response.errors
                 .fechaSolicitud));
             $('#tipoPermiso-error > small').text(capitalizeFirstLetter(response.errors
@@ -261,6 +265,17 @@
             $('#box_dui').html('<div class="col-4"><div class="mb-3"><label for="numDuiCom" class="form-label">DUI</label><input placeholder="Ingrese el numero de DUI" class="form-control" id="numDuiCom" name="numDuiCom"><div id="numDuiCom-error" class="text-danger mt-1"><small></small></div></div></div>');
         }
 
+        function cargarJefes(){
+            $('#autorizacionJefe').html('');
+            $('#autorizacionJefe').html('<option value="" selected>Seleccione una opcion</option>')
+           $.get("{{ route('jefes-empleado') }}", function(data){
+            console.log(data);
+            $.each(data.jefes, function(key, value){
+                $('#autorizacionJefe').append('<option value="' + value.ju_id + '">' + value.j_nombre + '</option>');
+            });
+           });
+        }
+
         function cargarTipos(){
             $('#tipoPermiso').html('');
             $('#tipoPermiso').html('<option value="" selected>Seleccione una opcion</option>');
@@ -276,6 +291,7 @@
         var exampleModal = document.getElementById('exampleModal')
         exampleModal.addEventListener('show.bs.modal', function(event) {
             cargarTipos();
+            cargarJefes();
             var button = event.relatedTarget;
             var title = button.getAttribute('data-bs-whatever');
             var modalTitle = exampleModal.querySelector('.modal-title');

@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Validator;
 
 class PermisoController extends Controller
 {
+    // Me permite recuperar los tipos de permisos
     public function tipo_permisos(Request $request){
         if ($request->ajax()){
             $tipos = Tipo_Permiso::select('id', 'cod_permiso', 'descripcion')->whereIn('cod_permiso', [15, 6, 36, 18, 8, 23])->get();
@@ -29,6 +30,17 @@ class PermisoController extends Controller
         }
     }
 
+    // Me permite recuperar los jefes por empleados
+    public function jefes_x_empleados(Request $request){
+        if ($request->ajax())
+        {
+            
+            $jefes = JefesxEmpleado::where('e_codigo', $request->user()->cod_empleado)->get();
+            return response()->json(['jefes' => $jefes]);
+        }
+    }
+
+    // Muesta la lista de permisos
     public function index(Request $request)
     {
 
@@ -147,14 +159,14 @@ class PermisoController extends Controller
             if ($verificar_duplicado != 0) {
                 return response()->json(["errors" => "Ya existe un permiso con los mismos datos que intenta ingresar"]);
             }
-
+            
            
            $obj1 = Permiso::updateOrCreate(
                 ['id' => $request->p_id],
                 [
                     'emp_fk' => $data_empleado->id,
                     'codigo_empleado_registra' =>  $data_empleado->codigo_empleado,
-                    'jefe_unidad_id' => 45, 
+                    'jefe_unidad_id' => intval($request->autorizacionJefe), 
                     'codigo_empleado' => $data_empleado->codigo_empleado,
                     'fecha_inicial' => Carbon::parse($request->fechaInicio)->format('Y-m-d'),
                     'fecha_final' => Carbon::parse($request->fechaFin)->format('Y-m-d'),

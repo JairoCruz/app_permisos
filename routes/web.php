@@ -17,6 +17,7 @@ Route::get('/tipo-permisos', [PermisoController::class, 'tipo_permisos'])->name(
 
 Route::middleware(['auth', 'verified'])->group(function() {
     Route::get('/tipo-permisos', [PermisoController::class, 'tipo_permisos'])->name('permiso-tipos');
+    Route::get('/jefes-empleado',[PermisoController::class, 'jefes_x_empleados'])->name('jefes-empleado');
     Route::get('/permisos', [PermisoController::class, 'index'])->name('permiso.index');
     Route::get('/registrar-permiso',[PermisoController::class, 'create'])->name('permiso.create');
     Route::post('/guardar-permiso', [PermisoController::class, 'store'])->name('permiso.store');

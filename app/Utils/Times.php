@@ -35,9 +35,10 @@ class Times {
     {
         //$t_horas_minutos;
         $h_laborales = 8;
+        
 
         // 1. Verificar si fechas pertenecen al mismo dia e horas son iguales al total de horal laborales para un dia.
-        return $t_horas_minutos = $f_inicial->equalTo($f_final) && ($h_inicial->floatDiffInHours($h_final) <= $h_laborales) ? $h_inicial->floatDiffInHours($h_final) : (($f_inicial->diffInDays($f_final) + 1) * $h_laborales);
+        return $t_horas_minutos = $f_inicial->equalTo($f_final) && ($h_inicial->floatDiffInHours($h_final) <= $h_laborales) ? $h_inicial->floatDiffInHours($h_final) : ((($f_inicial->diffInDays($f_final) + 1) * $h_laborales)) - ($h_laborales - $h_inicial->floatDiffInHours($h_final));
         
         /* if ($f_inicial->equalTo($f_final) && ($h_inicial->floatDiffInHours($h_final) <= $h_laborales)) {
 
