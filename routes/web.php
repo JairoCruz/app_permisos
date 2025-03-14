@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AutorizacionPermisoController;
 use App\Http\Controllers\PermisoController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -28,6 +29,10 @@ Route::middleware(['auth', 'verified'])->group(function() {
     Route::get('/imprimir-permiso/{permiso}', [PermisoController::class, 'imprimir'])->name('permiso.imprimir');
     Route::get('/disponibilidad', action: [PermisoController::class, 'disponibilidad'])->name('permiso.disponibilidad');
     Route::get('/registro-permiso-com', [PermisoController::class, 'permiso_comp'])->name('permiso.permiso_comp');
+
+
+    Route::get('/permiso-autorizacion',[AutorizacionPermisoController::class, 'index'])->name('autorizacion-permiso');
+
 });
 
 Route::middleware('auth')->group(function () {

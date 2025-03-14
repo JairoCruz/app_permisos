@@ -21,6 +21,7 @@
                     <ul class="dropdown-menu">
                         <li><a href="{{ route('permiso.create') }}" class="dropdown-item">Permiso (propio)</a></li>
                         <li><a href="{{ route('permiso.permiso_comp') }}" class="dropdown-item">Permiso (compañero)</a>
+                            <li><a href="{{ route('autorizacion-permiso') }}" class="dropdown-item">autorizacion permiso</a>
                         </li>
                     </ul>
                 </li>

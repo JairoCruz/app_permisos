@@ -1,0 +1,1 @@
+<h1>Seccion para autorizar permisos</h1>
