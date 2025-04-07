@@ -60,6 +60,11 @@ class Permiso extends Model
         return $this->belongsTo(EstadoPermiso::class, 'estado');
     }
 
+    public function empleado(): BelongsTo
+    {
+        return $this->belongsTo(Empleado::class, 'emp_fk', 'id');
+    }
+
     public function scopeVerificar(
         Builder $query,
         string $cod_empleado,

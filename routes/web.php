@@ -32,6 +32,8 @@ Route::middleware(['auth', 'verified'])->group(function() {
 
 
     Route::get('/permiso-autorizacion',[AutorizacionPermisoController::class, 'index'])->name('autorizacion-permiso');
+    Route::post('/permiso-aprobar}', [AutorizacionPermisoController::class, 'aprobar'])->name('aprobar');
+    Route::post('/permiso-rechazado}', [AutorizacionPermisoController::class, 'rechazar'])->name('rechazar');
 
 });
 

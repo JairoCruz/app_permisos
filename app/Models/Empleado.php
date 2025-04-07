@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Empleado extends Model {
 
@@ -21,6 +23,15 @@ class Empleado extends Model {
     public function cargo(): BelongsTo
     {
         return $this->belongsTo(Cargo::class, 'cargos_id');
+    }
+
+    public function _unidad(): BelongsToMany{
+        return $this->belongsToMany(Unidad::class, 'jefes_unidad')->withPivot('id','autoriza_permiso');
+    }
+
+    public function permisos(): HasMany
+    {
+        return $this->hasMany(Permiso::class, 'emp_fk');
     }
     
 }
