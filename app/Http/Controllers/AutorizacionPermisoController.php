@@ -35,8 +35,9 @@ class AutorizacionPermisoController extends Controller
             $data[] = $unidad->pivot->id;
         }
 
-        $permisos = Permiso::whereIn('jefe_unidad_id', $data)->
-        where('estado',Estado::Pendiente)->
+        $permisos = Permiso::whereIn('jefe_unidad_id', $data)
+        //->where('estado',Estado::Pendiente)
+        ->
         get();//bueno
 
         

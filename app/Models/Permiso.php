@@ -78,4 +78,9 @@ class Permiso extends Model
     ): void {
         $query->where('codigo_empleado', $cod_empleado)->where('fecha_inicial', $fecha_inicio)->where('fecha_final', $fecha_fin)->where('hora_inicial', $hora_inicio)->where('hora_final', $hora_fin)->where('tp_fk', $tipo_permiso)->where('goce_sueldo', $goce_sueldo)->where('constancia', $constancia);
     }
+
+    protected $dispatchesEvents = [
+        'updating' => \App\Events\PermisoAuditoriaEvent::class,
+    ];
+
 }

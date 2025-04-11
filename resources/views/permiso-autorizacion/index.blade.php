@@ -140,7 +140,7 @@
                                 aprovar</button>
                         </form>
 
-                        <form class="p-1" action="{{ route('rechazar') }}"
+                        <form class="p-1" action="{{ route('rechazar', ['permiso' => $permiso->id]) }}"
                             method="POST">
                             @csrf
                             <button type="submit" class="btn btn-danger"><i class="bi bi-x-circle"></i>
